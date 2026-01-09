@@ -13,7 +13,7 @@ You have graduated from CY300 and joined the SPEAR hypersonic rocket team. The l
 
 ## Key Tasks
 
-1. Create Data Lists: Before you start processing the file, create three empty lists: one for altitude, one for temperature, and one for voltage.
+1. Create Data Lists: Before you start processing the file, create an empty list to hold valid telemetry data points. Each data point will be represented as a dictionary with the following keys: `timestamp`, `altitude_km`, `temp_c`, `voltage`, `pitch`, `yaw`, and `roll`.
 
 2. Read the File: Open and read the `telemetry.txt` file line by line. The input file contains the following data format:
 
@@ -34,19 +34,21 @@ You have graduated from CY300 and joined the SPEAR hypersonic rocket team. The l
 
 5. Create the dictionary: If a line is valid, convert the altitude, temperature, voltage, pitch, yaw, roll to floats and add them to a dictionary representing a data point. If no valid data is found, set the maximum altitude, minimum voltage, and average temperature to 0.0.
 
-6. Calculate Statistics: After processing all lines, calculate and display the following statistics:
+6. Calculate Statistics: Write functions to calculate the following statistics from the list of valid data points:
 
-	- Count of how many lines were valid and how many were corrupt
 	- Maximum altitude
 	- Minimum voltage
 	- Average temperature
 
-7. Display the Results: Print the results formatted as displayed in the sample output. Note that:
+7. Display the Results: Print the following results formatted as displayed in the sample output.
 
-	- Counts of data points should be integers.
+	- Count of how many lines were valid (ignore comments and corrupt lines)
+	- Count of how many lines were corrupt (do not count empty lines or comments)
 	- Maximum altitude should be a float rounded to one decimal place.
 	- Minimum voltage should be a float rounded to two decimal places.
 	- Average temperature should be a float rounded to one decimal place.
+
+If no valid data is found, do not print the maximum altitude, minimum voltage, or average temperature.
 
 ## Sample Input
 
@@ -84,16 +86,16 @@ These files contain a large number of data points that your script will read. It
 
 Filename: `flight_summary.txt`
 
-For the sample input above, the output should look like this:
+For the sample input above, the output should be:
 
 ```txt
 Rocket Telemetry Analysis
 -------------------------
-Valid data points: 6
+Valid data points: 9
 Corrupt data points: 3
-Maximum Altitude: 149.6 km
-Average Temperature: 24.3 C
-Average Voltage: 3.90 V
+Maximum Altitude: 149.6 km at 1750000784
+Minimum Voltage: 3.81 V at 1750000818
+Average Temperature: 300.4 C
 ```
 
 The `telemetry_big.txt` file will result in the following output:
@@ -101,9 +103,9 @@ The `telemetry_big.txt` file will result in the following output:
 ```txt
 Rocket Telemetry Analysis
 -------------------------
-Valid data points: 95
-Corrupt data points: 5
-Maximum Altitude: 149.6 km
-Average Temperature: 272.3 C
-Average Voltage: 3.95 V
+Valid data points: 91
+Corrupt data points: 6
+Maximum Altitude: 149.6 km at 1750000784
+Minimum Voltage: 3.74 V at 1750001035
+Average Temperature: 194.7 C
 ```

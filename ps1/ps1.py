@@ -24,9 +24,11 @@ def read_telemetry(file_path):
 
         # TODO: iterate through each line of the file
 
+        # TODO: ignore empty lines
+
         # TODO: ignore the lines that contain comments starting with `#`
 
-        # TODO: ignore any empty lines or lines
+        # TODO: ignore any empty lines or lines that do not contain the expected number of data fields
 
         # TODO: call `parse_telemetry_line` function to parse the line
 
@@ -57,9 +59,13 @@ def parse_telemetry_line(line):
 
     # TODO: ensure that the line is valid, i.e., it contains exactly 7 parts that are all numerical
 
+    # TODO: ignore lines that do not contain the expected number of data fields
+
     # TODO: convert the components to their respective types and create the dictionary
 
     # TODO: return the dictionary if valid, otherwise return False
+
+    # TODO: handle errors gracefully!
 
     return False
 
@@ -85,7 +91,12 @@ def get_min_voltage(telemetry_log):
     Returns:
         The dictionary that contains the minimum voltage. If no data points are available, returns None.
     """
-    return None
+
+    min_voltage_event = None
+
+    # TODO: locate the data point with the minimum voltage
+
+    return min_voltage_event
 
 
 def calculate_average_temperature(telemetry_log):
@@ -103,6 +114,8 @@ def write_flight_summary(telemetry_log, apogee_event, min_voltage, average_tempe
     Writes a flight summary to `file_path` with details about the apogee event, max tilt event, and time delta.
     """
 
+    pass
+
     # TODO: write the flight summary to `file_path`
 
 
@@ -110,11 +123,18 @@ if __name__ == "__main__":
 
     # if os is not linux, warn and exit
     if os.name != 'posix':
-        print("This script should be run on Linux or WSL or docker. You may remove this check at your own risk.")
+        print("This program should be run on Linux or WSL or docker. You may remove this check at your own risk.")
         sys.exit(1)
 
-    input_file = "telemetry_data.txt"
-    output_file = "flight_summary.txt"
+    # check command line arguments
+    if len(sys.argv) < 2:
+        script_name = os.path.basename(sys.argv[0])
+        print(f"Usage: python {script_name} <input_file_path> [output_file_path]")
+        sys.exit(1)
+
+    input_file = sys.argv[1]
+    # sys.argv[2] is optional
+    output_file = sys.argv[2] if len(sys.argv) > 2 else "flight_summary.txt"
 
     telemetry_log = read_telemetry(input_file)
     apogee_event = find_apogee_event(telemetry_log)
