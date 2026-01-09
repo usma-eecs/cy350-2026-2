@@ -18,13 +18,16 @@ You have graduated from CY300 and joined the SPEAR hypersonic rocket team. The l
 2. Read the File: Open and read the `telemetry.txt` file line by line. The input file contains the following data format:
 
    ```
-   timestamp, altitude_km, temperature_celsius, voltage
+   timestamp, altitude_km, temperature_celsius, voltage, pitch, yaw, roll
    ```
 
 	- timestamp: Unix timestamp (integer)
 	- altitude_km: Altitude in kilometers (float)
 	- temperature_celsius: Temperature in Celsius (float)
 	- voltage: Battery voltage (float)
+	- pitch: Pitch angle in degrees (float)
+	- yaw: Yaw angle in degrees (float)
+	- roll: Roll angle in degrees (float)
 
 	The file may or may not have a header line, but if it does, it will start with `#` indicating a comment. Make no assumptions and simply ignore any lines that start with `#` or are empty.
 
@@ -61,13 +64,13 @@ These files contain a large number of data points that your script will read. It
 - altitude_km (float)
 - temperature_celsius (float)
 - voltage (float)
-- pitch_deg (float)
-- yaw_deg (float)
-- roll_deg (float)
+- pitch (float)
+- yaw (float)
+- roll (float)
 
 ```txt
 # SPEAR Hypersonic Rocket - Full Telemetry Log
-# Data format: timestamp,altitude_km,temp_c,voltage,pitch_deg,yaw_deg,roll_deg
+# Data format: timestamp,altitude_km,temp_c,voltage,pitch,yaw,roll
 1750000660,135.674,255.7,3.89,24.0,1.0,250
 1750000666,136.980,ERROR,3.89,22.0,0.8,260
 1750000700,142.408,295.6,3.87,16.0,0.2,290
