@@ -4,17 +4,22 @@ import sys
 
 def read_telemetry(file_path):
     """
-    Reads the telemetry data from the specified file and returns a list of dictionaries.
-    Each dictionary contains the keys: timestamp, altitude_km, temp_c, voltage, pitch, yaw, roll.
+    Reads telemetry data from the specified file.
+
+    Each non-empty, non-comment line is parsed into a dictionary with keys:
+    timestamp, altitude_km, temp_c, voltage, pitch, yaw, roll.
 
     Args:
         file_path (str): The path to the telemetry data file.
 
     Returns:
-        list[dict]: A list of dictionaries with telemetry data.
+        tuple[list[dict], int]: A tuple of (telemetry_logs, count_invalid) where:
+            - telemetry_logs is a list of parsed telemetry dictionaries
+            - count_invalid is the number of lines that were invalid/corrupt and could not be parsed
     """
 
     telemetry_logs = []
+    count_invalid = 0
 
     try:
 
@@ -40,7 +45,7 @@ def read_telemetry(file_path):
         print(f"Error: File not found at {file_path}")
         return []
 
-    return telemetry_logs
+    return telemetry_logs, count_invalid
 
 
 def parse_telemetry_line(line):
@@ -70,11 +75,9 @@ def parse_telemetry_line(line):
     return False
 
 
-def find_apogee_event(telemetry_log):
+def find_apogee_event(telemetry_logs):
     """
-    Finds the apogee event in the telemetry log and returns the corresponding dictionary.
-
-    Apogee is defined as the data point with the maximum altitude.
+    Finds the apogee event in the telemetry logs and returns the corresponding dictionary. Apogee is defined as the data point with the maximum altitude.
     """
 
     apogee_event = None
@@ -84,7 +87,7 @@ def find_apogee_event(telemetry_log):
     return apogee_event
 
 
-def get_min_voltage(telemetry_log):
+def get_min_voltage(telemetry_logs):
     """
     Finds the data point with the minimum voltage.
 
@@ -99,7 +102,7 @@ def get_min_voltage(telemetry_log):
     return min_voltage_event
 
 
-def calculate_average_temperature(telemetry_log):
+def calculate_average_temperature(telemetry_logs):
     """
     Calculates the average temperature from the telemetry log.
 
@@ -109,7 +112,7 @@ def calculate_average_temperature(telemetry_log):
     return None
 
 
-def write_flight_summary(telemetry_log, apogee_event, min_voltage, average_temperature, file_path):
+def write_flight_summary(telemetry_logs, count_invalid, apogee_event, min_voltage, average_temperature, file_path):
     """
     Writes a flight summary to `file_path` with details about the apogee event, max tilt event, and time delta.
     """
@@ -129,15 +132,14 @@ if __name__ == "__main__":
     # check command line arguments
     if len(sys.argv) < 2:
         script_name = os.path.basename(sys.argv[0])
-        print(f"Usage: python {script_name} <input_file_path> [output_file_path]")
+        print(f"Usage: python {script_name} <input_file_path>")
         sys.exit(1)
 
     input_file = sys.argv[1]
-    # sys.argv[2] is optional
-    output_file = sys.argv[2] if len(sys.argv) > 2 else "flight_summary.txt"
+    output_file = "flight_summary.txt"
 
-    telemetry_log = read_telemetry(input_file)
-    apogee_event = find_apogee_event(telemetry_log)
-    min_voltage = get_min_voltage(telemetry_log)
-    average_temperature = calculate_average_temperature(telemetry_log)
-    write_flight_summary(telemetry_log, apogee_event, min_voltage, average_temperature, output_file)
+    telemetry_logs, count_invalid = read_telemetry(input_file)
+    apogee_event = find_apogee_event(telemetry_logs)
+    min_voltage = get_min_voltage(telemetry_logs)
+    average_temperature = calculate_average_temperature(telemetry_logs)
+    write_flight_summary(telemetry_logs, count_invalid, apogee_event, min_voltage, average_temperature, output_file)
