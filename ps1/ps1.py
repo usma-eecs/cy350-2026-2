@@ -31,9 +31,7 @@ def read_telemetry(file_path):
 
         # TODO: ignore empty lines
 
-        # TODO: ignore the lines that contain comments starting with `#`
-
-        # TODO: ignore any empty lines or lines that do not contain the expected number of data fields
+        # TODO: ignore any empty lines and lines that contain comments starting with `#`
 
         # TODO: call `parse_telemetry_line` function to parse the line
 
@@ -54,7 +52,7 @@ def parse_telemetry_line(line):
 
     Returns:
         dict: A dictionary with keys: timestamp, altitude_km, temp_c, voltage, pitch, yaw, roll.
-        If the line is invalid or corrupt,
+        If the line is invalid or corrupt, returns False.
 
     Args:
         line (str): A line of telemetry data.
@@ -115,6 +113,8 @@ def calculate_average_temperature(telemetry_logs):
 def write_flight_summary(telemetry_logs, count_invalid, apogee_event, min_voltage, average_temperature, file_path):
     """
     Writes a flight summary to `file_path` with details about the apogee event, max tilt event, and time delta.
+
+    If there are no valid telemetry logs, do not print the apogee or min voltage events or the average temperature.
     """
 
     pass
