@@ -5,6 +5,11 @@ Tested Concepts: read a file, parse data into dictionaries, handle common data e
 ## Assignment Specific Restrictions
 For this refresher assignment, ***the use of Generative AI tools is prohibited.*** All other sources and assistance should be cited in accordance with the guidance found in the CY350 Syllabus located on the course's Canvas Syllabus page.
 
+## Recommended Resources
+
+- [Python Docs Tutorial](https://docs.python.org/3/tutorial/)
+- [f-strings](https://fstring.help/)
+
 ## Scenario
 
 https://www.westpoint.edu/news/press-releases/class-of-2025-west-point-cadets-break-record-hypersonic-rocket-launch
@@ -15,7 +20,7 @@ You have graduated from CY300 and joined the SPEAR hypersonic rocket team. The l
 
 1. Create Data Lists: Before you start processing the file, create an empty list to hold valid telemetry data points. Each data point will be represented as a dictionary with the following keys: `timestamp`, `altitude_km`, `temp_c`, `voltage`, `pitch`, `yaw`, and `roll`.
 
-2. Read the File: Open and read the `telemetry.txt` file line by line. The input file contains the following data format:
+2. Read the File: Open and read the given telemetry file line by line. The input file contains the following data format:
 
    ```
    timestamp, altitude_km, temperature_celsius, voltage, pitch, yaw, roll

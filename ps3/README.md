@@ -44,7 +44,7 @@ All of the following methods are documented in the provided starter files.
    - `get_max_velocity()`
    - `calculate_average_velocity()`
    - `calculate_average_temperature()`
-   - `calculate_averages_voltage()`
+   - `calculate_average_voltage()`
    - `generate_summary_json()`
 
 
