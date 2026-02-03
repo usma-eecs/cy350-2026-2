@@ -1,0 +1,45 @@
+---
+title: In-Class Lab 3 (10 points)
+format: html
+description: Implementing Basic Client-Server Communication with netcat and HTTP
+subtitle: Initial setup of your development environment using WSL and VSCode. This lab introduces you to basic Linux commands, Python execution, and packet capturing.
+date: 2026-02-04
+image: /images/01.png
+---
+
+What is wrong?
+
+# Course Schedule
+
+| Lesson                                 |  Day1  |  Day2  |  Assigned     | Due Date |
+|----------------------------------------|--------|--------|---------------|----------|
+|    1- Introduction to Networking       | 07 Jan | 06 Jan | | |
+|    2- Navigating the Cyber Terrain     | 09 Jan | 08 Jan | Problem Set 1 | 18 Jan   |
+|    3- Assessing Terrain Conditions     | 12 Jan | 13 Jan | Problem Set 2 | 25 Jan   |
+|    4- Application Layer and HTTP       | 14 Jan | 15 Jan | | |
+|    5- DNS and Email                    | 20 Jan | 21 Jan | Problem Set 3 | 01 Feb   |
+|    6- Socket Programming 1             | 26 Jan | 27 Jan | | |
+|    7- Socket Programming 2             | 04 Feb | 05 Feb | Problem Set 4 | 15 Feb   |
+|    8- Transport Layer                  | 09 Feb | 10 Feb | | |
+|    9- Reliable Data Transfer           | 11 Feb | 12 Feb | | |
+|   10- Transmission Control Protocol    | 18 Feb | 17 Feb | | |
+|   11- Flow Control                     | 20 Feb | 19 Feb | | |
+|   12-                                  | 23 Feb | 24 Feb | | |
+|   13-                                  | 25 Feb | 26 Feb | | |
+|   14-                                  | 02 Mar | 03 Mar | | |
+|   15-                                  | 04 Mar | 05 Mar | | |
+|   16-                                  | 09 Mar | 10 Mar | | |
+|   17-                                  | 11 Mar | 12 Mar | | |
+|   18-                                  | 16 Mar | 17 Mar | | |
+|   19-                                  | 18 Mar | 19 Mar | | |
+|   20-                                  | 23 Mar | 24 Mar | | |
+|   21-                                  | 25 Mar | 26 Mar | | |
+|   22-                                  | 07 Apr | 08 Apr | | |
+|   23-                                  | 09 Apr | 10 Apr | | |
+|   24-                                  | 13 Apr | 14 Apr | | |
+|   25-                                  | 15 Apr | 16 Apr | | |
+|   26-                                  | 20 Apr | 21 Apr | | |
+|   27-                                  | 27 Apr | 28 Apr | | |
+|   28-                                  | 29 Apr | 30 Apr | | |
+|   29-                                  | 04 May | 05 May | | |
+|   30-                                  | 06 May | 07 May | | |
