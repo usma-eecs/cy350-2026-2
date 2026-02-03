@@ -140,48 +140,6 @@
     "text": "Instructor Review\nTo complete the lab, you must bring up all three terminals and demonstrate the working client-server interaction along with the packet capture to your instructor."
   },
   {
-    "objectID": "labs/03.html",
-    "href": "labs/03.html",
-    "title": "In-Class Lab 3 (10 points)",
-    "section": "",
-    "text": "Upon the completion of all activities, have your instructor review your work and track your progress to receive full credit."
-  },
-  {
-    "objectID": "labs/03.html#environment",
-    "href": "labs/03.html#environment",
-    "title": "In-Class Lab 3 (10 points)",
-    "section": "Environment",
-    "text": "Environment"
-  },
-  {
-    "objectID": "labs/03.html#login-to-eecsnet-vm",
-    "href": "labs/03.html#login-to-eecsnet-vm",
-    "title": "In-Class Lab 3 (10 points)",
-    "section": "Login to EECSNet VM",
-    "text": "Login to EECSNet VM"
-  },
-  {
-    "objectID": "labs/03.html#netcat-nc",
-    "href": "labs/03.html#netcat-nc",
-    "title": "In-Class Lab 3 (10 points)",
-    "section": "netcat (nc)",
-    "text": "netcat (nc)\n\ntransmit a file\n\n\nreceive a file\n\n\nlisten (server)\n\n\nconnect (client)"
-  },
-  {
-    "objectID": "labs/03.html#http-client",
-    "href": "labs/03.html#http-client",
-    "title": "In-Class Lab 3 (10 points)",
-    "section": "HTTP Client",
-    "text": "HTTP Client"
-  },
-  {
-    "objectID": "labs/03.html#http-server",
-    "href": "labs/03.html#http-server",
-    "title": "In-Class Lab 3 (10 points)",
-    "section": "HTTP Server",
-    "text": "HTTP Server"
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "CY350 Computer Networks",
@@ -200,14 +158,14 @@
     "href": "index.html#content",
     "title": "CY350 Computer Networks",
     "section": "Content",
-    "text": "Content\n\n\n\n\n\n\n\n\n\n\nLesson Plan\n\n\nDetailed lesson plans and activities\n\n\n\n\n\n\nJan 5, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nCourse Syllabus\n\n\nWelcome to CY350 - Computer Networks!\n\n\n\n\n\n\nJan 5, 2026\n\n\n\n\n\n\nNo matching items"
+    "text": "Content\n\n\n\n\n\n\n\n\n\n\nCourse Syllabus\n\n\nWelcome to CY350 - Computer Networks!\n\n\n\n\n\n\nJan 5, 2026\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#in-class-labs",
     "href": "index.html#in-class-labs",
     "title": "CY350 Computer Networks",
     "section": "In-Class Labs",
-    "text": "In-Class Labs\n\n\n\n\n\n\n\n\n\n\nIn-Class Lab 1 (10 points)\n\n\nEnvironment Setup with WSL and VSCode\n\n\n\n\n\n\nJan 8, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nIn-Class Lab 2 (10 points)\n\n\nAnalyzing Client-Server Communication with netcat and tcpdump\n\n\n\n\n\n\nJan 14, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nIn-Class Lab 3 (10 points)\n\n\nImplementing Basic Client-Server Communication with netcat and HTTP\n\n\n\n\n\n\nFeb 4, 2026\n\n\n\n\n\n\nNo matching items"
+    "text": "In-Class Labs\n\n\n\n\n\n\n\n\n\n\nIn-Class Lab 1 (10 points)\n\n\nEnvironment Setup with WSL and VSCode\n\n\n\n\n\n\nJan 8, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nIn-Class Lab 2 (10 points)\n\n\nAnalyzing Client-Server Communication with netcat and tcpdump\n\n\n\n\n\n\nJan 14, 2026\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#course-resources",
@@ -278,194 +236,5 @@
     "title": "In-Class Lab 1 (10 points)",
     "section": "Hide AI features in vscode",
     "text": "Hide AI features in vscode\nFeatures &gt; Chat &gt; Disable AI Features to protect yourself from unintentional AI completions!\nAlternatively:\n\nPress Ctrl + Shift + P\nSearch for “Hide AI Features”\nUnder setting, check the “Disable” box"
-  },
-  {
-    "objectID": "content/lessons.html",
-    "href": "content/lessons.html",
-    "title": "Lesson Plan",
-    "section": "",
-    "text": "Textbook: read 1.1 and 1.3.3; skim 1.2-1.3 and 1.7\n\nDescribe the organization of the Internet\nUnderstand the unique challenges of network operations\nWhat problems networks solve (latency, scale, trust)\nEdge vs core, packets vs messages\nInternet as a best-effort system\nWhy cybersecurity depends on networking\n\n\n\n\nVerify virtual machines, SSH, vscode setup.\nLinux refresher\n\nls, cd, pwd, mkdir, rm, cp, mv\ncat, less, head, tail, grep, find\nsudo, pip, uv\n\nTry basic commands and programs\n\nping, traceroute, dig\nnetcat, curl\nwireshark, wireview\n\nRun given Python program to send packets to the instructor."
-  },
-  {
-    "objectID": "content/lessons.html#lesson-1-what-is-a-network-really",
-    "href": "content/lessons.html#lesson-1-what-is-a-network-really",
-    "title": "Lesson Plan",
-    "section": "",
-    "text": "Textbook: read 1.1 and 1.3.3; skim 1.2-1.3 and 1.7\n\nDescribe the organization of the Internet\nUnderstand the unique challenges of network operations\nWhat problems networks solve (latency, scale, trust)\nEdge vs core, packets vs messages\nInternet as a best-effort system\nWhy cybersecurity depends on networking\n\n\n\n\nVerify virtual machines, SSH, vscode setup.\nLinux refresher\n\nls, cd, pwd, mkdir, rm, cp, mv\ncat, less, head, tail, grep, find\nsudo, pip, uv\n\nTry basic commands and programs\n\nping, traceroute, dig\nnetcat, curl\nwireshark, wireview\n\nRun given Python program to send packets to the instructor."
-  },
-  {
-    "objectID": "content/lessons.html#lesson-2-protocols-layers-and-abstraction",
-    "href": "content/lessons.html#lesson-2-protocols-layers-and-abstraction",
-    "title": "Lesson Plan",
-    "section": "Lesson 2 – Protocols, Layers, and Abstraction",
-    "text": "Lesson 2 – Protocols, Layers, and Abstraction\nTextbook: 1.1, 1.5, 1.6\n\nExplain the role of each layer in the TCP/IP model\nDefine network protocol\nExplain how protocol design principles enable networks\nWhy abstraction fails under attack or congestion\nIdentify network traffic using Wireshark / Wireview\n\n\nExercise\n\nUse Wireview to identify layers and protocols in captured traffic.\nMap observed protocols to TCP/IP layers.\nDraw the path of a Signal or Whatsapp message — what must go right?"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-3---network-evolution-and-measuring-performance",
-    "href": "content/lessons.html#lesson-3---network-evolution-and-measuring-performance",
-    "title": "Lesson Plan",
-    "section": "Lesson 3 - Network Evolution and Measuring Performance",
-    "text": "Lesson 3 - Network Evolution and Measuring Performance\nTextbook 1.3, 1.4\n\nExplain the evolution from circuit switching to packet switching\nDescribe how frequency division multiplexing (FDM) and time division multiplexing (TDM) enable shared use of circuits\nDefine bandwidth, throughput, and delay (including its components)\nCalculate throughput and delay\n\n\nExercise\n\nUse a speed test (e.g. fast.com) to measure network performance; turn on “all metrics”; contrast wired vs wireless.\nGiven a network scenario, calculate end-to-end delay and throughput.\nContention exercise: given multiple users sharing a link, calculate individual throughput and maximum number of users."
-  },
-  {
-    "objectID": "content/lessons.html#lesson-4-application-architectures",
-    "href": "content/lessons.html#lesson-4-application-architectures",
-    "title": "Lesson Plan",
-    "section": "Lesson 4 – Application Architectures",
-    "text": "Lesson 4 – Application Architectures\nTextbook: 2.1\n\nDefine a network application\n\nClient–server vs P2P\nStateful vs stateless services\nPush vs pull models\n\n\n\nExercise\n\nUse curl -i or netcat to manually craft HTTP requests and interpret responses.\nUse Wireshark to inspect HTTP traffic and identify cookies.\nDesign a tactical chat application: who initiates? who remembers state?"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-5---http-and-the-web",
-    "href": "content/lessons.html#lesson-5---http-and-the-web",
-    "title": "Lesson Plan",
-    "section": "Lesson 5 - HTTP and The Web",
-    "text": "Lesson 5 - HTTP and The Web\nTextbook: 2.2\n\nExplain HTTP as an implementation of the four protocol components (types, syntax, semantics, rules)\nAnalyze HTTP request and response messages structure and interpret common headers\nDifferentiate core HTTP methods and status codes\nDistinguish between persistent and non-persistent HTTP connections\nUnderstand HTTP cookies and their security implications\nDescribe web caching and conditional GET mechanisms\n\nDescribe the HTTP client–server model and why HTTP is stateless; identify where HTTP sits relative to TCP/UDP and typical ports (80/443). Explain HTTP request and response message structure (start lines, header fields, body) and interpret common headers (e.g., Host, User-Agent, Accept, Content-Type, Content-Length, Connection). Differentiate core HTTP methods—GET, HEAD, POST (and recognize PUT, DELETE at a high level)—and select an appropriate method for a given use case. Interpret HTTP status codes (1xx–5xx), with emphasis on common codes (200, 301/302, 304, 400, 401/403, 404, 500). Compare non-persistent vs persistent connections in HTTP/1.1 (Keep-Alive) and reason about their latency/RTT implications for page load. Contrast HTTP/1.1, HTTP/2, and HTTP/3 (QUIC) at a high level—multiplexing, header compression (HPACK/QPACK), binary framing, connection migration—and predict performance impacts. Explain how cookies provide state over a stateless protocol (via Set-Cookie/Cookie) and discuss basic privacy/security implications. Describe web caching and conditional GET mechanisms (e.g., ETag, If-None-Match, Last-Modified, If-Modified-Since) and evaluate their effect on bandwidth and latency. Outline the role of CDNs and proxy caches in HTTP delivery and assess trade-offs for content freshness vs performance. Summarize how HTTPS (HTTP over TLS) changes observability and intermediaries’ behavior (e.g., caching, header visibility), while keeping the application semantics intact.\n\nExercise\n\nUse curl -i or netcat to manually craft HTTP requests and interpret responses.\nUse Wireshark to inspect HTTP traffic and identify cookies.\nDesign a tactical chat application: who initiates? who remembers state?"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-6-dns-and-email",
-    "href": "content/lessons.html#lesson-6-dns-and-email",
-    "title": "Lesson Plan",
-    "section": "Lesson 6 – DNS and Email",
-    "text": "Lesson 6 – DNS and Email\nTextbook: 2.6, 2.4\n\nSMTP vs HTTP design tradeoffs\nDNS hierarchy and trust\nWhy naming is a security problem\n\n\nExercise\nTrace DNS resolution step-by-step"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-7-socket-programming",
-    "href": "content/lessons.html#lesson-7-socket-programming",
-    "title": "Lesson Plan",
-    "section": "Lesson 7 – Socket Programming",
-    "text": "Lesson 7 – Socket Programming\nTextbook: 2.7, 3.3\n\nBlocking sockets\nConnection lifecycle\nMessage framing problems\nNo guarantees ≠ no value\nWhen UDP beats TCP\nApplication-level reliability\n\nLab: Minimal TCP echo server + client UDP chat with dropped messages"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-7-web-performance-caching",
-    "href": "content/lessons.html#lesson-7-web-performance-caching",
-    "title": "Lesson Plan",
-    "section": "Lesson 7 – Web Performance & Caching",
-    "text": "Lesson 7 – Web Performance & Caching\nTextbook: 2.3–2.5\n\nPersistent connections\nCDNs and edge caching\nLatency math (RTTs matter)\n\n\nExercise\nEstimate page load time under constrained bandwidth"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-9-transport-layer-services",
-    "href": "content/lessons.html#lesson-9-transport-layer-services",
-    "title": "Lesson Plan",
-    "section": "Lesson 9 – Transport Layer Services",
-    "text": "Lesson 9 – Transport Layer Services\nTextbook: 3.1\n\nMultiplexing/demultiplexing\nReliability, ordering, congestion control (preview)"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-10-udp-vs-tcp-design-tradeoffs",
-    "href": "content/lessons.html#lesson-10-udp-vs-tcp-design-tradeoffs",
-    "title": "Lesson Plan",
-    "section": "Lesson 10 – UDP vs TCP: Design Tradeoffs",
-    "text": "Lesson 10 – UDP vs TCP: Design Tradeoffs\nTextbook: 3.2–3.3\n\nWhy TCP does so much\nApplication consequences of transport choice\n\n\nExercise\nWhen would you not want TCP?"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-11-reliable-data-transfer",
-    "href": "content/lessons.html#lesson-11-reliable-data-transfer",
-    "title": "Lesson Plan",
-    "section": "Lesson 11 – Reliable Data Transfer",
-    "text": "Lesson 11 – Reliable Data Transfer\nTextbook: 3.4\n\nStop-and-wait\nPipelining\nTimeouts and ACKs\n\n\nExercise\nSimulate packet loss and recovery logic"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-12-tcp-internals",
-    "href": "content/lessons.html#lesson-12-tcp-internals",
-    "title": "Lesson Plan",
-    "section": "Lesson 12 – TCP Internals",
-    "text": "Lesson 12 – TCP Internals\nTextbook: 3.5\n\nSequence numbers\nFlow control\nRTT estimation\n\n\nExercise\nInterpret a TCP sequence number trace"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-13-congestion-control",
-    "href": "content/lessons.html#lesson-13-congestion-control",
-    "title": "Lesson Plan",
-    "section": "Lesson 13 – Congestion Control",
-    "text": "Lesson 13 – Congestion Control\nTextbook: 3.6\n\nAIMD\nSlow start\nWhy congestion collapse happens\n\n\nExercise\nPredict throughput under shared links"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-14-transport-under-attack",
-    "href": "content/lessons.html#lesson-14-transport-under-attack",
-    "title": "Lesson Plan",
-    "section": "Lesson 14 – Transport Under Attack",
-    "text": "Lesson 14 – Transport Under Attack\nSecurity Focus\n\nSYN floods\nReflection/amplification\nWhy rate limiting exists\n\nCase Study: Classic DDoS patterns"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-15-data-plane-fundamentals",
-    "href": "content/lessons.html#lesson-15-data-plane-fundamentals",
-    "title": "Lesson Plan",
-    "section": "Lesson 15 – Data Plane Fundamentals",
-    "text": "Lesson 15 – Data Plane Fundamentals\nTextbook: 4.1–4.3\n\nIP service model\nForwarding vs routing\nLongest prefix match\n\n\nExercise\nManual forwarding table lookup"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-16-ipv4-ipv6-nat",
-    "href": "content/lessons.html#lesson-16-ipv4-ipv6-nat",
-    "title": "Lesson Plan",
-    "section": "Lesson 16 – IPv4, IPv6, NAT",
-    "text": "Lesson 16 – IPv4, IPv6, NAT\nTextbook: 4.4–4.5\n\nAddress exhaustion\nNAT side effects\nWhy IPv6 adoption is slow\n\nOpinion: NAT “works” but breaks architectural purity."
-  },
-  {
-    "objectID": "content/lessons.html#lesson-17-routing-algorithms",
-    "href": "content/lessons.html#lesson-17-routing-algorithms",
-    "title": "Lesson Plan",
-    "section": "Lesson 17 – Routing Algorithms",
-    "text": "Lesson 17 – Routing Algorithms\nTextbook: 5.1–5.2\n\nLink-state vs distance-vector\nConvergence and failure\n\n\nExercise\nRun Bellman-Ford by hand"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-18-internet-routing-bgp",
-    "href": "content/lessons.html#lesson-18-internet-routing-bgp",
-    "title": "Lesson Plan",
-    "section": "Lesson 18 – Internet Routing (BGP)",
-    "text": "Lesson 18 – Internet Routing (BGP)\nTextbook: 5.3\n\nPolicy routing\nTrust assumptions\nRoute leaks\n\nCase Study: Real BGP hijack incidents"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-19-icmp-network-diagnostics",
-    "href": "content/lessons.html#lesson-19-icmp-network-diagnostics",
-    "title": "Lesson Plan",
-    "section": "Lesson 19 – ICMP & Network Diagnostics",
-    "text": "Lesson 19 – ICMP & Network Diagnostics\nTextbook: 4.6\n\nPing, traceroute\nWhat diagnostics don’t tell you\n\nLab: Trace paths under different conditions"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-20-link-layer-services",
-    "href": "content/lessons.html#lesson-20-link-layer-services",
-    "title": "Lesson Plan",
-    "section": "Lesson 20 – Link Layer Services",
-    "text": "Lesson 20 – Link Layer Services\nTextbook: 6.1–6.3\n\nFraming\nError detection (CRC)\nMAC addressing"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-21-lans-ethernet-wi-fi",
-    "href": "content/lessons.html#lesson-21-lans-ethernet-wi-fi",
-    "title": "Lesson Plan",
-    "section": "Lesson 21 – LANs, Ethernet, Wi-Fi",
-    "text": "Lesson 21 – LANs, Ethernet, Wi-Fi\nTextbook: 6.4–6.8\n\nCSMA/CD vs CSMA/CA\nHidden terminal problem\nWhy Wi-Fi is fragile\n\n\nExercise\nPredict collisions and throughput"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-22-network-security-foundations",
-    "href": "content/lessons.html#lesson-22-network-security-foundations",
-    "title": "Lesson Plan",
-    "section": "Lesson 22 – Network Security Foundations",
-    "text": "Lesson 22 – Network Security Foundations\nTextbook: 8.1–8.2\n\nCIA triad in networks\nThreat models\nWhy perimeter security fails"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-23-cryptography-in-networking",
-    "href": "content/lessons.html#lesson-23-cryptography-in-networking",
-    "title": "Lesson Plan",
-    "section": "Lesson 23 – Cryptography in Networking",
-    "text": "Lesson 23 – Cryptography in Networking\nTextbook: 8.3\n\nSymmetric vs asymmetric\nKey exchange intuition\nHashes and MACs\n\n\nExercise\nDesign secure key exchange assumptions"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-24-tls-pki-and-trust",
-    "href": "content/lessons.html#lesson-24-tls-pki-and-trust",
-    "title": "Lesson Plan",
-    "section": "Lesson 24 – TLS, PKI, and Trust",
-    "text": "Lesson 24 – TLS, PKI, and Trust\nTextbook: 8.4–8.5\n\nCertificates\nChain of trust\nWhat TLS doesn’t solve\n\nCase Study: Mis-issued certificates"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-25-securing-the-chat-system",
-    "href": "content/lessons.html#lesson-25-securing-the-chat-system",
-    "title": "Lesson Plan",
-    "section": "Lesson 25 – Securing the Chat System",
-    "text": "Lesson 25 – Securing the Chat System\nSynthesis\n\nAdd auth\nAdd encryption\nIdentify remaining attack surfaces\n\nDeliverable: Threat model + mitigations"
-  },
-  {
-    "objectID": "content/lessons.html#lesson-26-the-internet-under-stress",
-    "href": "content/lessons.html#lesson-26-the-internet-under-stress",
-    "title": "Lesson Plan",
-    "section": "Lesson 26 – The Internet Under Stress",
-    "text": "Lesson 26 – The Internet Under Stress\n\nCensorship\nPartitioned networks\nTactical / contested environments\n\nFinal Exercise: Given constraints (loss, jamming, compromise), redesign your system."
   }
 ]
