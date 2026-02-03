@@ -1,10 +1,13 @@
-# CY350 In-Class Lab 2 (10 points)
+---
+format: html
+title: In-Class Lab 2 (10 points)
+description: Analyzing Client-Server Communication with netcat and tcpdump
+subtitle: Explore basic client-server communication using netcat (nc) and capture the traffic with tcpdump. Analyze the captured packets to understand the interaction between client and server.
+date: 2026-01-14
+image: /images/01.png
+---
 
-**Name**:
-
-**Section**:
-
-Upon the completion of all activities, have your instructor review your work and turn-in this sheet to receive credit.
+Upon the completion of all activities, have your instructor review your work and track your progress to receive full credit.
 
 ## Environment
 
@@ -15,26 +18,26 @@ Open three terimnals and display them side-by-side:
 2. In the second terminal, run your client program.
 3. In the third terminal, use `tcpdump` or `tshark` to capture and display the packets exchanged between client and server. Filter by port number to minimize noise.
 
-## Run Server Program (2 points)
+## Run Server Program
 
 Use the provided `02-server.py`. Review the code and understand what it does. Run it in the first terminal. Ensure that it is listening on the correct port that you are going to use for the client.
 
-## Verify Server (2 points)
+## Verify Server
 
 1. Use `netstat -tuln` or `ss -tuln` to verify that the server is listening on the expected port.
 2. Use `nc localhost <port>` to connect to the server and verify it responds correctly.
 
 What does `nc` or `netcat` do?
 
-## Client Program (2 points)
+## Client Program
 
 Use the provided `02-client.py` as a starter. Modify it as needed to connect to the server you started in the first terminal. Run it in the second terminal.
 
-## Capture Traffic (2 points)
+## Capture Traffic
 
 In the third terminal, run `sudo tcpdump -i eth0 ... any port <port>` or `sudo tshark -i any -f "port <port>"` to capture the traffic between the client and server. See lab 1 for `tcpdump` command line flags.  Observe the packets being exchanged. Save your capture to a file for later analysis.
 
-## Analyze Capture (2 points)
+## Analyze Capture
 
 Use Wireshark to open the saved capture file. Analyze the packets exchanged between the client and server. Identify the request and response messages. Note any interesting details about the protocol being used. Reason about how you would distinguish messages from different clients if multiple clients were connected simultaneously.
 

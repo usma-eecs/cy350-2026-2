@@ -1,14 +1,17 @@
-# In-Class Lab 1 (10 points)
-
-**Name**:
-
-**Section**:
+---
+format: html
+title: In-Class Lab 1 (10 points)
+description: Environment Setup with WSL and VSCode
+subtitle: Initial setup of your development environment using WSL and VSCode. This lab introduces you to basic Linux commands, Python execution, and packet capturing.
+date: 2026-01-08
+image: /images/01.png
+---
 
 Follow the instructions below to setup your development environment. Type one command at a time. As a best practice, make sure you understand what the command might do before you hit Enter.
 
-Upon the completion of all activities, have your instructor review your work and turn-in this sheet to receive credit.
+Upon the completion of all activities, have your instructor review your work and track your progress to receive full credit.
 
-## Install and configure WSL (2 points)
+## Install and configure WSL
 
 From a Windows Terminal-
 
@@ -27,7 +30,7 @@ wsl --install ubuntu
 wsl # now enter wsl
 ```
 
-## Connect vscode to Linux (WSL) (2 points)
+## Connect vscode to Linux (WSL)
 
 From within WSL environment-
 
@@ -36,6 +39,8 @@ sudo apt update # update package index; do this in Linux, not Windows
 sudo apt install tcpdump tshark bind9-dnsutils traceroute # network tools
 sudo apt install python-is-python3 fish # quality of life upgrades
 ```
+
+Navigate to your home directory in Linux by typing `cd`. Confirm your current directory with `pwd`.
 
 Create your class directory, navigate the filesystem, list contents to confirm-
 
@@ -46,13 +51,16 @@ ls
 pwd
 ```
 
-Finally, launch vscode from your current directory in Linux-
+Finally, launch vscode from your current directory in Linux - `code .`
 
-```
-code .
-```
+## vscode setup
 
-## Run python "hello world" on Linux (2 points)
+1. Ensure that the bottom-left corner shows `WSL: Ubuntu`.
+2. Install [Python extension](https://marketplace.visualstudio.com/items?itemName=ms-python.python).
+3. Also install [`autopep8` formatter extension](https://marketplace.visualstudio.com/items?itemName=ms-python.autopep8) for easier code formatting.
+4. Notice the "Remote Explorer" icon on the left sidebar; use it to manage your WSL connections in the future and to return to your cy350 directory
+
+## Run python "hello world" on Linux
 
 1. Create a new file named `hello.py`
 2. Add the following code to it:
@@ -67,7 +75,7 @@ print("Hello, CY350!")
 python hello.py
 ```
 
-## Capture packets on Linux (2 points)
+## Capture packets on Linux
 
 In a terminal-
 
@@ -87,7 +95,7 @@ Here, `-v` will ensure verbose output and `-i` will display HTTP headers in addi
 
 Now return to the first terminal and press `Ctrl+C` to stop the packet capture process. Type `ls` to ensure that the captured packets were written to
 
-## Bring up your packet capture in Wireshark or Wireview  (2 points)
+## Bring up your packet capture in Wireshark or Wireview
 
 - Locate the PCAP file you created in the previous step (lab2.pcap)
 - Open it in Wireshark or [Wireview](https://wireview.github.io) (wireview.github.io)

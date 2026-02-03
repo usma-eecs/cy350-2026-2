@@ -1,0 +1,161 @@
+---
+format: html
+title: Course Syllabus
+description: Welcome to CY350 - Computer Networks!
+date: 2026-01-05
+image: /images/01.png
+---
+
+This course provides an introduction to computer networks from both a theoretical and software design perspective. The goal is to provide the basic concepts necessary to understand the design and operation of computer networks and gain experience writing programs that use the network. Each level of the TCP/IP protocol stack is examined in detail with a heavy emphasis on socket programming, theoretical foundations, and cybersecurity implications.
+
+## Course Objectives
+
+1. Understand and apply the five-layer network model.
+1. Compare and contrast network protocols and architectures.
+1. Develop network applications using the socket application programming interface.
+1. Understand fundamental network vulnerabilities and associated mitigation techniques.
+
+## Future Applications of this Knowledge
+
+The Army networks are embedded into every aspect of our current operational template. Regardless of your branch, you will have to interact with and have a basic understanding of Computer Networking.
+Cyber Operations, the future of warfare. The network is your battlespace--use it to reach out and touch your enemy!
+This course will give you the necessary fundamentals to be successful in more advanced courses.
+Understanding and applying networking is an important skill for programmers and other computer or cyber science professionals.
+Networks are integrated into daily life. Imagine your life without Messenger, World Wide Web, Email, or Social Networks. Understanding these services and the underlying networks enhances your ability to use them easily, reliably, and safely.
+
+## Course Text and Software
+- Kurose and Ross. Computer Networking: A Top-Down Approach, Eighth Edition. Hoboken: Pearson. 2021
+- Python 3
+- Linux (Ubuntu)
+- Wireshark
+- MS Visual Studio Code (highly suggested)
+
+## Faculty
+
+CPT Sonny Bhatia (Course Director)
+Thayer Hall 106 (EECS department)
+aaditya.bhatia@westpoint.edu
+bhatia.dev
+
+MAJ Joshua Haskins
+Thayer Hall 113 (EECS department)
+joshua.haskins2@westpoint.edu
+
+
+## Academic Grading Scheme (EECS Standard)
+
+| Letter Grade | Range            |
+|--------------|------------------|
+| A+           | 100% to 96%      |
+| A            | < 96% to 93%     |
+| A-           | < 93% to 90%     |
+| B+           | < 90% to 86%     |
+| B            | < 86% to 83%     |
+| B-           | < 83% to 80%     |
+| C+           | < 80% to 76%     |
+| C            | < 76% to 73%     |
+| C-           | < 73% to 70%     |
+| D            | < 70% to 65%     |
+| F            | < 65%            |
+
+
+## Graded Events
+
+A summary of the graded events for the course is shown in the following table:
+
+| Graded Events      | Points   |
+|--------------------|----------|
+| In-Class Labs (x10)      | 100      |
+| Problem Sets (x10) | 300      |
+| WPRs (x2)          | 200      |
+| Projects           | 400      |
+| **Total**          | **1000** |
+
+
+### In-Class Labs
+
+There will ten in-class labs, each worth 5 to 20 points. The labs are designed to provide hands-on experience with network programming and tools. These labs will be completed during scheduled class time and account for 100 points. You will be authorized to access all course materials during these labs.
+
+### WPRs
+
+There are two WPRs, each worth 125 points. The exams are closed book.  No references allowed except a handwritten double sided one-page (8.5x11in) note sheet in your own handwriting and calculator. The exams will be during the normally scheduled class period. See schedule for when they will occur. These WPRs account for 250 points.
+
+### Problem Sets
+
+There are ten problem sets that involve solving programming and network related problems related to the course material, as well as reviewing packet captures using Wireshark. The problem sets account for 300 points.
+
+### Programming Project
+
+The term project consists of three milestones that will require incremental development of a web client and server, to include key network functionality. Each milestone will be programmed in Python 3 only. Assignments submitted in any other programming language, including Python 2, will not be accepted.
+
+### Late Work
+
+Points available on an assignment are reduced at a rate of 10% per 24-hour period of lateness.  After 5 days, the assignment receives no credit. If you need an extension, coordinate with your instructor at least 2 days before the assignment is due.
+
+## Documentation and Acknowledgement of Academic Work
+
+Give credit where credit is due. All problem sets and projects must be accompanied by appropriate documentation. These assignments are designed to be an individual effort. When assistance is required outside of common knowledge, it must be documented.
+
+### Assistance vs. Collaboration:
+
+Assistance is authorized and includes: 
+- Getting a verbal answer from another individual about a specific point of confusion.
+- Having someone help you identify errors in your own solution.
+- Discussing high level concepts with another person.
+
+Receiving assistance can be a good learning technique and will not normally result in a lowered grade. If the amount of individual work completed after receiving assistance appears to be less than the preponderance of the effort on the submission, the instructor may assign a reduced grade. Always document any assistance that does not qualify as common knowledge.
+
+Collaboration is not authorized and includes:
+- Two or more people working jointly to produce a solution.
+- Two or more people who each complete part of a homework and then join the parts together for common submissions.
+
+If any keystroke or mouse click in your submission was done by another cadet, you have exceeded the limits of assistance and engaged in collaboration. Unlike assistance, collaboration can often circumvent the learning process and will almost certainly result in a lower grade. Collaboration must always be properly and specifically documented to avoid honor violations.
+
+Graded submissions must include proper documentation as described in the USMA Documentation and Acknowledgement of Academic Work (DAAW). The standard documentation format used in this course is the Council of Science Editors (CSE) Name-Year format. For programming assignments, documentation may be in-line (i.e. commented in code) or as a comment at the top of the code. See the linked example_code.py for clear examples of what well documented code should look like.  Additionally, no credit will be assigned for any work until the Documentation and Acknowledgement of Academic Work has been included in assignment submissions. 
+
+The following resources (including links at Course Resources) are considered common knowledge for CY350:
+
+- Material presented during class.
+- Assistance received from your instructor.
+- Assistance received directly from another current CY350 instructor.
+- Information from the course text or readings.
+- Information from python.org.
+- Wireshark User's Guide and man pages.
+
+## EECS Policy Memo #10 - Software Tools to Detect Similarities
+
+This memorandum  provides guidance for department use of tools that can detect similarities between graded event submissions. The use could be reactionary to an anomaly an instructor detects while grading or as a preventative tool, running each submission through the software.
+
+## CY350 Course Guidance for the use of Generative AI (i.e., ChatGPT)
+
+When used correctly, Generative AI is a powerful tool to help students gain understanding of the course material. For the purposes of this course, students are authorized to use any Generative AI tools that have a built in "study mode" (or equivalent) that is enabled. When used for programming assignments, students must also follow any assignment specific instructions regarding the use of Generative AI. These instructions will be clearly marked towards the beginning of the assignment instructions, and it is the student's responsibility to ensure instructions are complied with.
+
+Note: Interactive Development Environment (IDE) built in tools such as VSCode's Copilot or Jetbrain's AI still constitute the use of Generative AI tools even though you may not need to directly prompt them. Such use of these tools is considered collaboration since it is nearly impossible to separate the student's work from the AI's work. Therefore, the use of such tools is prohibited for all graded events in this course. It is your responsibility to disable AI features in your IDE prior to beginning any graded event. Any use of these tools still must be appropriately cited just like any other source.
+
+[Click here to disable AI features in VSCode Copilot](vscode://settings/chat.disableAIFeatures)
+
+Do not overly rely on Generative AI tools to complete assignments. While these tools can be very helpful in understanding concepts, they often produce incorrect or misleading information. Students in the past have lost significant points on assignments and projects due to blindly trusting the output of Generative AI tools. Your instructor will specifically assess your understanding of the course material, not how well you can prompt an AI tool.
+
+For the purposes of this course, Generative AI tools should be considered to be a person when determining whether or not help received constitutes assistance or collaboration. Should your instructor determine that your use of Generative AI tools has crossed into collaboration instead of assistance, your instructor reserves the right to reduce your grade by an appropriate amount.
+
+## CY350 Course Guidance for the use of Online Tutors
+
+Students have previously engaged the services of paid online tutors to assist them with course material. While there is nothing in the Dean's guidance that prevents this, anyone choosing to do so should be aware of the following considerations:
+
+- The rules on collaboration apply to the use of tutors as well.
+- Tutors, regardless of education level, have no previous experience with CY350's programming assignments.
+- Based off of feedback from previous students who employed tutors, the tutors spent the majority of the session trying to understand the assignment requirements and starter code instead of coaching students through how to approach the assignment.
+
+Because of this, while you may engage the services of an Online Tutor, it is strongly recommended that you instead schedule AI with a current CY350 instructor instead:
+
+- You may request AI with any CY350 instructor.
+- You do not need to coordinate with your instructor prior to requesting AI from another CY350 instructor.
+- Assistance received in AI with a CY350 instructor does not require citations nor does it risk your grade.
+
+## Digital Recording
+
+Cadets are prohibited from recording any portion of the course (lecture, board work, quizzes, etc). This includes audio, video, or images. Exceptions are to record your own work, or as explicitly granted by the instructor.
+
+As per DPOM 02-20 Procedures for Teaching in a Remote Environment, paragraph 5d, CY350 may record any lessons taught with remote attendees. Only the instructor may record the lesson. Cadets will have access to the lesson videos once released by the instructor and approved by the Course Director. The recordings will be saved on Microsoft Streams and the permissions are managed by the Instructor. A link will be posted on the official course website and/or Teams.
+
+Video Privacy. The recordings are for internal course use only. They are a great tool to review content. The recording links or videos will not be shared outside of students enrolled in the course. This limitation protects Cadet and Instructor privacy while also allowing for candid discussion.
