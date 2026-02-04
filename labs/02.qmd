@@ -4,7 +4,7 @@ title: In-Class Lab 2 (10 points)
 description: Analyzing Client-Server Communication with netcat and tcpdump
 subtitle: Explore basic client-server communication using netcat (nc) and capture the traffic with tcpdump. Analyze the captured packets to understand the interaction between client and server.
 date: 2026-01-14
-image: /images/01.png
+image: /images/lab02-netcat-tcpdump.png
 ---
 
 Upon the completion of all activities, have your instructor review your work and track your progress to receive full credit.

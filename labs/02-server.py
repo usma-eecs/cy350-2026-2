@@ -33,5 +33,6 @@ def main() -> None:
         print("Shutting down server.")
         s.close()
 
+
 if __name__ == "__main__":
     main()

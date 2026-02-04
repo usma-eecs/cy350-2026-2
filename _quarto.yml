@@ -18,6 +18,7 @@ website:
   title: CY350
   description: Computer Networks
   # site-url: https://slides.example.com/
+  repo-url: https://github.com/usma-eecs/cy350-2026-2
   image: /images/01.png
   favicon: /images/favicon.svg
   page-footer: "© 2026 United States Military Academy"
@@ -27,6 +28,9 @@ website:
   navbar:
     foreground: black
     background: "#d3bc8d"
+    right:
+      - icon: github
+        href: https://github.com/usma-eecs/cy350-2026-2
 
 format:
   html:
@@ -39,7 +43,8 @@ format:
     page-layout: full
     fig-align: center
     respect-user-color-scheme: true
-    image: /images/01.png
+    link-external-newwindow: true
+    link-external-icon: true
     theme:
       light:
         - sandstone

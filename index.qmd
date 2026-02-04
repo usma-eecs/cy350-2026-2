@@ -2,41 +2,23 @@
 title: "CY350 Computer Networks"
 lightbox: true
 format: html
+toc: false
 listing:
-  - id: labs
-    type: grid
-    sort: filename asc
-    grid-columns: 5
-    page-size: 50
-    contents:
-        - labs/*.qmd
   - id: content
     type: grid
-    sort: filename asc
+    sort:
+      - date
+      - filename asc
     grid-columns: 5
     page-size: 50
     contents:
         - content/*.qmd
+        - labs/*.qmd
 ---
 
 This course provides an introduction to computer networks from both a theoretical and software design perspective. The goal is to provide the basic concepts necessary to understand the design and operation of computer networks and gain experience writing programs that use the network. Each level of the TCP/IP protocol stack is examined in detail with a heavy emphasis on socket programming, theoretical foundations, and cybersecurity implications.
 
-
-## Course Objectives
-
-1. Understand and apply the five-layer network model.
-1. Compare and contrast network protocols and architectures.
-1. Develop network applications using the socket application programming interface.
-1. Understand fundamental network vulnerabilities and associated mitigation techniques.
-
-## Content
-
 ::: {#content}
-:::
-
-## In-Class Labs
-
-::: {#labs}
 :::
 
 ## Course Resources
