@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-01-05">
-<meta name="description" content="Welcome to CY350 - Computer Networks!">
+<meta name="dcterms.date" content="2026-02-04">
+<meta name="description" content="Basic Client-Server Communication with HTTP and netcat">
 
-<title>Course Syllabus – CY350</title>
+<title>In-Class Lab 3 (10 points) – CY350</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -78,13 +113,13 @@ ul.task-list li input[type="checkbox"] {
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<meta property="og:title" content="Course Syllabus – CY350">
-<meta property="og:description" content="Welcome to CY350 - Computer Networks!">
-<meta property="og:image" content="https://usma-eecs.github.io/cy350-2026-2//images/00.png">
+<meta property="og:title" content="In-Class Lab 3 (10 points) – CY350">
+<meta property="og:description" content="Basic Client-Server Communication with HTTP and netcat">
+<meta property="og:image" content="https://usma-eecs.github.io/cy350-2026-2//images/lab03-socket-http.png">
 <meta property="og:site_name" content="CY350">
-<meta property="og:image:height" content="1024">
-<meta property="og:image:width" content="1024">
-<link rel="canonical" href="https://usma-eecs.github.io/cy350-2026-2/content/syllabus.html">
+<meta property="og:image:height" content="461">
+<meta property="og:image:width" content="826">
+<link rel="canonical" href="https://usma-eecs.github.io/cy350-2026-2/labs/03.html">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -301,27 +336,24 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#course-objectives" id="toc-course-objectives" class="nav-link active" data-scroll-target="#course-objectives">Course Objectives</a></li>
-  <li><a href="#future-applications-of-this-knowledge" id="toc-future-applications-of-this-knowledge" class="nav-link" data-scroll-target="#future-applications-of-this-knowledge">Future Applications of this Knowledge</a></li>
-  <li><a href="#course-text-and-software" id="toc-course-text-and-software" class="nav-link" data-scroll-target="#course-text-and-software">Course Text and Software</a></li>
-  <li><a href="#faculty" id="toc-faculty" class="nav-link" data-scroll-target="#faculty">Faculty</a></li>
-  <li><a href="#academic-grading-scheme-eecs-standard" id="toc-academic-grading-scheme-eecs-standard" class="nav-link" data-scroll-target="#academic-grading-scheme-eecs-standard">Academic Grading Scheme (EECS Standard)</a></li>
-  <li><a href="#graded-events" id="toc-graded-events" class="nav-link" data-scroll-target="#graded-events">Graded Events</a>
+  <li><a href="#eecsnet-vm-setup" id="toc-eecsnet-vm-setup" class="nav-link active" data-scroll-target="#eecsnet-vm-setup">EECSNet VM Setup</a>
   <ul class="collapse">
-  <li><a href="#in-class-labs" id="toc-in-class-labs" class="nav-link" data-scroll-target="#in-class-labs">In-Class Labs</a></li>
-  <li><a href="#wprs" id="toc-wprs" class="nav-link" data-scroll-target="#wprs">WPRs</a></li>
-  <li><a href="#problem-sets" id="toc-problem-sets" class="nav-link" data-scroll-target="#problem-sets">Problem Sets</a></li>
-  <li><a href="#programming-project" id="toc-programming-project" class="nav-link" data-scroll-target="#programming-project">Programming Project</a></li>
-  <li><a href="#late-work" id="toc-late-work" class="nav-link" data-scroll-target="#late-work">Late Work</a></li>
+  <li><a href="#ssh-from-windows-not-wsl" id="toc-ssh-from-windows-not-wsl" class="nav-link" data-scroll-target="#ssh-from-windows-not-wsl">SSH from Windows (not WSL!)</a></li>
+  <li><a href="#passwordless-ssh" id="toc-passwordless-ssh" class="nav-link" data-scroll-target="#passwordless-ssh">Passwordless SSH</a></li>
   </ul></li>
-  <li><a href="#documentation-and-acknowledgement-of-academic-work" id="toc-documentation-and-acknowledgement-of-academic-work" class="nav-link" data-scroll-target="#documentation-and-acknowledgement-of-academic-work">Documentation and Acknowledgement of Academic Work</a>
+  <li><a href="#netcat-nc" id="toc-netcat-nc" class="nav-link" data-scroll-target="#netcat-nc">netcat (nc)</a>
   <ul class="collapse">
-  <li><a href="#assistance-vs.-collaboration" id="toc-assistance-vs.-collaboration" class="nav-link" data-scroll-target="#assistance-vs.-collaboration">Assistance vs.&nbsp;Collaboration:</a></li>
+  <li><a href="#listen-server" id="toc-listen-server" class="nav-link" data-scroll-target="#listen-server">listen (server)</a></li>
+  <li><a href="#connect-client" id="toc-connect-client" class="nav-link" data-scroll-target="#connect-client">connect (client)</a></li>
+  <li><a href="#send-a-file-from-client-to-server" id="toc-send-a-file-from-client-to-server" class="nav-link" data-scroll-target="#send-a-file-from-client-to-server">send a file from client to server</a></li>
+  <li><a href="#send-a-file-from-server-to-client" id="toc-send-a-file-from-server-to-client" class="nav-link" data-scroll-target="#send-a-file-from-server-to-client">send a file from server to client</a></li>
+  <li><a href="#udp-mode" id="toc-udp-mode" class="nav-link" data-scroll-target="#udp-mode">UDP mode</a></li>
   </ul></li>
-  <li><a href="#eecs-policy-memo-10---software-tools-to-detect-similarities" id="toc-eecs-policy-memo-10---software-tools-to-detect-similarities" class="nav-link" data-scroll-target="#eecs-policy-memo-10---software-tools-to-detect-similarities">EECS Policy Memo #10 - Software Tools to Detect Similarities</a></li>
-  <li><a href="#cy350-course-guidance-for-the-use-of-generative-ai-i.e.-chatgpt" id="toc-cy350-course-guidance-for-the-use-of-generative-ai-i.e.-chatgpt" class="nav-link" data-scroll-target="#cy350-course-guidance-for-the-use-of-generative-ai-i.e.-chatgpt">CY350 Course Guidance for the use of Generative AI (i.e., ChatGPT)</a></li>
-  <li><a href="#cy350-course-guidance-for-the-use-of-online-tutors" id="toc-cy350-course-guidance-for-the-use-of-online-tutors" class="nav-link" data-scroll-target="#cy350-course-guidance-for-the-use-of-online-tutors">CY350 Course Guidance for the use of Online Tutors</a></li>
-  <li><a href="#digital-recording" id="toc-digital-recording" class="nav-link" data-scroll-target="#digital-recording">Digital Recording</a></li>
+  <li><a href="#http-server" id="toc-http-server" class="nav-link" data-scroll-target="#http-server">HTTP Server</a>
+  <ul class="collapse">
+  <li><a href="#starter-code" id="toc-starter-code" class="nav-link" data-scroll-target="#starter-code">Starter Code</a></li>
+  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing">Testing</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -331,12 +363,13 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Course Syllabus</h1>
+<h1 class="title">In-Class Lab 3 (10 points)</h1>
+<p class="subtitle lead">Initial setup of your development environment using WSL and VSCode. This lab introduces you to basic Linux commands, Python execution, and packet capturing.</p>
 </div>
 
 <div>
   <div class="description">
-    Welcome to CY350 - Computer Networks!
+    Basic Client-Server Communication with HTTP and netcat
   </div>
 </div>
 
@@ -347,7 +380,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 5, 2026</p>
+      <p class="date">February 4, 2026</p>
     </div>
   </div>
   
@@ -359,201 +392,194 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This course provides an introduction to computer networks from both a theoretical and software design perspective. The goal is to provide the basic concepts necessary to understand the design and operation of computer networks and gain experience writing programs that use the network. Each level of the TCP/IP protocol stack is examined in detail with a heavy emphasis on socket programming, theoretical foundations, and cybersecurity implications.</p>
-<section id="course-objectives" class="level2">
-<h2 class="anchored" data-anchor-id="course-objectives">Course Objectives</h2>
+<p>Upon the completion of all activities, have your instructor review your work and track your progress to receive full credit.</p>
+<section id="eecsnet-vm-setup" class="level2">
+<h2 class="anchored" data-anchor-id="eecsnet-vm-setup">EECSNet VM Setup</h2>
 <ol type="1">
-<li>Understand and apply the five-layer network model.</li>
-<li>Compare and contrast network protocols and architectures.</li>
-<li>Develop network applications using the socket application programming interface.</li>
-<li>Understand fundamental network vulnerabilities and associated mitigation techniques.</li>
+<li>VPN to EECSNet by changing the server address to <code>vpn.eecs.ninja</code> in your Cisco AnyConnect client. Login with your EECSNet credentials. Username remains the same and initial password is <code>qwer1234QWER!@#$</code>. Change it immediately. See <a href="https://usma-eecs.github.io/linux-guide/">Linux setup guide</a> for more details.</li>
+<li><a href="https://vcsa1.eecs.net/">Login to vSphere</a></li>
+<li>Find your VM by navigating the tree on the left and expanding all folders.</li>
+<li>Click on <code>Launch Web Console</code> button and login using your VM credentials: <code>ubuntu</code> and <code>cy350pass</code></li>
+<li>Start a DHCP client by running <code>sudo dhcpcd</code> in the terminal</li>
+<li>Check your VM’s IP address with <code>ip addr</code>. Note down the address for the Ethernet adapter.</li>
 </ol>
+<section id="ssh-from-windows-not-wsl" class="level3">
+<h3 class="anchored" data-anchor-id="ssh-from-windows-not-wsl">SSH from Windows (not WSL!)</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do not run SSH from Ubuntu or WSL on your local machine. WSL cannot access your EECSNet VPN.</p>
+</div>
+</div>
+<p>From a Windows Terminal (PowerShell), run the following command:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> ubuntu@<span class="op">&lt;</span>VM_IP_ADDRESS<span class="op">&gt;</span> <span class="co"># e.g. ssh ubuntu@10.20.30.40</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Use your VM password to login. Now you can run commands on your EECSNet VM remotely.</p>
 </section>
-<section id="future-applications-of-this-knowledge" class="level2">
-<h2 class="anchored" data-anchor-id="future-applications-of-this-knowledge">Future Applications of this Knowledge</h2>
-<p>The Army networks are embedded into every aspect of our current operational template. Regardless of your branch, you will have to interact with and have a basic understanding of Computer Networking. Cyber Operations, the future of warfare. The network is your battlespace–use it to reach out and touch your enemy! This course will give you the necessary fundamentals to be successful in more advanced courses. Understanding and applying networking is an important skill for programmers and other computer or cyber science professionals. Networks are integrated into daily life. Imagine your life without Messenger, World Wide Web, Email, or Social Networks. Understanding these services and the underlying networks enhances your ability to use them easily, reliably, and safely.</p>
-</section>
-<section id="course-text-and-software" class="level2">
-<h2 class="anchored" data-anchor-id="course-text-and-software">Course Text and Software</h2>
+<section id="passwordless-ssh" class="level3">
+<h3 class="anchored" data-anchor-id="passwordless-ssh">Passwordless SSH</h3>
 <ul>
-<li>Kurose and Ross. Computer Networking: A Top-Down Approach, Eighth Edition. Hoboken: Pearson. 2021</li>
-<li>Python 3</li>
-<li>Linux (Ubuntu)</li>
-<li>Wireshark</li>
-<li>MS Visual Studio Code (highly suggested)</li>
+<li><p>On your Windows laptop, open PowerShell and check if you have existing SSH keys:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~ <span class="co"># go to your home directory</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> .ssh <span class="co"># go to the .ssh directory within your home directory</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="co"># list files in the .ssh directory</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>If you do not have <code>id_ecdsa.pub</code> or <code>id_rsa.pub</code> files or something similar, generate a new SSH key pair: <code>ssh-keygen</code>; press <code>Enter</code> twice to accept defaults.</p></li>
+<li><p>Copy your public key to the VM: <code>ssh-copy-id ubuntu@&lt;VM_IP_ADDRESS&gt;</code></p>
+<ul>
+<li>You will need to enter your VM password one last time.</li>
+</ul></li>
+<li><p>Optionally, now you can connect your VS Code to your VM using the <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh">Remote - SSH extension</a>.</p></li>
+</ul>
+<p>Reminder: In VS Code, <a href="vscode://settings/chat.disableAIFeatures">Features &gt; Chat &gt; Disable AI Features</a> to protect yourself from unintentional AI completions!</p>
+</section>
+</section>
+<section id="netcat-nc" class="level2">
+<h2 class="anchored" data-anchor-id="netcat-nc">netcat (nc)</h2>
+<p>Try the following with your lab partner. Note down each other’s VM IP addresses.</p>
+<section id="listen-server" class="level3">
+<h3 class="anchored" data-anchor-id="listen-server">listen (server)</h3>
+<ul>
+<li>Use <code>nc</code> (netcat) to create a TCP socket</li>
+<li>Listen on port 12345: <code>nc -v -l -p 12345</code></li>
+<li>Why did you not enter an IP address? Where do you enter it?</li>
 </ul>
 </section>
-<section id="faculty" class="level2">
-<h2 class="anchored" data-anchor-id="faculty">Faculty</h2>
-<p>CPT Sonny Bhatia (Course Director) Thayer Hall 106 (EECS department) aaditya.bhatia@westpoint.edu bhatia.dev</p>
-<p>MAJ Joshua Haskins Thayer Hall 113 (EECS department) joshua.haskins2@westpoint.edu</p>
-</section>
-<section id="academic-grading-scheme-eecs-standard" class="level2">
-<h2 class="anchored" data-anchor-id="academic-grading-scheme-eecs-standard">Academic Grading Scheme (EECS Standard)</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Letter Grade</th>
-<th>Range</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>A+</td>
-<td>100% to 96%</td>
-</tr>
-<tr class="even">
-<td>A</td>
-<td>&lt; 96% to 93%</td>
-</tr>
-<tr class="odd">
-<td>A-</td>
-<td>&lt; 93% to 90%</td>
-</tr>
-<tr class="even">
-<td>B+</td>
-<td>&lt; 90% to 86%</td>
-</tr>
-<tr class="odd">
-<td>B</td>
-<td>&lt; 86% to 83%</td>
-</tr>
-<tr class="even">
-<td>B-</td>
-<td>&lt; 83% to 80%</td>
-</tr>
-<tr class="odd">
-<td>C+</td>
-<td>&lt; 80% to 76%</td>
-</tr>
-<tr class="even">
-<td>C</td>
-<td>&lt; 76% to 73%</td>
-</tr>
-<tr class="odd">
-<td>C-</td>
-<td>&lt; 73% to 70%</td>
-</tr>
-<tr class="even">
-<td>D</td>
-<td>&lt; 70% to 65%</td>
-</tr>
-<tr class="odd">
-<td>F</td>
-<td>&lt; 65%</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="graded-events" class="level2">
-<h2 class="anchored" data-anchor-id="graded-events">Graded Events</h2>
-<p>A summary of the graded events for the course is shown in the following table:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Graded Events</th>
-<th>Points</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>In-Class Labs (x10)</td>
-<td>100</td>
-</tr>
-<tr class="even">
-<td>Problem Sets (x10)</td>
-<td>300</td>
-</tr>
-<tr class="odd">
-<td>WPRs (x2)</td>
-<td>200</td>
-</tr>
-<tr class="even">
-<td>Projects</td>
-<td>400</td>
-</tr>
-<tr class="odd">
-<td><strong>Total</strong></td>
-<td><strong>1000</strong></td>
-</tr>
-</tbody>
-</table>
-<section id="in-class-labs" class="level3">
-<h3 class="anchored" data-anchor-id="in-class-labs">In-Class Labs</h3>
-<p>There will ten in-class labs, each worth 5 to 20 points. The labs are designed to provide hands-on experience with network programming and tools. These labs will be completed during scheduled class time and account for 100 points. You will be authorized to access all course materials during these labs.</p>
-</section>
-<section id="wprs" class="level3">
-<h3 class="anchored" data-anchor-id="wprs">WPRs</h3>
-<p>There are two WPRs, each worth 125 points. The exams are closed book.&nbsp; No references allowed except a handwritten double sided one-page (8.5x11in) note sheet in your own handwriting and calculator. The exams will be during the normally scheduled class period. See schedule for when they will occur. These WPRs account for 250 points.</p>
-</section>
-<section id="problem-sets" class="level3">
-<h3 class="anchored" data-anchor-id="problem-sets">Problem Sets</h3>
-<p>There are ten problem sets that involve solving programming and network related problems related to the course material, as well as reviewing packet captures using Wireshark. The problem sets account for 300 points.</p>
-</section>
-<section id="programming-project" class="level3">
-<h3 class="anchored" data-anchor-id="programming-project">Programming Project</h3>
-<p>The term project consists of three milestones that will require incremental development of a web client and server, to include key network functionality. Each milestone will be programmed in Python 3 only. Assignments submitted in any other programming language, including Python 2, will not be accepted.</p>
-</section>
-<section id="late-work" class="level3">
-<h3 class="anchored" data-anchor-id="late-work">Late Work</h3>
-<p>Points available on an assignment are reduced at a rate of 10% per 24-hour period of lateness.&nbsp; After 5 days, the assignment receives no credit. If you need an extension, coordinate with your instructor at least 2 days before the assignment is due.</p>
-</section>
-</section>
-<section id="documentation-and-acknowledgement-of-academic-work" class="level2">
-<h2 class="anchored" data-anchor-id="documentation-and-acknowledgement-of-academic-work">Documentation and Acknowledgement of Academic Work</h2>
-<p>Give credit where credit is due. All problem sets and projects must be accompanied by appropriate documentation. These assignments are designed to be an individual effort. When assistance is required outside of common knowledge, it must be documented.</p>
-<section id="assistance-vs.-collaboration" class="level3">
-<h3 class="anchored" data-anchor-id="assistance-vs.-collaboration">Assistance vs.&nbsp;Collaboration:</h3>
-<p>Assistance is authorized and includes:&nbsp; - Getting a verbal answer from another individual about a specific point of confusion. - Having someone help you identify errors in your own solution. - Discussing high level concepts with another person.</p>
-<p>Receiving assistance can be a good learning technique and will not normally result in a lowered grade. If the amount of individual work completed after receiving assistance appears to be less than the preponderance of the effort on the submission, the instructor may assign a reduced grade. Always document any assistance that does not qualify as common knowledge.</p>
-<p>Collaboration is not authorized and includes: - Two or more people working jointly to produce a solution. - Two or more people who each complete part of a homework and then join the parts together for common submissions.</p>
-<p>If any keystroke or mouse click in your submission was done by another cadet, you have exceeded the limits of assistance and engaged in collaboration. Unlike assistance, collaboration can often circumvent the learning process and will almost certainly result in a lower grade. Collaboration must always be properly and specifically documented to avoid honor violations.</p>
-<p>Graded submissions must include proper documentation as described in the USMA Documentation and Acknowledgement of Academic Work (DAAW). The standard documentation format used in this course is the Council of Science Editors (CSE) Name-Year format. For programming assignments, documentation may be in-line (i.e.&nbsp;commented in code) or as a comment at the top of the code. See the linked example_code.py for clear examples of what well documented code should look like.&nbsp; Additionally, no credit will be assigned for any work until the Documentation and Acknowledgement of Academic Work has been included in assignment submissions.&nbsp;</p>
-<p>The following resources (including links at Course Resources) are considered common knowledge for CY350:</p>
+<section id="connect-client" class="level3">
+<h3 class="anchored" data-anchor-id="connect-client">connect (client)</h3>
 <ul>
-<li>Material presented during class.</li>
-<li>Assistance received from your instructor.</li>
-<li>Assistance received directly from another current CY350 instructor.</li>
-<li>Information from the course text or readings.</li>
-<li>Information from python.org.</li>
-<li>Wireshark User’s Guide and man pages.</li>
+<li>On the other VM, connect to the socket above: <code>nc PARTNER_VM_IP_ADDRESS 12345</code></li>
+<li>Type a message and hit enter. Can your partner see it?</li>
+</ul>
+</section>
+<section id="send-a-file-from-client-to-server" class="level3">
+<h3 class="anchored" data-anchor-id="send-a-file-from-client-to-server">send a file from client to server</h3>
+<ul>
+<li><p>On the server:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> <span class="at">-v</span> <span class="at">-l</span> <span class="at">-p</span> 23456 <span class="op">&gt;</span> incoming.jpg</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>On the client:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> http.cat/404 <span class="co"># get a cat picture from the internet</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> PARTNER_VM_IP_ADDRESS 23456 <span class="op">&lt;</span> 404 <span class="co"># send it to your partner</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+</ul>
+</section>
+<section id="send-a-file-from-server-to-client" class="level3">
+<h3 class="anchored" data-anchor-id="send-a-file-from-server-to-client">send a file from server to client</h3>
+<ul>
+<li><p>On the server:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> http.cat/404 <span class="co"># get a cat picture from the internet</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> <span class="at">-v</span> <span class="at">-l</span> <span class="at">-p</span> 34567 <span class="op">&lt;</span> 404</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>On the client:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> PARTNER_VM_IP_ADDRESS 34567 <span class="op">&gt;</span> incoming.jpg</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+</ul>
+</section>
+<section id="udp-mode" class="level3">
+<h3 class="anchored" data-anchor-id="udp-mode">UDP mode</h3>
+<ul>
+<li>Repeat the above steps using UDP instead of TCP by adding <code>-u</code> flag to <code>nc</code> commands.</li>
+<li>What differences do you notice?</li>
 </ul>
 </section>
 </section>
-<section id="eecs-policy-memo-10---software-tools-to-detect-similarities" class="level2">
-<h2 class="anchored" data-anchor-id="eecs-policy-memo-10---software-tools-to-detect-similarities">EECS Policy Memo #10 - Software Tools to Detect Similarities</h2>
-<p>This memorandum &nbsp;provides guidance for department use of tools that can detect similarities between graded event submissions. The use could be reactionary to an anomaly an instructor detects while grading or as a preventative tool, running each submission through the software.</p>
+<section id="http-server" class="level2">
+<h2 class="anchored" data-anchor-id="http-server">HTTP Server</h2>
+<p>Copy the following code into a file named <code>http_server.py</code> on your VM or WSL. Try the copy icon on the top-right of the code block. Fill in the blanks. Run it to start listening for HTTP requests on port 8080. You can stop the server with <code>Ctrl+C</code>.</p>
+<section id="starter-code" class="level3">
+<h3 class="anchored" data-anchor-id="starter-code">Starter Code</h3>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>http_server.py</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-filename="http_server.py"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">import</span> socket</span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="kw">class</span> TCPServer:</span>
+<span id="cb7-5"><a href="#cb7-5"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, server_ip<span class="op">=</span><span class="st">'127.0.0.128'</span>, server_port<span class="op">=</span><span class="dv">8080</span>):</span>
+<span id="cb7-6"><a href="#cb7-6"></a>        <span class="bu">print</span>(<span class="st">"Initializing TCP Server..."</span>)</span>
+<span id="cb7-7"><a href="#cb7-7"></a>        <span class="va">self</span>.server_ip <span class="op">=</span> server_ip</span>
+<span id="cb7-8"><a href="#cb7-8"></a>        <span class="va">self</span>.server_port <span class="op">=</span> server_port</span>
+<span id="cb7-9"><a href="#cb7-9"></a>        <span class="va">self</span>.listening <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a>        <span class="bu">print</span>(<span class="ss">f"Creating TCP socket"</span>)</span>
+<span id="cb7-11"><a href="#cb7-11"></a>        <span class="va">self</span>.setup_socket()</span>
+<span id="cb7-12"><a href="#cb7-12"></a></span>
+<span id="cb7-13"><a href="#cb7-13"></a>        <span class="va">self</span>.resources <span class="op">=</span> {</span>
+<span id="cb7-14"><a href="#cb7-14"></a>            <span class="st">"/"</span>: <span class="st">"Welcome to the TCP Server!"</span>,</span>
+<span id="cb7-15"><a href="#cb7-15"></a>            <span class="st">"/hello"</span>: <span class="st">"Hello, TCP Client!"</span>,</span>
+<span id="cb7-16"><a href="#cb7-16"></a>            <span class="st">"/goodbye"</span>: <span class="st">"Goodbye from the TCP Server!"</span>,</span>
+<span id="cb7-17"><a href="#cb7-17"></a>            <span class="st">"/joke"</span>: <span class="st">"Why do programmers prefer dark mode? Because light attracts bugs!"</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a>        }</span>
+<span id="cb7-19"><a href="#cb7-19"></a></span>
+<span id="cb7-20"><a href="#cb7-20"></a>    <span class="kw">def</span> setup_socket(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb7-21"><a href="#cb7-21"></a>        <span class="cf">pass</span></span>
+<span id="cb7-22"><a href="#cb7-22"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> create a TCP listening socket</span></span>
+<span id="cb7-23"><a href="#cb7-23"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> bind the socket</span></span>
+<span id="cb7-24"><a href="#cb7-24"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> start listening</span></span>
+<span id="cb7-25"><a href="#cb7-25"></a>        <span class="co">#</span></span>
+<span id="cb7-26"><a href="#cb7-26"></a></span>
+<span id="cb7-27"><a href="#cb7-27"></a>    <span class="kw">def</span> parse_request(<span class="va">self</span>, request) <span class="op">-&gt;</span> <span class="bu">tuple</span>[<span class="bu">str</span> <span class="op">|</span> <span class="va">None</span>, <span class="bu">str</span> <span class="op">|</span> <span class="va">None</span>]:</span>
+<span id="cb7-28"><a href="#cb7-28"></a>        <span class="cf">pass</span></span>
+<span id="cb7-29"><a href="#cb7-29"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> parse the request and extract the method and resource if applicable</span></span>
+<span id="cb7-30"><a href="#cb7-30"></a></span>
+<span id="cb7-31"><a href="#cb7-31"></a>    <span class="kw">def</span> build_http_response(<span class="va">self</span>, request) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb7-32"><a href="#cb7-32"></a>        <span class="cf">pass</span></span>
+<span id="cb7-33"><a href="#cb7-33"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> parse the resource and create the corresponding message</span></span>
+<span id="cb7-34"><a href="#cb7-34"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> 200 OK</span></span>
+<span id="cb7-35"><a href="#cb7-35"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> 404 Not Found</span></span>
+<span id="cb7-36"><a href="#cb7-36"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> 400 Bad Request</span></span>
+<span id="cb7-37"><a href="#cb7-37"></a></span>
+<span id="cb7-38"><a href="#cb7-38"></a>    <span class="kw">def</span> send_response(<span class="va">self</span>, response) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb7-39"><a href="#cb7-39"></a>        <span class="cf">pass</span></span>
+<span id="cb7-40"><a href="#cb7-40"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> send the response through the connection</span></span>
+<span id="cb7-41"><a href="#cb7-41"></a></span>
+<span id="cb7-42"><a href="#cb7-42"></a>    <span class="kw">def</span> listen(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb7-43"><a href="#cb7-43"></a>        <span class="cf">pass</span></span>
+<span id="cb7-44"><a href="#cb7-44"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> accept a connection</span></span>
+<span id="cb7-45"><a href="#cb7-45"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> store the request somewhere</span></span>
+<span id="cb7-46"><a href="#cb7-46"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> use the connection to listen for the request</span></span>
+<span id="cb7-47"><a href="#cb7-47"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> once the request is received</span></span>
+<span id="cb7-48"><a href="#cb7-48"></a></span>
+<span id="cb7-49"><a href="#cb7-49"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> build the response</span></span>
+<span id="cb7-50"><a href="#cb7-50"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> send the response</span></span>
+<span id="cb7-51"><a href="#cb7-51"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> close the connection</span></span>
+<span id="cb7-52"><a href="#cb7-52"></a></span>
+<span id="cb7-53"><a href="#cb7-53"></a>    <span class="kw">def</span> close_server(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb7-54"><a href="#cb7-54"></a>        <span class="va">self</span>.sock.close()</span>
+<span id="cb7-55"><a href="#cb7-55"></a>        <span class="bu">print</span>(<span class="st">"Listening socket closed."</span>)</span>
+<span id="cb7-56"><a href="#cb7-56"></a></span>
+<span id="cb7-57"><a href="#cb7-57"></a>    <span class="kw">def</span> close_connection(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb7-58"><a href="#cb7-58"></a>        <span class="cf">pass</span></span>
+<span id="cb7-59"><a href="#cb7-59"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> close the connection socket</span></span>
+<span id="cb7-60"><a href="#cb7-60"></a></span>
+<span id="cb7-61"><a href="#cb7-61"></a></span>
+<span id="cb7-62"><a href="#cb7-62"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb7-63"><a href="#cb7-63"></a>    server <span class="op">=</span> TCPServer()</span>
+<span id="cb7-64"><a href="#cb7-64"></a>    <span class="cf">try</span>:</span>
+<span id="cb7-65"><a href="#cb7-65"></a>        server.listen()</span>
+<span id="cb7-66"><a href="#cb7-66"></a>    <span class="cf">except</span> <span class="pp">KeyboardInterrupt</span>:</span>
+<span id="cb7-67"><a href="#cb7-67"></a>        <span class="bu">print</span>(<span class="st">"Shutting down server..."</span>)</span>
+<span id="cb7-68"><a href="#cb7-68"></a>        server.listening <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb7-69"><a href="#cb7-69"></a>    <span class="cf">finally</span>:</span>
+<span id="cb7-70"><a href="#cb7-70"></a>        server.close_server()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
-<section id="cy350-course-guidance-for-the-use-of-generative-ai-i.e.-chatgpt" class="level2">
-<h2 class="anchored" data-anchor-id="cy350-course-guidance-for-the-use-of-generative-ai-i.e.-chatgpt">CY350 Course Guidance for the use of Generative AI (i.e., ChatGPT)</h2>
-<p>When used correctly, Generative AI is a powerful tool to help students gain understanding of the course material. For the purposes of this course, students are authorized to use any Generative AI tools that have a built in “study mode” (or equivalent) that is enabled. When used for programming assignments, students must also follow any assignment specific instructions regarding the use of Generative AI. These instructions will be clearly marked towards the beginning of the assignment instructions, and it is the student’s responsibility to ensure instructions are complied with.</p>
-<p>Note: Interactive Development Environment (IDE) built in tools such as VSCode’s Copilot or Jetbrain’s AI still constitute the use of Generative AI tools even though you may not need to directly prompt them. Such use of these tools is considered collaboration since it is nearly impossible to separate the student’s work from the AI’s work. Therefore, the use of such tools is prohibited for all graded events in this course. It is your responsibility to disable AI features in your IDE prior to beginning any graded event. Any use of these tools still must be appropriately cited just like any other source.</p>
-<p><a href="vscode://settings/chat.disableAIFeatures">Click here to disable AI features in VSCode Copilot</a></p>
-<p>Do not overly rely on Generative AI tools to complete assignments. While these tools can be very helpful in understanding concepts, they often produce incorrect or misleading information. Students in the past have lost significant points on assignments and projects due to blindly trusting the output of Generative AI tools. Your instructor will specifically assess your understanding of the course material, not how well you can prompt an AI tool.</p>
-<p>For the purposes of this course, Generative AI tools should be considered to be a person when determining whether or not help received constitutes assistance or collaboration. Should your instructor determine that your use of Generative AI tools has crossed into collaboration instead of assistance, your instructor reserves the right to reduce your grade by an appropriate amount.</p>
-</section>
-<section id="cy350-course-guidance-for-the-use-of-online-tutors" class="level2">
-<h2 class="anchored" data-anchor-id="cy350-course-guidance-for-the-use-of-online-tutors">CY350 Course Guidance for the use of Online Tutors</h2>
-<p>Students have previously engaged the services of paid online tutors to assist them with course material. While there is nothing in the Dean’s guidance that prevents this, anyone choosing to do so should be aware of the following considerations:</p>
+<section id="testing" class="level3">
+<h3 class="anchored" data-anchor-id="testing">Testing</h3>
 <ul>
-<li>The rules on collaboration apply to the use of tutors as well.</li>
-<li>Tutors, regardless of education level, have no previous experience with CY350’s programming assignments.</li>
-<li>Based off of feedback from previous students who employed tutors, the tutors spent the majority of the session trying to understand the assignment requirements and starter code instead of coaching students through how to approach the assignment.</li>
-</ul>
-<p>Because of this, while you may engage the services of an Online Tutor, it is strongly recommended that you instead schedule AI with a current CY350 instructor instead:</p>
+<li>Use <code>curl</code> to test your server: <code>curl http://localhost:8080/hello</code>
 <ul>
-<li>You may request AI with any CY350 instructor.</li>
-<li>You do not need to coordinate with your instructor prior to requesting AI from another CY350 instructor.</li>
-<li>Assistance received in AI with a CY350 instructor does not require citations nor does it risk your grade.</li>
+<li>You should see the message “Hello, TCP Client!” in the terminal.</li>
+</ul></li>
+<li>Use <code>curl -v</code> to see the full HTTP response.</li>
+<li>Try other resources like <code>/</code>, <code>/goodbye</code>, and <code>/joke</code>.</li>
+<li>Try an invalid resource like <code>/invalid</code> to see the 404 response.</li>
 </ul>
-</section>
-<section id="digital-recording" class="level2">
-<h2 class="anchored" data-anchor-id="digital-recording">Digital Recording</h2>
-<p>Cadets are prohibited from recording any portion of the course (lecture, board work, quizzes, etc). This includes audio, video, or images. Exceptions are to record your own work, or as explicitly granted by the instructor.</p>
-<p>As per DPOM 02-20 Procedures for Teaching in a Remote Environment, paragraph 5d, CY350 may record any lessons taught with remote attendees.&nbsp;Only the instructor may record the lesson. Cadets will have access to the lesson videos once released by the instructor and approved by the Course Director. The recordings will be saved on Microsoft Streams and the permissions are managed by the Instructor. A link will be posted on the official course website and/or Teams.</p>
-<p>Video Privacy.&nbsp;The recordings are for internal course use only.&nbsp;They are a great tool to review content. The recording links or videos will not be shared outside of students enrolled in the course. This limitation protects Cadet and Instructor privacy while also allowing for candid discussion.</p>
 
 
+</section>
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></section></div></main> <!-- /main -->

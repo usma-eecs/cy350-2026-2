@@ -78,34 +78,6 @@ ul.task-list li input[type="checkbox"] {
 <script>
 
   window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-labs .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title','listing-author','listing-date','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-labs'] = new List('listing-labs', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
     const listingTargetEl = window.document.querySelector('#listing-content .list');
     if (!listingTargetEl) {
       // No listing discovered, do not attach.
@@ -166,7 +138,7 @@ window.Quarto = {
 
 <meta property="og:title" content="CY350 Computer Networks – CY350">
 <meta property="og:description" content="Computer Networks">
-<meta property="og:image" content="https://usma-eecs.github.io/cy350-2026-2//images/01.png">
+<meta property="og:image" content="https://usma-eecs.github.io/cy350-2026-2/images/00.png">
 <meta property="og:site_name" content="CY350">
 <meta property="og:image:height" content="1024">
 <meta property="og:image:width" content="1024">
@@ -359,10 +331,22 @@ window.Quarto = {
     <span class="navbar-title">CY350</span>
     </a>
   </div>
-        <div class="quarto-navbar-tools tools-end">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/usma-eecs/cy350-2026-2"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
-          <div id="quarto-search" class="" title="Search"></div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -370,26 +354,9 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#course-objectives" id="toc-course-objectives" class="nav-link active" data-scroll-target="#course-objectives">Course Objectives</a></li>
-  <li><a href="#content" id="toc-content" class="nav-link" data-scroll-target="#content">Content</a></li>
-  <li><a href="#in-class-labs" id="toc-in-class-labs" class="nav-link" data-scroll-target="#in-class-labs">In-Class Labs</a></li>
-  <li><a href="#course-resources" id="toc-course-resources" class="nav-link" data-scroll-target="#course-resources">Course Resources</a>
-  <ul class="collapse">
-  <li><a href="#where-to-get-the-textbook" id="toc-where-to-get-the-textbook" class="nav-link" data-scroll-target="#where-to-get-the-textbook">Where to get the textbook</a></li>
-  <li><a href="#textbook-assistance-websites" id="toc-textbook-assistance-websites" class="nav-link" data-scroll-target="#textbook-assistance-websites">Textbook Assistance Websites</a></li>
-  <li><a href="#guides-and-documentation" id="toc-guides-and-documentation" class="nav-link" data-scroll-target="#guides-and-documentation">Guides and Documentation</a></li>
-  </ul></li>
-  <li><a href="#course-schedule" id="toc-course-schedule" class="nav-link" data-scroll-target="#course-schedule">Course Schedule</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content">
 
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -399,7 +366,7 @@ window.Quarto = {
 
 
 
-<div class="quarto-title-meta column-page-left">
+<div class="quarto-title-meta column-page">
 
     
   
@@ -412,24 +379,13 @@ window.Quarto = {
 
 
 <p>This course provides an introduction to computer networks from both a theoretical and software design perspective. The goal is to provide the basic concepts necessary to understand the design and operation of computer networks and gain experience writing programs that use the network. Each level of the TCP/IP protocol stack is examined in detail with a heavy emphasis on socket programming, theoretical foundations, and cybersecurity implications.</p>
-<section id="course-objectives" class="level2">
-<h2 class="anchored" data-anchor-id="course-objectives">Course Objectives</h2>
-<ol type="1">
-<li>Understand and apply the five-layer network model.</li>
-<li>Compare and contrast network protocols and architectures.</li>
-<li>Develop network applications using the socket application programming interface.</li>
-<li>Understand fundamental network vulnerabilities and associated mitigation techniques.</li>
-</ol>
-</section>
-<section id="content" class="level2">
-<h2 class="anchored" data-anchor-id="content">Content</h2>
 <div id="listing-content" class="quarto-listing quarto-listing-container-grid">
 <div class="list grid quarto-listing-cols-5">
-<div class="g-col-1" data-index="0" data-listing-date-sort="1767571200000" data-listing-file-modified-sort="1770180787549" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1937">
+<div class="g-col-1" data-index="0" data-listing-date-sort="1767571200000" data-listing-file-modified-sort="1770182835398" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1937">
 <a href="./content/syllabus.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
-<img loading="lazy" src="./images/01.png" class="thumbnail-image card-img" style="height: 150px;">
+<img loading="lazy" src="./images/00.png" class="thumbnail-image card-img" style="height: 150px;">
 </p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
@@ -449,19 +405,11 @@ Jan 5, 2026
 </div>
 </div></a>
 </div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div>
-</section>
-<section id="in-class-labs" class="level2">
-<h2 class="anchored" data-anchor-id="in-class-labs">In-Class Labs</h2>
-<div id="listing-labs" class="quarto-listing quarto-listing-container-grid">
-<div class="list grid quarto-listing-cols-5">
-<div class="g-col-1" data-index="0" data-listing-date-sort="1767830400000" data-listing-file-modified-sort="1770180787551" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="418">
+<div class="g-col-1" data-index="1" data-listing-date-sort="1767657600000" data-listing-file-modified-sort="1770182835404" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="418">
 <a href="./labs/01.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
-<img loading="lazy" src="./images/01.png" class="thumbnail-image card-img" style="height: 150px;">
+<img loading="lazy" src="./images/lab01-wsl-vscode.png" class="thumbnail-image card-img" style="height: 150px;">
 </p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
@@ -475,17 +423,17 @@ In-Class Lab 1 (10 points)
 
 </div>
 <div class="listing-date">
-Jan 8, 2026
+Jan 6, 2026
 </div>
 </div>
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="1" data-listing-date-sort="1768348800000" data-listing-file-modified-sort="1770180787551" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="325">
+<div class="g-col-1" data-index="2" data-listing-date-sort="1768348800000" data-listing-file-modified-sort="1770182835404" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="941">
 <a href="./labs/02.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
-<img loading="lazy" src="./images/01.png" class="thumbnail-image card-img" style="height: 150px;">
+<img loading="lazy" src="./images/lab02-netcat-tcpdump.png" class="thumbnail-image card-img" style="height: 150px;">
 </p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
@@ -505,10 +453,33 @@ Jan 14, 2026
 </div>
 </div></a>
 </div>
+<div class="g-col-1" data-index="3" data-listing-date-sort="1770163200000" data-listing-file-modified-sort="1770182835404" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1213">
+<a href="./labs/03.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img loading="lazy" src="./images/lab03-socket-http.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+In-Class Lab 3 (10 points)
+</h5>
+<div class="card-text listing-description delink">
+<p>Basic Client-Server Communication with HTTP and netcat</p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+
+</div>
+<div class="listing-date">
+Feb 4, 2026
+</div>
+</div>
+</div>
+</div></a>
+</div>
 </div>
 <div class="listing-no-matching d-none">No matching items</div>
 </div>
-</section>
 <section id="course-resources" class="level2">
 <h2 class="anchored" data-anchor-id="course-resources">Course Resources</h2>
 <p>All the resources listed below are considered common knowledge and do not need to be cited.</p>
@@ -545,10 +516,10 @@ Jan 14, 2026
 <h2 class="anchored" data-anchor-id="course-schedule">Course Schedule</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 56%">
+<col style="width: 55%">
 <col style="width: 8%">
 <col style="width: 8%">
-<col style="width: 15%">
+<col style="width: 17%">
 <col style="width: 10%">
 </colgroup>
 <thead>
@@ -565,7 +536,7 @@ Jan 14, 2026
 <td>1- Introduction to Networking</td>
 <td>07 Jan</td>
 <td>06 Jan</td>
-<td>Network Tool Usage Agreement</td>
+<td>Usage Agreement</td>
 <td>11 Jan</td>
 </tr>
 <tr class="even">
@@ -639,133 +610,133 @@ Jan 14, 2026
 <td></td>
 </tr>
 <tr class="even">
-<td>12-</td>
+<td>12- UDP and QUIC</td>
 <td>23 Feb</td>
 <td>24 Feb</td>
-<td></td>
-<td></td>
+<td>Problem Set 7</td>
+<td>08 Mar</td>
 </tr>
 <tr class="odd">
-<td>13-</td>
+<td>WPR1 Review</td>
 <td>25 Feb</td>
 <td>26 Feb</td>
 <td></td>
 <td></td>
 </tr>
 <tr class="even">
-<td>14-</td>
+<td>WPR1</td>
 <td>02 Mar</td>
 <td>03 Mar</td>
-<td></td>
-<td></td>
+<td>Project 1</td>
+<td>22 Mar</td>
 </tr>
 <tr class="odd">
-<td>15-</td>
+<td>13- Network Layer</td>
 <td>04 Mar</td>
 <td>05 Mar</td>
 <td></td>
 <td></td>
 </tr>
 <tr class="even">
-<td>16-</td>
+<td>14- Internet Protocol v4</td>
 <td>09 Mar</td>
 <td>10 Mar</td>
-<td></td>
-<td></td>
+<td>Problem Set 8</td>
+<td>20 Mar</td>
 </tr>
 <tr class="odd">
-<td>17-</td>
+<td>15- Internet Protocol v6</td>
 <td>11 Mar</td>
 <td>12 Mar</td>
 <td></td>
 <td></td>
 </tr>
 <tr class="even">
-<td>18-</td>
+<td>16- Routing Protocols- Link State, Distance Vector</td>
 <td>16 Mar</td>
 <td>17 Mar</td>
 <td></td>
 <td></td>
 </tr>
 <tr class="odd">
-<td>19-</td>
+<td>17- Control Plane</td>
 <td>18 Mar</td>
 <td>19 Mar</td>
-<td></td>
-<td></td>
+<td>Project 2</td>
+<td>12 Apr</td>
 </tr>
 <tr class="even">
-<td>20-</td>
+<td>18- Link Layer</td>
 <td>23 Mar</td>
 <td>24 Mar</td>
-<td></td>
-<td></td>
+<td>Problem Set 9</td>
+<td>06 Apr</td>
 </tr>
 <tr class="odd">
-<td>21-</td>
+<td>19- Multiple Access Protocols &amp; Switched LANs</td>
 <td>25 Mar</td>
 <td>26 Mar</td>
 <td></td>
 <td></td>
 </tr>
 <tr class="even">
-<td>22-</td>
+<td>20- Wireless Networks</td>
 <td>07 Apr</td>
 <td>08 Apr</td>
-<td></td>
-<td></td>
+<td>Problem Set 10</td>
+<td>10 Apr</td>
 </tr>
 <tr class="odd">
-<td>23-</td>
+<td>21- Bluetooth &amp; Cellular Networks</td>
 <td>09 Apr</td>
 <td>10 Apr</td>
 <td></td>
 <td></td>
 </tr>
 <tr class="even">
-<td>24-</td>
+<td>22- Network Security Basics</td>
 <td>13 Apr</td>
 <td>14 Apr</td>
-<td></td>
-<td></td>
+<td>Project 3</td>
+<td>10 May</td>
 </tr>
 <tr class="odd">
-<td>25-</td>
+<td>23- Transport Layer Security</td>
 <td>15 Apr</td>
 <td>16 Apr</td>
 <td></td>
 <td></td>
 </tr>
 <tr class="even">
-<td>26-</td>
+<td>24- VPNs and Wireless Network Security</td>
 <td>20 Apr</td>
 <td>21 Apr</td>
 <td></td>
 <td></td>
 </tr>
 <tr class="odd">
-<td>27-</td>
+<td>WPR2</td>
 <td>27 Apr</td>
 <td>28 Apr</td>
 <td></td>
 <td></td>
 </tr>
 <tr class="even">
-<td>28-</td>
+<td>25- Network Security Appliances</td>
 <td>29 Apr</td>
 <td>30 Apr</td>
 <td></td>
 <td></td>
 </tr>
 <tr class="odd">
-<td>29-</td>
+<td>26- TBD</td>
 <td>04 May</td>
 <td>05 May</td>
 <td></td>
 <td></td>
 </tr>
 <tr class="even">
-<td>30-</td>
+<td>27- TBD</td>
 <td>06 May</td>
 <td>07 May</td>
 <td></td>
@@ -879,6 +850,13 @@ Jan 14, 2026
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
         }
       }
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {

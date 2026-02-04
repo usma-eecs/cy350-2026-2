@@ -84,104 +84,6 @@
     "text": "Digital Recording\nCadets are prohibited from recording any portion of the course (lecture, board work, quizzes, etc). This includes audio, video, or images. Exceptions are to record your own work, or as explicitly granted by the instructor.\nAs per DPOM 02-20 Procedures for Teaching in a Remote Environment, paragraph 5d, CY350 may record any lessons taught with remote attendees. Only the instructor may record the lesson. Cadets will have access to the lesson videos once released by the instructor and approved by the Course Director. The recordings will be saved on Microsoft Streams and the permissions are managed by the Instructor. A link will be posted on the official course website and/or Teams.\nVideo Privacy. The recordings are for internal course use only. They are a great tool to review content. The recording links or videos will not be shared outside of students enrolled in the course. This limitation protects Cadet and Instructor privacy while also allowing for candid discussion."
   },
   {
-    "objectID": "labs/02.html",
-    "href": "labs/02.html",
-    "title": "In-Class Lab 2 (10 points)",
-    "section": "",
-    "text": "Upon the completion of all activities, have your instructor review your work and track your progress to receive full credit."
-  },
-  {
-    "objectID": "labs/02.html#environment",
-    "href": "labs/02.html#environment",
-    "title": "In-Class Lab 2 (10 points)",
-    "section": "Environment",
-    "text": "Environment\nWrite your program in VSCode connected to WSL (Ubuntu). If you have not yet set this up, refer to the instructions in lab 1.\nOpen three terimnals and display them side-by-side: 1. In the first terminal, run your server program. 2. In the second terminal, run your client program. 3. In the third terminal, use tcpdump or tshark to capture and display the packets exchanged between client and server. Filter by port number to minimize noise."
-  },
-  {
-    "objectID": "labs/02.html#run-server-program",
-    "href": "labs/02.html#run-server-program",
-    "title": "In-Class Lab 2 (10 points)",
-    "section": "Run Server Program",
-    "text": "Run Server Program\nUse the provided 02-server.py. Review the code and understand what it does. Run it in the first terminal. Ensure that it is listening on the correct port that you are going to use for the client."
-  },
-  {
-    "objectID": "labs/02.html#verify-server",
-    "href": "labs/02.html#verify-server",
-    "title": "In-Class Lab 2 (10 points)",
-    "section": "Verify Server",
-    "text": "Verify Server\n\nUse netstat -tuln or ss -tuln to verify that the server is listening on the expected port.\nUse nc localhost &lt;port&gt; to connect to the server and verify it responds correctly.\n\nWhat does nc or netcat do?"
-  },
-  {
-    "objectID": "labs/02.html#client-program",
-    "href": "labs/02.html#client-program",
-    "title": "In-Class Lab 2 (10 points)",
-    "section": "Client Program",
-    "text": "Client Program\nUse the provided 02-client.py as a starter. Modify it as needed to connect to the server you started in the first terminal. Run it in the second terminal."
-  },
-  {
-    "objectID": "labs/02.html#capture-traffic",
-    "href": "labs/02.html#capture-traffic",
-    "title": "In-Class Lab 2 (10 points)",
-    "section": "Capture Traffic",
-    "text": "Capture Traffic\nIn the third terminal, run sudo tcpdump -i eth0 ... any port &lt;port&gt; or sudo tshark -i any -f \"port &lt;port&gt;\" to capture the traffic between the client and server. See lab 1 for tcpdump command line flags. Observe the packets being exchanged. Save your capture to a file for later analysis."
-  },
-  {
-    "objectID": "labs/02.html#analyze-capture",
-    "href": "labs/02.html#analyze-capture",
-    "title": "In-Class Lab 2 (10 points)",
-    "section": "Analyze Capture",
-    "text": "Analyze Capture\nUse Wireshark to open the saved capture file. Analyze the packets exchanged between the client and server. Identify the request and response messages. Note any interesting details about the protocol being used. Reason about how you would distinguish messages from different clients if multiple clients were connected simultaneously."
-  },
-  {
-    "objectID": "labs/02.html#instructor-review",
-    "href": "labs/02.html#instructor-review",
-    "title": "In-Class Lab 2 (10 points)",
-    "section": "Instructor Review",
-    "text": "Instructor Review\nTo complete the lab, you must bring up all three terminals and demonstrate the working client-server interaction along with the packet capture to your instructor."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "CY350 Computer Networks",
-    "section": "",
-    "text": "This course provides an introduction to computer networks from both a theoretical and software design perspective. The goal is to provide the basic concepts necessary to understand the design and operation of computer networks and gain experience writing programs that use the network. Each level of the TCP/IP protocol stack is examined in detail with a heavy emphasis on socket programming, theoretical foundations, and cybersecurity implications."
-  },
-  {
-    "objectID": "index.html#course-objectives",
-    "href": "index.html#course-objectives",
-    "title": "CY350 Computer Networks",
-    "section": "Course Objectives",
-    "text": "Course Objectives\n\nUnderstand and apply the five-layer network model.\nCompare and contrast network protocols and architectures.\nDevelop network applications using the socket application programming interface.\nUnderstand fundamental network vulnerabilities and associated mitigation techniques."
-  },
-  {
-    "objectID": "index.html#content",
-    "href": "index.html#content",
-    "title": "CY350 Computer Networks",
-    "section": "Content",
-    "text": "Content\n\n\n\n\n\n\n\n\n\n\nCourse Syllabus\n\n\nWelcome to CY350 - Computer Networks!\n\n\n\n\n\n\nJan 5, 2026\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html#in-class-labs",
-    "href": "index.html#in-class-labs",
-    "title": "CY350 Computer Networks",
-    "section": "In-Class Labs",
-    "text": "In-Class Labs\n\n\n\n\n\n\n\n\n\n\nIn-Class Lab 1 (10 points)\n\n\nEnvironment Setup with WSL and VSCode\n\n\n\n\n\n\nJan 8, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nIn-Class Lab 2 (10 points)\n\n\nAnalyzing Client-Server Communication with netcat and tcpdump\n\n\n\n\n\n\nJan 14, 2026\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html#course-resources",
-    "href": "index.html#course-resources",
-    "title": "CY350 Computer Networks",
-    "section": "Course Resources",
-    "text": "Course Resources\nAll the resources listed below are considered common knowledge and do not need to be cited.\n\nWhere to get the textbook\n\nComputer Networking (pearson.com)\nComputer Networking: A Top-Down Approach: James Kurose: 9789356061316: Amazon.com: Books\nAmazon.com: Computer Networking [RENTAL EDITION]: 9780136681557: James Kurose: Books\nSee Modules &gt; Course Resources\n\n\n\nTextbook Assistance Websites\n\nTextbook Companion Website\nAuthor Website\n\n\n\nGuides and Documentation\n\nPython 3 Documentation\nPython f-strings\nPython Notes for Professionals\nLinux Notes for Professionals\nCY350 Linux Setup Guide\nCY350 Python Refresher\nUnofficial Instrtuctor Website: cy350.bhatia.dev"
-  },
-  {
-    "objectID": "index.html#course-schedule",
-    "href": "index.html#course-schedule",
-    "title": "CY350 Computer Networks",
-    "section": "Course Schedule",
-    "text": "Course Schedule\n\n\n\n\n\n\n\n\n\n\nLesson\nDay1\nDay2\nAssigned\nDue Date\n\n\n\n\n1- Introduction to Networking\n07 Jan\n06 Jan\nNetwork Tool Usage Agreement\n11 Jan\n\n\n2- Protocols, Layers, and Abstraction\n09 Jan\n08 Jan\nProblem Set 1\n18 Jan\n\n\n3- Assessing Terrain Conditions: Network Metrics\n12 Jan\n13 Jan\nProblem Set 2\n25 Jan\n\n\n4- Application Layer\n14 Jan\n15 Jan\n\n\n\n\n5- HTTP and the Web\n20 Jan\n21 Jan\n\n\n\n\n6- DNS and Email\n30 Jan\n27 Jan\nProblem Set 3\n08 Feb\n\n\n7- Socket Programming Lab\n04 Feb\n05 Feb\nProblem Set 4\n15 Feb\n\n\n8- Transport Layer\n09 Feb\n10 Feb\nProblem Set 5\n22 Feb\n\n\n9- Reliable Data Transfer\n11 Feb\n12 Feb\n\n\n\n\n10- Transmission Control Protocol\n18 Feb\n17 Feb\nProblem Set 6\n01 Mar\n\n\n11- Flow and Congestion Control\n20 Feb\n19 Feb\n\n\n\n\n12-\n23 Feb\n24 Feb\n\n\n\n\n13-\n25 Feb\n26 Feb\n\n\n\n\n14-\n02 Mar\n03 Mar\n\n\n\n\n15-\n04 Mar\n05 Mar\n\n\n\n\n16-\n09 Mar\n10 Mar\n\n\n\n\n17-\n11 Mar\n12 Mar\n\n\n\n\n18-\n16 Mar\n17 Mar\n\n\n\n\n19-\n18 Mar\n19 Mar\n\n\n\n\n20-\n23 Mar\n24 Mar\n\n\n\n\n21-\n25 Mar\n26 Mar\n\n\n\n\n22-\n07 Apr\n08 Apr\n\n\n\n\n23-\n09 Apr\n10 Apr\n\n\n\n\n24-\n13 Apr\n14 Apr\n\n\n\n\n25-\n15 Apr\n16 Apr\n\n\n\n\n26-\n20 Apr\n21 Apr\n\n\n\n\n27-\n27 Apr\n28 Apr\n\n\n\n\n28-\n29 Apr\n30 Apr\n\n\n\n\n29-\n04 May\n05 May\n\n\n\n\n30-\n06 May\n07 May"
-  },
-  {
     "objectID": "labs/01.html",
     "href": "labs/01.html",
     "title": "In-Class Lab 1 (10 points)",
@@ -236,5 +138,110 @@
     "title": "In-Class Lab 1 (10 points)",
     "section": "Hide AI features in vscode",
     "text": "Hide AI features in vscode\nFeatures &gt; Chat &gt; Disable AI Features to protect yourself from unintentional AI completions!\nAlternatively:\n\nPress Ctrl + Shift + P\nSearch for “Hide AI Features”\nUnder setting, check the “Disable” box"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "CY350 Computer Networks",
+    "section": "",
+    "text": "This course provides an introduction to computer networks from both a theoretical and software design perspective. The goal is to provide the basic concepts necessary to understand the design and operation of computer networks and gain experience writing programs that use the network. Each level of the TCP/IP protocol stack is examined in detail with a heavy emphasis on socket programming, theoretical foundations, and cybersecurity implications."
+  },
+  {
+    "objectID": "index.html#course-resources",
+    "href": "index.html#course-resources",
+    "title": "CY350 Computer Networks",
+    "section": "Course Resources",
+    "text": "Course Resources\nAll the resources listed below are considered common knowledge and do not need to be cited.\n\nWhere to get the textbook\n\nComputer Networking (pearson.com)\nComputer Networking: A Top-Down Approach: James Kurose: 9789356061316: Amazon.com: Books\nAmazon.com: Computer Networking [RENTAL EDITION]: 9780136681557: James Kurose: Books\nSee Modules &gt; Course Resources\n\n\n\nTextbook Assistance Websites\n\nTextbook Companion Website\nAuthor Website\n\n\n\nGuides and Documentation\n\nPython 3 Documentation\nPython f-strings\nPython Notes for Professionals\nLinux Notes for Professionals\nCY350 Linux Setup Guide\nCY350 Python Refresher\nUnofficial Instrtuctor Website: cy350.bhatia.dev"
+  },
+  {
+    "objectID": "index.html#course-schedule",
+    "href": "index.html#course-schedule",
+    "title": "CY350 Computer Networks",
+    "section": "Course Schedule",
+    "text": "Course Schedule\n\n\n\n\n\n\n\n\n\n\nLesson\nDay1\nDay2\nAssigned\nDue Date\n\n\n\n\n1- Introduction to Networking\n07 Jan\n06 Jan\nUsage Agreement\n11 Jan\n\n\n2- Protocols, Layers, and Abstraction\n09 Jan\n08 Jan\nProblem Set 1\n18 Jan\n\n\n3- Assessing Terrain Conditions: Network Metrics\n12 Jan\n13 Jan\nProblem Set 2\n25 Jan\n\n\n4- Application Layer\n14 Jan\n15 Jan\n\n\n\n\n5- HTTP and the Web\n20 Jan\n21 Jan\n\n\n\n\n6- DNS and Email\n30 Jan\n27 Jan\nProblem Set 3\n08 Feb\n\n\n7- Socket Programming Lab\n04 Feb\n05 Feb\nProblem Set 4\n15 Feb\n\n\n8- Transport Layer\n09 Feb\n10 Feb\nProblem Set 5\n22 Feb\n\n\n9- Reliable Data Transfer\n11 Feb\n12 Feb\n\n\n\n\n10- Transmission Control Protocol\n18 Feb\n17 Feb\nProblem Set 6\n01 Mar\n\n\n11- Flow and Congestion Control\n20 Feb\n19 Feb\n\n\n\n\n12- UDP and QUIC\n23 Feb\n24 Feb\nProblem Set 7\n08 Mar\n\n\nWPR1 Review\n25 Feb\n26 Feb\n\n\n\n\nWPR1\n02 Mar\n03 Mar\nProject 1\n22 Mar\n\n\n13- Network Layer\n04 Mar\n05 Mar\n\n\n\n\n14- Internet Protocol v4\n09 Mar\n10 Mar\nProblem Set 8\n20 Mar\n\n\n15- Internet Protocol v6\n11 Mar\n12 Mar\n\n\n\n\n16- Routing Protocols- Link State, Distance Vector\n16 Mar\n17 Mar\n\n\n\n\n17- Control Plane\n18 Mar\n19 Mar\nProject 2\n12 Apr\n\n\n18- Link Layer\n23 Mar\n24 Mar\nProblem Set 9\n06 Apr\n\n\n19- Multiple Access Protocols & Switched LANs\n25 Mar\n26 Mar\n\n\n\n\n20- Wireless Networks\n07 Apr\n08 Apr\nProblem Set 10\n10 Apr\n\n\n21- Bluetooth & Cellular Networks\n09 Apr\n10 Apr\n\n\n\n\n22- Network Security Basics\n13 Apr\n14 Apr\nProject 3\n10 May\n\n\n23- Transport Layer Security\n15 Apr\n16 Apr\n\n\n\n\n24- VPNs and Wireless Network Security\n20 Apr\n21 Apr\n\n\n\n\nWPR2\n27 Apr\n28 Apr\n\n\n\n\n25- Network Security Appliances\n29 Apr\n30 Apr\n\n\n\n\n26- TBD\n04 May\n05 May\n\n\n\n\n27- TBD\n06 May\n07 May"
+  },
+  {
+    "objectID": "labs/02.html",
+    "href": "labs/02.html",
+    "title": "In-Class Lab 2 (10 points)",
+    "section": "",
+    "text": "Upon the completion of all activities, have your instructor review your work and track your progress to receive full credit."
+  },
+  {
+    "objectID": "labs/02.html#environment",
+    "href": "labs/02.html#environment",
+    "title": "In-Class Lab 2 (10 points)",
+    "section": "Environment",
+    "text": "Environment\nWrite your program in VSCode connected to WSL (Ubuntu). If you have not yet set this up, refer to the instructions in lab 1."
+  },
+  {
+    "objectID": "labs/02.html#run-server-program",
+    "href": "labs/02.html#run-server-program",
+    "title": "In-Class Lab 2 (10 points)",
+    "section": "Run Server Program",
+    "text": "Run Server Program\nComplete the following server program. Review the code and understand what it does. Run it in the first terminal. Ensure that it is listening on the correct port that you are going to use for the client.\nimport socket\n\n\ndef main() -&gt; None:\n    host = \"0.0.0.0\"\n    port = 8000\n    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    try:\n        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)\n        s.bind((host, port))\n        s.listen(5)\n        print(f\"Listening on {host}:{port}\")\n    except Exception as e:\n        print(f\"Failed to set up server: {e}\")\n        return\n\n    try:\n        while True:\n            conn, addr = s.accept()\n            with conn:\n                print(f\"Client connected: {addr}\")\n                while True:\n                    data = conn.recv(4096)\n                    if not data:\n                        break\n                    text = data.decode(\"utf-8\")\n                    response = text.upper()\n                    responseBytes = response.encode(\"utf-8\")\n                    conn.sendall(responseBytes)\n\n    # capture keyboard interrupt to gracefully shutdown the server\n    except KeyboardInterrupt:\n        print(\"Shutting down server.\")\n        s.close()\n\n\nif __name__ == \"__main__\":\n    main()"
+  },
+  {
+    "objectID": "labs/02.html#verify-server",
+    "href": "labs/02.html#verify-server",
+    "title": "In-Class Lab 2 (10 points)",
+    "section": "Verify Server",
+    "text": "Verify Server\n\nUse netstat -tuln or ss -tuln to verify that the server is listening on the expected port.\nUse nc localhost &lt;port&gt; to connect to the server and verify it responds correctly.\n\nWhat does nc or netcat do?"
+  },
+  {
+    "objectID": "labs/02.html#client-program",
+    "href": "labs/02.html#client-program",
+    "title": "In-Class Lab 2 (10 points)",
+    "section": "Client Program",
+    "text": "Client Program\nUpdate the following socket client. Modify it as needed to connect to the server you started in the first terminal. Run it in the second terminal.\nimport socket\n\nHOST = \"127.0.0.1\"\nPORT = 8000\n\n\ndef main() -&gt; None:\n\n    # see https://docs.python.org/3/library/socket.html\n    # Example -&gt; Echo client program\n\n    # Create a TCP socket\n    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n\n    # TODO: connect to the server\n    sock.connect((HOST, PORT))\n\n    # ask for user input in a loop\n    while True:\n        message = input(\"&gt; \")\n        if message == \"exit\":\n            break\n\n        # TODO: encode user input into bytes\n\n        # TODO: send the bytes to the server\n\n        # TODO: receive the response from the server\n\n        # TODO: decode the response into a string\n\n        # TODO: print the response\n        print(f\"Not Server Response: {message}\")\n\n    # TODO: close the connection to the server\n\n\nif __name__ == \"__main__\":\n    main()"
+  },
+  {
+    "objectID": "labs/02.html#capture-traffic",
+    "href": "labs/02.html#capture-traffic",
+    "title": "In-Class Lab 2 (10 points)",
+    "section": "Capture Traffic",
+    "text": "Capture Traffic\nIn the third terminal, run tcpdump or tshark to capture the traffic between the client and server. Filter by port number to minimize noise. Run man tcpdump or see lab 1 for the correct command line flags. Observe the packets being exchanged. Save your capture to a file for later analysis.\nsudo tcpdump -i any --print -w ... port &lt;port&gt;\nsudo tshark -i any -w ... -f \"tcp port &lt;port&gt;\"\n\nWhy do we need sudo to run these commands?\nWhat does the -i any flag do?\nWhat does the -w flag do?"
+  },
+  {
+    "objectID": "labs/02.html#analyze-capture",
+    "href": "labs/02.html#analyze-capture",
+    "title": "In-Class Lab 2 (10 points)",
+    "section": "Analyze Capture",
+    "text": "Analyze Capture\nUse Wireshark to open the saved capture file. Analyze the packets exchanged between the client and server. Identify the request and response messages. Note any interesting details about the protocol being used. Reason about how you would distinguish messages from different clients if multiple clients were connected simultaneously.\n\nWhere did the communication begin? Do you see the SYN, SYN-ACK, ACK handshake in the TCP connection setup?\nWhere did the communication end? Do you see the FIN, ACK, FIN, ACK handshake in the TCP connection teardown?\nHow many bytes were sent in each direction?"
+  },
+  {
+    "objectID": "labs/02.html#instructor-review",
+    "href": "labs/02.html#instructor-review",
+    "title": "In-Class Lab 2 (10 points)",
+    "section": "Instructor Review",
+    "text": "Instructor Review\nTo complete the lab, show your instructor the following:\n\nPacket capture that includes the TCP handshake, client-server communication, and TCP teardown\nThe client and server terminal outputs that demonstrate the working client-server interaction\nYour client and server code with the TODOs completed"
+  },
+  {
+    "objectID": "labs/03.html",
+    "href": "labs/03.html",
+    "title": "In-Class Lab 3 (10 points)",
+    "section": "",
+    "text": "Upon the completion of all activities, have your instructor review your work and track your progress to receive full credit."
+  },
+  {
+    "objectID": "labs/03.html#eecsnet-vm-setup",
+    "href": "labs/03.html#eecsnet-vm-setup",
+    "title": "In-Class Lab 3 (10 points)",
+    "section": "EECSNet VM Setup",
+    "text": "EECSNet VM Setup\n\nVPN to EECSNet by changing the server address to vpn.eecs.ninja in your Cisco AnyConnect client. Login with your EECSNet credentials. Username remains the same and initial password is qwer1234QWER!@#$. Change it immediately. See Linux setup guide for more details.\nLogin to vSphere\nFind your VM by navigating the tree on the left and expanding all folders.\nClick on Launch Web Console button and login using your VM credentials: ubuntu and cy350pass\nStart a DHCP client by running sudo dhcpcd in the terminal\nCheck your VM’s IP address with ip addr. Note down the address for the Ethernet adapter.\n\n\nSSH from Windows (not WSL!)\n\n\n\n\n\n\nNote\n\n\n\nDo not run SSH from Ubuntu or WSL on your local machine. WSL cannot access your EECSNet VPN.\n\n\nFrom a Windows Terminal (PowerShell), run the following command:\nssh ubuntu@&lt;VM_IP_ADDRESS&gt; # e.g. ssh ubuntu@10.20.30.40\nUse your VM password to login. Now you can run commands on your EECSNet VM remotely.\n\n\nPasswordless SSH\n\nOn your Windows laptop, open PowerShell and check if you have existing SSH keys:\ncd ~ # go to your home directory\ncd .ssh # go to the .ssh directory within your home directory\nls # list files in the .ssh directory\nIf you do not have id_ecdsa.pub or id_rsa.pub files or something similar, generate a new SSH key pair: ssh-keygen; press Enter twice to accept defaults.\nCopy your public key to the VM: ssh-copy-id ubuntu@&lt;VM_IP_ADDRESS&gt;\n\nYou will need to enter your VM password one last time.\n\nOptionally, now you can connect your VS Code to your VM using the Remote - SSH extension.\n\nReminder: In VS Code, Features &gt; Chat &gt; Disable AI Features to protect yourself from unintentional AI completions!"
+  },
+  {
+    "objectID": "labs/03.html#netcat-nc",
+    "href": "labs/03.html#netcat-nc",
+    "title": "In-Class Lab 3 (10 points)",
+    "section": "netcat (nc)",
+    "text": "netcat (nc)\nTry the following with your lab partner. Note down each other’s VM IP addresses.\n\nlisten (server)\n\nUse nc (netcat) to create a TCP socket\nListen on port 12345: nc -v -l -p 12345\nWhy did you not enter an IP address? Where do you enter it?\n\n\n\nconnect (client)\n\nOn the other VM, connect to the socket above: nc PARTNER_VM_IP_ADDRESS 12345\nType a message and hit enter. Can your partner see it?\n\n\n\nsend a file from client to server\n\nOn the server:\nnc -v -l -p 23456 &gt; incoming.jpg\nOn the client:\nwget http.cat/404 # get a cat picture from the internet\nnc PARTNER_VM_IP_ADDRESS 23456 &lt; 404 # send it to your partner\n\n\n\nsend a file from server to client\n\nOn the server:\nwget http.cat/404 # get a cat picture from the internet\nnc -v -l -p 34567 &lt; 404\nOn the client:\nnc PARTNER_VM_IP_ADDRESS 34567 &gt; incoming.jpg\n\n\n\nUDP mode\n\nRepeat the above steps using UDP instead of TCP by adding -u flag to nc commands.\nWhat differences do you notice?"
+  },
+  {
+    "objectID": "labs/03.html#http-server",
+    "href": "labs/03.html#http-server",
+    "title": "In-Class Lab 3 (10 points)",
+    "section": "HTTP Server",
+    "text": "HTTP Server\nCopy the following code into a file named http_server.py on your VM or WSL. Try the copy icon on the top-right of the code block. Fill in the blanks. Run it to start listening for HTTP requests on port 8080. You can stop the server with Ctrl+C.\n\nStarter Code\n\n\nhttp_server.py\n\nimport socket\n\n\nclass TCPServer:\n    def __init__(self, server_ip='127.0.0.128', server_port=8080):\n        print(\"Initializing TCP Server...\")\n        self.server_ip = server_ip\n        self.server_port = server_port\n        self.listening = True\n        print(f\"Creating TCP socket\")\n        self.setup_socket()\n\n        self.resources = {\n            \"/\": \"Welcome to the TCP Server!\",\n            \"/hello\": \"Hello, TCP Client!\",\n            \"/goodbye\": \"Goodbye from the TCP Server!\",\n            \"/joke\": \"Why do programmers prefer dark mode? Because light attracts bugs!\"\n        }\n\n    def setup_socket(self) -&gt; None:\n        pass\n        # TODO create a TCP listening socket\n        # TODO bind the socket\n        # TODO start listening\n        #\n\n    def parse_request(self, request) -&gt; tuple[str | None, str | None]:\n        pass\n        # TODO parse the request and extract the method and resource if applicable\n\n    def build_http_response(self, request) -&gt; str:\n        pass\n        # TODO parse the resource and create the corresponding message\n        # TODO 200 OK\n        # TODO 404 Not Found\n        # TODO 400 Bad Request\n\n    def send_response(self, response) -&gt; None:\n        pass\n        # TODO send the response through the connection\n\n    def listen(self) -&gt; None:\n        pass\n        # TODO accept a connection\n        # TODO store the request somewhere\n        # TODO use the connection to listen for the request\n        # TODO once the request is received\n\n        # TODO build the response\n        # TODO send the response\n        # TODO close the connection\n\n    def close_server(self) -&gt; None:\n        self.sock.close()\n        print(\"Listening socket closed.\")\n\n    def close_connection(self) -&gt; None:\n        pass\n        # TODO close the connection socket\n\n\nif __name__ == \"__main__\":\n    server = TCPServer()\n    try:\n        server.listen()\n    except KeyboardInterrupt:\n        print(\"Shutting down server...\")\n        server.listening = False\n    finally:\n        server.close_server()\n\n\n\nTesting\n\nUse curl to test your server: curl http://localhost:8080/hello\n\nYou should see the message “Hello, TCP Client!” in the terminal.\n\nUse curl -v to see the full HTTP response.\nTry other resources like /, /goodbye, and /joke.\nTry an invalid resource like /invalid to see the 404 response."
   }
 ]
