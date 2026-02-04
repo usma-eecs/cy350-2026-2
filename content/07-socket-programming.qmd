@@ -1,0 +1,24 @@
+---
+format: html
+title: Socket Programming
+description: Creating Network Applications
+date: 2026-02-04
+image: /images/07-socket-programming.png
+---
+
+#### Preparation
+
+- $2.7$ Socket Programming: Creating Network Applications
+
+#### Lesson Objectives
+
+- Define a socket as the programming interface between application and transport layer
+- Explain why network data must be encoded as bytes rather than transmitted as string
+- Identify the differences between TCP and UDP sockets
+- Implement a basic HTTP server using Python socket library
+
+#### Exercise
+
+- Use `netcat` to listen on a port and send messages
+- Write an HTTP server that responds to basic GET requests
+- Use `curl` to test your server

@@ -1,0 +1,38 @@
+---
+format: html
+title: HTTP and the Web
+description: Protocols and mechanisms
+date: 2026-01-20
+image: /images/05-http-web.png
+---
+
+#### Preparation
+
+- $2.2$ The Web and HTTP
+
+#### Lesson Objectives
+
+- Explain HTTP as an implementation of the four protocol components
+- Analyze HTTP request and response messages structure and interpret common headers
+- Differentiate core HTTP methods and status codes
+- Distinguish between persistent and non-persistent HTTP connections
+- Understand HTTP cookies and their security implications
+- Describe web caching and conditional GET mechanisms
+
+#### Discussion Plan
+
+- Describe the HTTP client–server model and why HTTP is stateless; identify where HTTP sits relative to TCP/UDP and typical ports (80/443).
+- Explain HTTP request and response message structure (start lines, header fields, body) and interpret common headers (e.g., Host, User-Agent, Accept, Content-Type, Content-Length, Connection).
+- Differentiate core HTTP methods—GET, HEAD, POST (and recognize PUT, DELETE at a high level)—and select an appropriate method for a given use case.
+- Interpret HTTP status codes (1xx–5xx), with emphasis on common codes (200, 301/302, 304, 400, 401/403, 404, 500).
+- Compare non-persistent vs persistent connections in HTTP/1.1 (Keep-Alive) and reason about their latency/RTT implications for page load.
+- Contrast HTTP/1.1, HTTP/2, and HTTP/3 (QUIC) at a high level—multiplexing, header compression (HPACK/QPACK), binary framing, connection migration—and predict performance impacts.
+- Explain how cookies provide state over a stateless protocol (via Set-Cookie/Cookie) and discuss basic privacy/security implications.
+- Describe web caching and conditional GET mechanisms (e.g., ETag, If-None-Match, Last-Modified, If-Modified-Since) and evaluate their effect on bandwidth and latency.
+- Outline the role of CDNs and proxy caches in HTTP delivery and assess trade-offs for content freshness vs performance.
+- Summarize how HTTPS (HTTP over TLS) changes observability and intermediaries’ behavior (e.g., caching, header visibility), while keeping the application semantics intact.
+
+#### Exercise
+
+- Use `curl -i` or `netcat` to manually craft HTTP requests and interpret responses.
+- Use Wireshark to inspect HTTP traffic and identify cookies.

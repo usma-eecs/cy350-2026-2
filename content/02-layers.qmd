@@ -1,0 +1,30 @@
+---
+format: html
+title: Protocols, Layers, and Abstraction
+description: How networking is structured
+date: 2026-01-08
+image: /images/02-layers.png
+---
+
+#### Lesson Objectives
+
+- Explain the role of each layer in the TCP/IP model
+- Define network protocol
+- Explain how protocol design principles enable networks
+- Why abstraction fails under attack or congestion
+- Identify network traffic using Wireshark / Wireview
+
+#### Preparation
+
+- $1.1$ What is the Internet?
+- $1.5$ Protocol Layers and Their Service Models
+- $1.6$ Networks Under Attack
+- $1.2$ The Network Edge (skim)
+- $1.3$ The Network Core (skim)
+- $1.7$ History of Computer Networking and the Internet (skim)
+
+#### Exercise
+
+- Use Wireview to identify layers and protocols in captured traffic.
+- Map observed protocols to TCP/IP layers.
+- Draw the path of a Signal or Whatsapp message — what must go right?

@@ -1,0 +1,25 @@
+---
+format: html
+title: Network Evolution and Measuring Performance
+description: Delay, loss, and throughput
+date: 2026-01-12
+image: /images/03-metrics.png
+---
+
+#### Preparation
+
+- $1.3$ The Network Core
+- $1.4$ Delay, Loss, and Throughput in Packet-Switched Networks
+
+#### Lesson Objectives
+
+- Explain the evolution from circuit switching to packet switching
+- Describe how frequency division multiplexing (FDM) and time division multiplexing (TDM) enable shared use of circuits
+- Define bandwidth, throughput, and delay (including its components)
+- Calculate throughput and delay
+
+#### Exercise
+
+- Use a speed test (e.g. fast.com) to measure network performance; turn on "all metrics"; contrast wired vs wireless.
+- Given a network scenario, calculate end-to-end delay and throughput.
+- Contention exercise: given multiple users sharing a link, calculate individual throughput and maximum number of users.

@@ -1,0 +1,35 @@
+---
+format: html
+title: Introduction
+description: Computer Networking and the Internet
+date: 2026-01-06
+image: /images/01-intro.png
+---
+
+#### Lesson Objectives
+
+- Describe the organization of the Internet.
+- Understand the unique challenges of network operations
+- Internet as a *best-effort* system
+- Why cybersecurity depends on networking
+
+#### Preparation
+
+- $1.1$ What is the Internet?
+- $1.3.3$ A Network of Networks
+- $1.2$ The Network Edge (skim)
+- $1.3$ The Network Core (skim)
+- $1.7$ History of Computer Networking and the Internet (skim)
+
+#### Exercise
+
+1. Verify virtual machines, SSH, WSL, vscode setup.
+2. Linux refresher
+    - `ls`, `cd`, `pwd`, `mkdir`, `rm`, `cp`, `mv`
+    - `cat`, `less`, `head`, `tail`, `grep`, `find`
+    - `sudo`, `pip`, `apt`
+3. Try basic commands and programs
+    - `ping`, `traceroute`, `dig`
+    - `netcat`, `curl`
+    - `wireshark`, `wireview`
+4. Run Python "hello world" program.

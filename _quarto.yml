@@ -2,9 +2,8 @@ project:
   type: website
   render:
     - index.qmd
-    - labs/
-    - content/
-    - ps*/
+    - labs/*.qmd
+    - content/*.qmd
   resources:
     - robots.txt
     - resources/

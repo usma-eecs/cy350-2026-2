@@ -1,0 +1,32 @@
+---
+format: html
+title: Application Layer
+description: How data is transmitted over the Internet
+date: 2026-01-14
+image: /images/04-application-layer.png
+---
+
+#### Preparation
+
+- $2.1$ Principles of Network Applications
+
+#### Lesson Objectives
+
+- Explain the role of the application layer and how it interfaces with the transport layer via sockets
+- Differentiate network-application architectures and analyze tradeoffs
+- Describe what constitutes an application-layer protocol
+- Explain basic security considerations at the application layer
+
+#### Discussion Plan
+
+- Explain the role of the application layer in the Internet protocol stack and how it interfaces with the transport layer via sockets.
+- Differentiate network-application architectures - client–server vs peer-to-peer vs hybrid - and analyze tradeoffs (scalability, fault tolerance, management complexity, performance).
+- Define "process" and "socket" and trace how processes use sockets to send/receive messages across the network.
+- Map common application requirements (e.g., web browsing, file transfer, streaming, gaming, VoIP) to transport services (reliability, throughput, latency, jitter, security).
+- Describe what constitutes an application-layer protocol—message types, message syntax, semantics, and rules of exchange—and interpret a minimal protocol transcript (e.g., request/response).
+- Explain basic security considerations at the application layer (confidentiality, integrity, authentication)
+
+#### Exercise
+
+- Use `curl -i` or `netcat` to manually craft HTTP requests and interpret responses.
+- Design a tactical chat application: who initiates? who remembers state?

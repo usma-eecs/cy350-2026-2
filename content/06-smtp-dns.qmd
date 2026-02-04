@@ -1,0 +1,27 @@
+---
+format: html
+title: SMTP and DNS
+description: Email and Directory of the Internet
+date: 2026-01-27
+image: /images/06-smtp-dns.png
+---
+
+#### Preparation
+
+- $2.3$ Electronic Mail
+- $2.4$ DNS - The Internet's Directory Service
+
+#### Lesson Objectives
+
+- Explain the SMTP protocol structure and message flow
+- Understand the essential role of the Domain Name System (DNS) in Internet functionality
+- Trace the DNS resolution process
+- Identify and explain the purpose of common DNS record types (A, NS, CNAME, MX)
+- Understand how DNS and SMTP vulnerabilities can be exploited and identify common mitigation techniques
+
+#### Exercise
+
+- Trace DNS resolution step-by-step
+- Use `dig` to query different DNS record types
+- Use `telnet` or `netcat` to manually send an email via SMTP commands
+- Identify DNS traffic in Wireshark and interpret SMTP exchanges
