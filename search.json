@@ -84,6 +84,55 @@
     "text": "Digital Recording\nCadets are prohibited from recording any portion of the course (lecture, board work, quizzes, etc). This includes audio, video, or images. Exceptions are to record your own work, or as explicitly granted by the instructor.\nAs per DPOM 02-20 Procedures for Teaching in a Remote Environment, paragraph 5d, CY350 may record any lessons taught with remote attendees. Only the instructor may record the lesson. Cadets will have access to the lesson videos once released by the instructor and approved by the Course Director. The recordings will be saved on Microsoft Streams and the permissions are managed by the Instructor. A link will be posted on the official course website and/or Teams.\nVideo Privacy. The recordings are for internal course use only. They are a great tool to review content. The recording links or videos will not be shared outside of students enrolled in the course. This limitation protects Cadet and Instructor privacy while also allowing for candid discussion."
   },
   {
+    "objectID": "content/06-smtp-dns.html",
+    "href": "content/06-smtp-dns.html",
+    "title": "SMTP and DNS",
+    "section": "",
+    "text": "Preparation\n\n\\(2.3\\) Electronic Mail\n\\(2.4\\) DNS - The Internet’s Directory Service\n\n\n\nLesson Objectives\n\nExplain the SMTP protocol structure and message flow\nUnderstand the essential role of the Domain Name System (DNS) in Internet functionality\nTrace the DNS resolution process\nIdentify and explain the purpose of common DNS record types (A, NS, CNAME, MX)\nUnderstand how DNS and SMTP vulnerabilities can be exploited and identify common mitigation techniques\n\n\n\nExercise\n\nTrace DNS resolution step-by-step\nUse dig to query different DNS record types\nUse telnet or netcat to manually send an email via SMTP commands\nIdentify DNS traffic in Wireshark and interpret SMTP exchanges\n\n\n\n\n\nReuseCC BY-NC-SA 4.0"
+  },
+  {
+    "objectID": "content/04-application-layer.html",
+    "href": "content/04-application-layer.html",
+    "title": "Application Layer",
+    "section": "",
+    "text": "Preparation\n\n\\(2.1\\) Principles of Network Applications\n\n\n\nLesson Objectives\n\nExplain the role of the application layer and how it interfaces with the transport layer via sockets\nDifferentiate network-application architectures and analyze tradeoffs\nDescribe what constitutes an application-layer protocol\nExplain basic security considerations at the application layer\n\n\n\nDiscussion Plan\n\nExplain the role of the application layer in the Internet protocol stack and how it interfaces with the transport layer via sockets.\nDifferentiate network-application architectures - client–server vs peer-to-peer vs hybrid - and analyze tradeoffs (scalability, fault tolerance, management complexity, performance).\nDefine “process” and “socket” and trace how processes use sockets to send/receive messages across the network.\nMap common application requirements (e.g., web browsing, file transfer, streaming, gaming, VoIP) to transport services (reliability, throughput, latency, jitter, security).\nDescribe what constitutes an application-layer protocol—message types, message syntax, semantics, and rules of exchange—and interpret a minimal protocol transcript (e.g., request/response).\nExplain basic security considerations at the application layer (confidentiality, integrity, authentication)\n\n\n\nExercise\n\nUse curl -i or netcat to manually craft HTTP requests and interpret responses.\nDesign a tactical chat application: who initiates? who remembers state?\n\n\n\n\n\nReuseCC BY-NC-SA 4.0"
+  },
+  {
+    "objectID": "content/02-layers.html",
+    "href": "content/02-layers.html",
+    "title": "Protocols, Layers, and Abstraction",
+    "section": "",
+    "text": "Lesson Objectives\n\nExplain the role of each layer in the TCP/IP model\nDefine network protocol\nExplain how protocol design principles enable networks\nWhy abstraction fails under attack or congestion\nIdentify network traffic using Wireshark / Wireview\n\n\n\nPreparation\n\n\\(1.1\\) What is the Internet?\n\\(1.5\\) Protocol Layers and Their Service Models\n\\(1.6\\) Networks Under Attack\n\\(1.2\\) The Network Edge (skim)\n\\(1.3\\) The Network Core (skim)\n\\(1.7\\) History of Computer Networking and the Internet (skim)\n\n\n\nExercise\n\nUse Wireview to identify layers and protocols in captured traffic.\nMap observed protocols to TCP/IP layers.\nDraw the path of a Signal or Whatsapp message — what must go right?\n\n\n\n\n\nReuseCC BY-NC-SA 4.0"
+  },
+  {
+    "objectID": "labs/03.html",
+    "href": "labs/03.html",
+    "title": "In-Class Lab 3 (10 points)",
+    "section": "",
+    "text": "Upon the completion of all activities, have your instructor review your work and track your progress to receive full credit."
+  },
+  {
+    "objectID": "labs/03.html#eecsnet-vm-setup",
+    "href": "labs/03.html#eecsnet-vm-setup",
+    "title": "In-Class Lab 3 (10 points)",
+    "section": "EECSNet VM Setup",
+    "text": "EECSNet VM Setup\n\nVPN to EECSNet by changing the server address to vpn.eecs.ninja in your Cisco AnyConnect client. Login with your EECSNet credentials. Username remains the same and initial password is qwer1234QWER!@#$. Change it immediately. See Linux setup guide for more details.\nLogin to vSphere\nFind your VM by navigating the tree on the left and expanding all folders.\nClick on Launch Web Console button and login using your VM credentials: ubuntu and cy350pass\nStart a DHCP client by running sudo dhcpcd in the terminal\nCheck your VM’s IP address with ip addr. Note down the address for the Ethernet adapter.\n\n\nSSH from Windows (not WSL!)\n\n\n\n\n\n\nNote\n\n\n\nDo not run SSH from Ubuntu or WSL on your local machine. WSL cannot access your EECSNet VPN.\n\n\nFrom a Windows Terminal (PowerShell), run the following command:\nssh ubuntu@&lt;VM_IP_ADDRESS&gt; # e.g. ssh ubuntu@10.20.30.40\nUse your VM password to login. Now you can run commands on your EECSNet VM remotely.\n\n\nPasswordless SSH\n\nOn your Windows laptop, open PowerShell and check if you have existing SSH keys:\ncd ~ # go to your home directory\ncd .ssh # go to the .ssh directory within your home directory\nls # list files in the .ssh directory\nIf you do not have id_ecdsa.pub or id_rsa.pub files or something similar, generate a new SSH key pair: ssh-keygen; press Enter twice to accept defaults.\nCopy your public key to the VM: ssh-copy-id ubuntu@&lt;VM_IP_ADDRESS&gt;\n\nYou will need to enter your VM password one last time.\n\nOptionally, now you can connect your VS Code to your VM using the Remote - SSH extension.\n\nReminder: In VS Code, Features &gt; Chat &gt; Disable AI Features to protect yourself from unintentional AI completions!"
+  },
+  {
+    "objectID": "labs/03.html#netcat-nc",
+    "href": "labs/03.html#netcat-nc",
+    "title": "In-Class Lab 3 (10 points)",
+    "section": "netcat (nc)",
+    "text": "netcat (nc)\nTry the following with your lab partner. Note down each other’s VM IP addresses.\n\nlisten (server)\n\nUse nc (netcat) to create a TCP socket\nListen on port 12345: nc -v -l -p 12345\nWhy did you not enter an IP address? Where do you enter it?\n\n\n\nconnect (client)\n\nOn the other VM, connect to the socket above: nc PARTNER_VM_IP_ADDRESS 12345\nType a message and hit enter. Can your partner see it?\n\n\n\nsend a file from client to server\n\nOn the server:\nnc -v -l -p 23456 &gt; incoming.jpg\nOn the client:\nwget http.cat/404 # get a cat picture from the internet\nnc PARTNER_VM_IP_ADDRESS 23456 &lt; 404 # send it to your partner\n\n\n\nsend a file from server to client\n\nOn the server:\nwget http.cat/404 # get a cat picture from the internet\nnc -v -l -p 34567 &lt; 404\nOn the client:\nnc PARTNER_VM_IP_ADDRESS 34567 &gt; incoming.jpg\n\n\n\nUDP mode\n\nRepeat the above steps using UDP instead of TCP by adding -u flag to nc commands.\nWhat differences do you notice?"
+  },
+  {
+    "objectID": "labs/03.html#http-server",
+    "href": "labs/03.html#http-server",
+    "title": "In-Class Lab 3 (10 points)",
+    "section": "HTTP Server",
+    "text": "HTTP Server\nCopy the following code into a file named http_server.py on your VM or WSL. Try the copy icon on the top-right of the code block. Fill in the blanks. Run it to start listening for HTTP requests on port 8080. You can stop the server with Ctrl+C.\n\nStarter Code\n\n\nhttp_server.py\n\nimport socket\n\n\nclass TCPServer:\n    def __init__(self, server_ip='127.0.0.128', server_port=8080):\n        print(\"Initializing TCP Server...\")\n        self.server_ip = server_ip\n        self.server_port = server_port\n        self.listening = True\n        print(f\"Creating TCP socket\")\n        self.setup_socket()\n\n        self.resources = {\n            \"/\": \"Welcome to the TCP Server!\",\n            \"/hello\": \"Hello, TCP Client!\",\n            \"/goodbye\": \"Goodbye from the TCP Server!\",\n            \"/joke\": \"Why do programmers prefer dark mode? Because light attracts bugs!\"\n        }\n\n    def setup_socket(self) -&gt; None:\n        pass\n        # TODO create a TCP listening socket\n        # TODO bind the socket\n        # TODO start listening\n        #\n\n    def parse_request(self, request) -&gt; tuple[str | None, str | None]:\n        pass\n        # TODO parse the request and extract the method and resource if applicable\n\n    def build_http_response(self, request) -&gt; str:\n        pass\n        # TODO parse the resource and create the corresponding message\n        # TODO 200 OK\n        # TODO 404 Not Found\n        # TODO 400 Bad Request\n\n    def send_response(self, response) -&gt; None:\n        pass\n        # TODO send the response through the connection\n\n    def listen(self) -&gt; None:\n        pass\n        # TODO accept a connection\n        # TODO store the request somewhere\n        # TODO use the connection to listen for the request\n        # TODO once the request is received\n\n        # TODO build the response\n        # TODO send the response\n        # TODO close the connection\n\n    def close_server(self) -&gt; None:\n        self.sock.close()\n        print(\"Listening socket closed.\")\n\n    def close_connection(self) -&gt; None:\n        pass\n        # TODO close the connection socket\n\n\nif __name__ == \"__main__\":\n    server = TCPServer()\n    try:\n        server.listen()\n    except KeyboardInterrupt:\n        print(\"Shutting down server...\")\n        server.listening = False\n    finally:\n        server.close_server()\n\n\n\nTesting\n\nUse curl to test your server: curl http://localhost:8080/hello\n\nYou should see the message “Hello, TCP Client!” in the terminal.\n\nUse curl -v to see the full HTTP response.\nTry other resources like /, /goodbye, and /joke.\nTry an invalid resource like /invalid to see the 404 response."
+  },
+  {
     "objectID": "labs/01.html",
     "href": "labs/01.html",
     "title": "In-Class Lab 1 (10 points)",
@@ -145,6 +194,13 @@
     "title": "CY350 Computer Networks",
     "section": "",
     "text": "This course provides an introduction to computer networks from both a theoretical and software design perspective. The goal is to provide the basic concepts necessary to understand the design and operation of computer networks and gain experience writing programs that use the network. Each level of the TCP/IP protocol stack is examined in detail with a heavy emphasis on socket programming, theoretical foundations, and cybersecurity implications."
+  },
+  {
+    "objectID": "index.html#lab-exercises",
+    "href": "index.html#lab-exercises",
+    "title": "CY350 Computer Networks",
+    "section": "Lab Exercises",
+    "text": "Lab Exercises\n\n\n\n\n\n\n\n\n\n\nIn-Class Lab 1 (10 points)\n\n\nEnvironment Setup with WSL and VSCode\n\n\n\n\n\n\nJan 6, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nIn-Class Lab 2 (10 points)\n\n\nAnalyzing Client-Server Communication with netcat and tcpdump\n\n\n\n\n\n\nJan 14, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nIn-Class Lab 3 (10 points)\n\n\nBasic Client-Server Communication with HTTP and netcat\n\n\n\n\n\n\nFeb 4, 2026\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#course-resources",
@@ -217,31 +273,31 @@
     "text": "Instructor Review\nTo complete the lab, show your instructor the following:\n\nPacket capture that includes the TCP handshake, client-server communication, and TCP teardown\nThe client and server terminal outputs that demonstrate the working client-server interaction\nYour client and server code with the TODOs completed"
   },
   {
-    "objectID": "labs/03.html",
-    "href": "labs/03.html",
-    "title": "In-Class Lab 3 (10 points)",
+    "objectID": "content/01-intro.html",
+    "href": "content/01-intro.html",
+    "title": "Introduction",
     "section": "",
-    "text": "Upon the completion of all activities, have your instructor review your work and track your progress to receive full credit."
+    "text": "Lesson Objectives\n\nDescribe the organization of the Internet.\nUnderstand the unique challenges of network operations\nInternet as a best-effort system\nWhy cybersecurity depends on networking\n\n\n\nPreparation\n\n\\(1.1\\) What is the Internet?\n\\(1.3.3\\) A Network of Networks\n\\(1.2\\) The Network Edge (skim)\n\\(1.3\\) The Network Core (skim)\n\\(1.7\\) History of Computer Networking and the Internet (skim)\n\n\n\nExercise\n\nVerify virtual machines, SSH, WSL, vscode setup.\nLinux refresher\n\nls, cd, pwd, mkdir, rm, cp, mv\ncat, less, head, tail, grep, find\nsudo, pip, apt\n\nTry basic commands and programs\n\nping, traceroute, dig\nnetcat, curl\nwireshark, wireview\n\nRun Python “hello world” program.\n\n\n\n\n\nReuseCC BY-NC-SA 4.0"
   },
   {
-    "objectID": "labs/03.html#eecsnet-vm-setup",
-    "href": "labs/03.html#eecsnet-vm-setup",
-    "title": "In-Class Lab 3 (10 points)",
-    "section": "EECSNet VM Setup",
-    "text": "EECSNet VM Setup\n\nVPN to EECSNet by changing the server address to vpn.eecs.ninja in your Cisco AnyConnect client. Login with your EECSNet credentials. Username remains the same and initial password is qwer1234QWER!@#$. Change it immediately. See Linux setup guide for more details.\nLogin to vSphere\nFind your VM by navigating the tree on the left and expanding all folders.\nClick on Launch Web Console button and login using your VM credentials: ubuntu and cy350pass\nStart a DHCP client by running sudo dhcpcd in the terminal\nCheck your VM’s IP address with ip addr. Note down the address for the Ethernet adapter.\n\n\nSSH from Windows (not WSL!)\n\n\n\n\n\n\nNote\n\n\n\nDo not run SSH from Ubuntu or WSL on your local machine. WSL cannot access your EECSNet VPN.\n\n\nFrom a Windows Terminal (PowerShell), run the following command:\nssh ubuntu@&lt;VM_IP_ADDRESS&gt; # e.g. ssh ubuntu@10.20.30.40\nUse your VM password to login. Now you can run commands on your EECSNet VM remotely.\n\n\nPasswordless SSH\n\nOn your Windows laptop, open PowerShell and check if you have existing SSH keys:\ncd ~ # go to your home directory\ncd .ssh # go to the .ssh directory within your home directory\nls # list files in the .ssh directory\nIf you do not have id_ecdsa.pub or id_rsa.pub files or something similar, generate a new SSH key pair: ssh-keygen; press Enter twice to accept defaults.\nCopy your public key to the VM: ssh-copy-id ubuntu@&lt;VM_IP_ADDRESS&gt;\n\nYou will need to enter your VM password one last time.\n\nOptionally, now you can connect your VS Code to your VM using the Remote - SSH extension.\n\nReminder: In VS Code, Features &gt; Chat &gt; Disable AI Features to protect yourself from unintentional AI completions!"
+    "objectID": "content/03-metrics.html",
+    "href": "content/03-metrics.html",
+    "title": "Network Evolution and Measuring Performance",
+    "section": "",
+    "text": "Preparation\n\n\\(1.3\\) The Network Core\n\\(1.4\\) Delay, Loss, and Throughput in Packet-Switched Networks\n\n\n\nLesson Objectives\n\nExplain the evolution from circuit switching to packet switching\nDescribe how frequency division multiplexing (FDM) and time division multiplexing (TDM) enable shared use of circuits\nDefine bandwidth, throughput, and delay (including its components)\nCalculate throughput and delay\n\n\n\nExercise\n\nUse a speed test (e.g. fast.com) to measure network performance; turn on “all metrics”; contrast wired vs wireless.\nGiven a network scenario, calculate end-to-end delay and throughput.\nContention exercise: given multiple users sharing a link, calculate individual throughput and maximum number of users.\n\n\n\n\n\nReuseCC BY-NC-SA 4.0"
   },
   {
-    "objectID": "labs/03.html#netcat-nc",
-    "href": "labs/03.html#netcat-nc",
-    "title": "In-Class Lab 3 (10 points)",
-    "section": "netcat (nc)",
-    "text": "netcat (nc)\nTry the following with your lab partner. Note down each other’s VM IP addresses.\n\nlisten (server)\n\nUse nc (netcat) to create a TCP socket\nListen on port 12345: nc -v -l -p 12345\nWhy did you not enter an IP address? Where do you enter it?\n\n\n\nconnect (client)\n\nOn the other VM, connect to the socket above: nc PARTNER_VM_IP_ADDRESS 12345\nType a message and hit enter. Can your partner see it?\n\n\n\nsend a file from client to server\n\nOn the server:\nnc -v -l -p 23456 &gt; incoming.jpg\nOn the client:\nwget http.cat/404 # get a cat picture from the internet\nnc PARTNER_VM_IP_ADDRESS 23456 &lt; 404 # send it to your partner\n\n\n\nsend a file from server to client\n\nOn the server:\nwget http.cat/404 # get a cat picture from the internet\nnc -v -l -p 34567 &lt; 404\nOn the client:\nnc PARTNER_VM_IP_ADDRESS 34567 &gt; incoming.jpg\n\n\n\nUDP mode\n\nRepeat the above steps using UDP instead of TCP by adding -u flag to nc commands.\nWhat differences do you notice?"
+    "objectID": "content/05-http-web.html",
+    "href": "content/05-http-web.html",
+    "title": "HTTP and the Web",
+    "section": "",
+    "text": "Preparation\n\n\\(2.2\\) The Web and HTTP\n\n\n\nLesson Objectives\n\nExplain HTTP as an implementation of the four protocol components\nAnalyze HTTP request and response messages structure and interpret common headers\nDifferentiate core HTTP methods and status codes\nDistinguish between persistent and non-persistent HTTP connections\nUnderstand HTTP cookies and their security implications\nDescribe web caching and conditional GET mechanisms\n\n\n\nDiscussion Plan\n\nDescribe the HTTP client–server model and why HTTP is stateless; identify where HTTP sits relative to TCP/UDP and typical ports (80/443).\nExplain HTTP request and response message structure (start lines, header fields, body) and interpret common headers (e.g., Host, User-Agent, Accept, Content-Type, Content-Length, Connection).\nDifferentiate core HTTP methods—GET, HEAD, POST (and recognize PUT, DELETE at a high level)—and select an appropriate method for a given use case.\nInterpret HTTP status codes (1xx–5xx), with emphasis on common codes (200, 301/302, 304, 400, 401/403, 404, 500).\nCompare non-persistent vs persistent connections in HTTP/1.1 (Keep-Alive) and reason about their latency/RTT implications for page load.\nContrast HTTP/1.1, HTTP/2, and HTTP/3 (QUIC) at a high level—multiplexing, header compression (HPACK/QPACK), binary framing, connection migration—and predict performance impacts.\nExplain how cookies provide state over a stateless protocol (via Set-Cookie/Cookie) and discuss basic privacy/security implications.\nDescribe web caching and conditional GET mechanisms (e.g., ETag, If-None-Match, Last-Modified, If-Modified-Since) and evaluate their effect on bandwidth and latency.\nOutline the role of CDNs and proxy caches in HTTP delivery and assess trade-offs for content freshness vs performance.\nSummarize how HTTPS (HTTP over TLS) changes observability and intermediaries’ behavior (e.g., caching, header visibility), while keeping the application semantics intact.\n\n\n\nExercise\n\nUse curl -i or netcat to manually craft HTTP requests and interpret responses.\nUse Wireshark to inspect HTTP traffic and identify cookies.\n\n\n\n\n\nReuseCC BY-NC-SA 4.0"
   },
   {
-    "objectID": "labs/03.html#http-server",
-    "href": "labs/03.html#http-server",
-    "title": "In-Class Lab 3 (10 points)",
-    "section": "HTTP Server",
-    "text": "HTTP Server\nCopy the following code into a file named http_server.py on your VM or WSL. Try the copy icon on the top-right of the code block. Fill in the blanks. Run it to start listening for HTTP requests on port 8080. You can stop the server with Ctrl+C.\n\nStarter Code\n\n\nhttp_server.py\n\nimport socket\n\n\nclass TCPServer:\n    def __init__(self, server_ip='127.0.0.128', server_port=8080):\n        print(\"Initializing TCP Server...\")\n        self.server_ip = server_ip\n        self.server_port = server_port\n        self.listening = True\n        print(f\"Creating TCP socket\")\n        self.setup_socket()\n\n        self.resources = {\n            \"/\": \"Welcome to the TCP Server!\",\n            \"/hello\": \"Hello, TCP Client!\",\n            \"/goodbye\": \"Goodbye from the TCP Server!\",\n            \"/joke\": \"Why do programmers prefer dark mode? Because light attracts bugs!\"\n        }\n\n    def setup_socket(self) -&gt; None:\n        pass\n        # TODO create a TCP listening socket\n        # TODO bind the socket\n        # TODO start listening\n        #\n\n    def parse_request(self, request) -&gt; tuple[str | None, str | None]:\n        pass\n        # TODO parse the request and extract the method and resource if applicable\n\n    def build_http_response(self, request) -&gt; str:\n        pass\n        # TODO parse the resource and create the corresponding message\n        # TODO 200 OK\n        # TODO 404 Not Found\n        # TODO 400 Bad Request\n\n    def send_response(self, response) -&gt; None:\n        pass\n        # TODO send the response through the connection\n\n    def listen(self) -&gt; None:\n        pass\n        # TODO accept a connection\n        # TODO store the request somewhere\n        # TODO use the connection to listen for the request\n        # TODO once the request is received\n\n        # TODO build the response\n        # TODO send the response\n        # TODO close the connection\n\n    def close_server(self) -&gt; None:\n        self.sock.close()\n        print(\"Listening socket closed.\")\n\n    def close_connection(self) -&gt; None:\n        pass\n        # TODO close the connection socket\n\n\nif __name__ == \"__main__\":\n    server = TCPServer()\n    try:\n        server.listen()\n    except KeyboardInterrupt:\n        print(\"Shutting down server...\")\n        server.listening = False\n    finally:\n        server.close_server()\n\n\n\nTesting\n\nUse curl to test your server: curl http://localhost:8080/hello\n\nYou should see the message “Hello, TCP Client!” in the terminal.\n\nUse curl -v to see the full HTTP response.\nTry other resources like /, /goodbye, and /joke.\nTry an invalid resource like /invalid to see the 404 response."
+    "objectID": "content/07-socket-programming.html",
+    "href": "content/07-socket-programming.html",
+    "title": "Socket Programming",
+    "section": "",
+    "text": "Preparation\n\n\\(2.7\\) Socket Programming: Creating Network Applications\n\n\n\nLesson Objectives\n\nDefine a socket as the programming interface between application and transport layer\nExplain why network data must be encoded as bytes rather than transmitted as string\nIdentify the differences between TCP and UDP sockets\nImplement a basic HTTP server using Python socket library\n\n\n\nExercise\n\nUse netcat to listen on a port and send messages\nWrite an HTTP server that responds to basic GET requests\nUse curl to test your server\n\n\n\n\n\nReuseCC BY-NC-SA 4.0"
   }
 ]

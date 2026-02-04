@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2026-01-12">
+<meta name="description" content="Delay, loss, and throughput">
 
-<title>CY350 Computer Networks – CY350</title>
+<title>Network Evolution and Measuring Performance – CY350</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,31 +25,29 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href=".//images/favicon.svg" rel="icon" type="image/svg+xml">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-7d921b3c2f20cb953c6d86e60d8b80a8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-7a5481dda0afa455c46de1cd264dfc9f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-7d921b3c2f20cb953c6d86e60d8b80a8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="..//images/favicon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-7d921b3c2f20cb953c6d86e60d8b80a8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-7a5481dda0afa455c46de1cd264dfc9f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-7d921b3c2f20cb953c6d86e60d8b80a8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -75,63 +75,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-content .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title','listing-author','listing-date','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-content'] = new List('listing-content', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-labs .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title','listing-author','listing-date','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-labs'] = new List('listing-labs', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <style>html{ scroll-behavior: smooth; }</style>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
@@ -164,13 +107,13 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="CY350 Computer Networks – CY350">
-<meta property="og:description" content="Computer Networks">
-<meta property="og:image" content="https://usma-eecs.github.io/cy350-2026-2/images/00.png">
+<meta property="og:title" content="Network Evolution and Measuring Performance – CY350">
+<meta property="og:description" content="Delay, loss, and throughput">
+<meta property="og:image" content="https://usma-eecs.github.io/cy350-2026-2//images/03-metrics.png">
 <meta property="og:site_name" content="CY350">
-<meta property="og:image:height" content="1024">
-<meta property="og:image:width" content="1024">
-<link rel="canonical" href="https://usma-eecs.github.io/cy350-2026-2/">
+<meta property="og:image:height" content="461">
+<meta property="og:image:width" content="826">
+<link rel="canonical" href="https://usma-eecs.github.io/cy350-2026-2/content/03-metrics.html">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -351,11 +294,11 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
     <img src="https://usma-media.s3.amazonaws.com/inline-images/img/usma_logos/logo/wp_crest_new_only.png" alt="" class="navbar-logo light-content">
     <img src="https://usma-media.s3.amazonaws.com/inline-images/img/usma_logos/logo/wp_crest_new_only.png" alt="" class="navbar-logo dark-content">
     </a>
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">CY350</span>
     </a>
   </div>
@@ -382,21 +325,34 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
 <!-- main -->
 <main class="content column-page" id="quarto-document-content">
 
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">CY350 Computer Networks</h1>
+<h1 class="title">Network Evolution and Measuring Performance</h1>
 </div>
 
+<div>
+  <div class="description">
+    Delay, loss, and throughput
+  </div>
+</div>
 
 
 <div class="quarto-title-meta column-page">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 12, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -406,549 +362,29 @@ window.Quarto = {
 </header>
 
 
-<p>This course provides an introduction to computer networks from both a theoretical and software design perspective. The goal is to provide the basic concepts necessary to understand the design and operation of computer networks and gain experience writing programs that use the network. Each level of the TCP/IP protocol stack is examined in detail with a heavy emphasis on socket programming, theoretical foundations, and cybersecurity implications.</p>
-<div id="listing-content" class="quarto-listing quarto-listing-container-grid">
-<div class="list grid quarto-listing-cols-5">
-<div class="g-col-1" data-index="0" data-listing-date-sort="1767571200000" data-listing-file-modified-sort="1770184533398" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1937">
-<a href="./content/syllabus.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./images/00.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Course Syllabus
-</h5>
-<div class="card-text listing-description delink">
-<p>Welcome to CY350 - Computer Networks!</p>
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Jan 5, 2026
-</div>
-</div>
-</div>
-</div></a>
-</div>
-<div class="g-col-1" data-index="1" data-listing-date-sort="1767657600000" data-listing-file-modified-sort="1770184533397" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="121">
-<a href="./content/01-intro.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./images/01-intro.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Introduction
-</h5>
-<div class="card-text listing-description delink">
-<p>Computer Networking and the Internet</p>
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Jan 6, 2026
-</div>
-</div>
-</div>
-</div></a>
-</div>
-<div class="g-col-1" data-index="2" data-listing-date-sort="1767830400000" data-listing-file-modified-sort="1770184533397" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="102">
-<a href="./content/02-layers.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./images/02-layers.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Protocols, Layers, and Abstraction
-</h5>
-<div class="card-text listing-description delink">
-<p>How networking is structured</p>
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Jan 8, 2026
-</div>
-</div>
-</div>
-</div></a>
-</div>
-<div class="g-col-1" data-index="3" data-listing-date-sort="1768176000000" data-listing-file-modified-sort="1770184533397" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="96">
-<a href="./content/03-metrics.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./images/03-metrics.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Network Evolution and Measuring Performance
-</h5>
-<div class="card-text listing-description delink">
-<p>Delay, loss, and throughput</p>
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Jan 12, 2026
-</div>
-</div>
-</div>
-</div></a>
-</div>
-<div class="g-col-1" data-index="4" data-listing-date-sort="1768348800000" data-listing-file-modified-sort="1770184533397" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="180">
-<a href="./content/04-application-layer.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./images/04-application-layer.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Application Layer
-</h5>
-<div class="card-text listing-description delink">
-<p>How data is transmitted over the Internet</p>
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Jan 14, 2026
-</div>
-</div>
-</div>
-</div></a>
-</div>
-<div class="g-col-1" data-index="5" data-listing-date-sort="1768867200000" data-listing-file-modified-sort="1770184533397" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="279">
-<a href="./content/05-http-web.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./images/05-http-web.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-HTTP and the Web
-</h5>
-<div class="card-text listing-description delink">
-<p>Protocols and mechanisms</p>
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Jan 20, 2026
-</div>
-</div>
-</div>
-</div></a>
-</div>
-<div class="g-col-1" data-index="6" data-listing-date-sort="1769472000000" data-listing-file-modified-sort="1770184533397" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="101">
-<a href="./content/06-smtp-dns.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./images/06-smtp-dns.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-SMTP and DNS
-</h5>
-<div class="card-text listing-description delink">
-<p>Email and Directory of the Internet</p>
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Jan 27, 2026
-</div>
-</div>
-</div>
-</div></a>
-</div>
-<div class="g-col-1" data-index="7" data-listing-date-sort="1770163200000" data-listing-file-modified-sort="1770184533398" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="79">
-<a href="./content/07-socket-programming.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./images/07-socket-programming.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Socket Programming
-</h5>
-<div class="card-text listing-description delink">
-<p>Creating Network Applications</p>
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Feb 4, 2026
-</div>
-</div>
-</div>
-</div></a>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div>
-<section id="lab-exercises" class="level2">
-<h2 class="anchored" data-anchor-id="lab-exercises">Lab Exercises</h2>
-<div id="listing-labs" class="quarto-listing quarto-listing-container-grid">
-<div class="list grid quarto-listing-cols-5">
-<div class="g-col-1" data-index="0" data-listing-date-sort="1767657600000" data-listing-file-modified-sort="1770184533427" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="418">
-<a href="./labs/01.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./images/lab01-wsl-vscode.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-In-Class Lab 1 (10 points)
-</h5>
-<div class="card-text listing-description delink">
-<p>Environment Setup with WSL and VSCode</p>
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Jan 6, 2026
-</div>
-</div>
-</div>
-</div></a>
-</div>
-<div class="g-col-1" data-index="1" data-listing-date-sort="1768348800000" data-listing-file-modified-sort="1770184533427" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="941">
-<a href="./labs/02.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./images/lab02-netcat-tcpdump.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-In-Class Lab 2 (10 points)
-</h5>
-<div class="card-text listing-description delink">
-<p>Analyzing Client-Server Communication with netcat and tcpdump</p>
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Jan 14, 2026
-</div>
-</div>
-</div>
-</div></a>
-</div>
-<div class="g-col-1" data-index="2" data-listing-date-sort="1770163200000" data-listing-file-modified-sort="1770184533427" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1213">
-<a href="./labs/03.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./images/lab03-socket-http.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-In-Class Lab 3 (10 points)
-</h5>
-<div class="card-text listing-description delink">
-<p>Basic Client-Server Communication with HTTP and netcat</p>
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Feb 4, 2026
-</div>
-</div>
-</div>
-</div></a>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div>
-</section>
-<section id="course-resources" class="level2">
-<h2 class="anchored" data-anchor-id="course-resources">Course Resources</h2>
-<p>All the resources listed below are considered common knowledge and do not need to be cited.</p>
-<section id="where-to-get-the-textbook" class="level3">
-<h3 class="anchored" data-anchor-id="where-to-get-the-textbook">Where to get the textbook</h3>
+<section id="preparation" class="level4">
+<h4 class="anchored" data-anchor-id="preparation">Preparation</h4>
 <ul>
-<li><a href="https://www.pearson.com/en-us/subject-catalog/p/computer-networking/P200000003334/9780135928615">Computer Networking (pearson.com)</a></li>
-<li><a href="https://www.amazon.com/Computer-Networking-Top-Down-James-Kurose/dp/9356061319">Computer Networking: A Top-Down Approach: James Kurose: 9789356061316: Amazon.com: Books</a></li>
-<li><a href="https://www.amazon.com/Computer-Networking-James-Kurose/dp/0136681557">Amazon.com: Computer Networking [RENTAL EDITION]: 9780136681557: James Kurose: Books</a></li>
-<li>See Modules &gt; Course Resources</li>
+<li><span class="math inline">\(1.3\)</span> The Network Core</li>
+<li><span class="math inline">\(1.4\)</span> Delay, Loss, and Throughput in Packet-Switched Networks</li>
 </ul>
 </section>
-<section id="textbook-assistance-websites" class="level3">
-<h3 class="anchored" data-anchor-id="textbook-assistance-websites">Textbook Assistance Websites</h3>
+<section id="lesson-objectives" class="level4">
+<h4 class="anchored" data-anchor-id="lesson-objectives">Lesson Objectives</h4>
 <ul>
-<li><a href="https://media.pearsoncmg.com/ph/esm/ecs_kurose_compnetwork_8/cw/">Textbook Companion Website</a></li>
-<li><a href="https://gaia.cs.umass.edu/kurose_ross/index.php">Author Website</a></li>
+<li>Explain the evolution from circuit switching to packet switching</li>
+<li>Describe how frequency division multiplexing (FDM) and time division multiplexing (TDM) enable shared use of circuits</li>
+<li>Define bandwidth, throughput, and delay (including its components)</li>
+<li>Calculate throughput and delay</li>
 </ul>
 </section>
-<section id="guides-and-documentation" class="level3">
-<h3 class="anchored" data-anchor-id="guides-and-documentation">Guides and Documentation</h3>
+<section id="exercise" class="level4">
+<h4 class="anchored" data-anchor-id="exercise">Exercise</h4>
 <ul>
-<li><a href="https://docs.python.org/3/">Python 3 Documentation</a></li>
-<li><a href="https://fstring.help/">Python f-strings</a></li>
-<li><a href="https://goalkicker.com/PythonBook/">Python Notes for Professionals</a></li>
-<li><a href="https://goalkicker.com/LinuxBook/">Linux Notes for Professionals</a></li>
-<li><a href="https://usma-eecs.github.io/linux-guide/">CY350 Linux Setup Guide</a></li>
-<li><a href="https://usma-eecs.github.io/python-refresher/">CY350 Python Refresher</a></li>
-<li><a href="https://cy350.bhatia.dev/">Unofficial Instrtuctor Website: cy350.bhatia.dev</a></li>
+<li>Use a speed test (e.g.&nbsp;fast.com) to measure network performance; turn on “all metrics”; contrast wired vs wireless.</li>
+<li>Given a network scenario, calculate end-to-end delay and throughput.</li>
+<li>Contention exercise: given multiple users sharing a link, calculate individual throughput and maximum number of users.</li>
 </ul>
-</section>
-</section>
-<section id="course-schedule" class="level2">
-<h2 class="anchored" data-anchor-id="course-schedule">Course Schedule</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 55%">
-<col style="width: 8%">
-<col style="width: 8%">
-<col style="width: 17%">
-<col style="width: 10%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Lesson</th>
-<th>Day1</th>
-<th>Day2</th>
-<th>Assigned</th>
-<th>Due Date</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1- Introduction to Networking</td>
-<td>07 Jan</td>
-<td>06 Jan</td>
-<td>Usage Agreement</td>
-<td>11 Jan</td>
-</tr>
-<tr class="even">
-<td>2- Protocols, Layers, and Abstraction</td>
-<td>09 Jan</td>
-<td>08 Jan</td>
-<td>Problem Set 1</td>
-<td>18 Jan</td>
-</tr>
-<tr class="odd">
-<td>3- Assessing Terrain Conditions: Network Metrics</td>
-<td>12 Jan</td>
-<td>13 Jan</td>
-<td>Problem Set 2</td>
-<td>25 Jan</td>
-</tr>
-<tr class="even">
-<td>4- Application Layer</td>
-<td>14 Jan</td>
-<td>15 Jan</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>5- HTTP and the Web</td>
-<td>20 Jan</td>
-<td>21 Jan</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>6- DNS and Email</td>
-<td>30 Jan</td>
-<td>27 Jan</td>
-<td>Problem Set 3</td>
-<td>08 Feb</td>
-</tr>
-<tr class="odd">
-<td>7- Socket Programming Lab</td>
-<td>04 Feb</td>
-<td>05 Feb</td>
-<td>Problem Set 4</td>
-<td>15 Feb</td>
-</tr>
-<tr class="even">
-<td>8- Transport Layer</td>
-<td>09 Feb</td>
-<td>10 Feb</td>
-<td>Problem Set 5</td>
-<td>22 Feb</td>
-</tr>
-<tr class="odd">
-<td>9- Reliable Data Transfer</td>
-<td>11 Feb</td>
-<td>12 Feb</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>10- Transmission Control Protocol</td>
-<td>18 Feb</td>
-<td>17 Feb</td>
-<td>Problem Set 6</td>
-<td>01 Mar</td>
-</tr>
-<tr class="odd">
-<td>11- Flow and Congestion Control</td>
-<td>20 Feb</td>
-<td>19 Feb</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>12- UDP and QUIC</td>
-<td>23 Feb</td>
-<td>24 Feb</td>
-<td>Problem Set 7</td>
-<td>08 Mar</td>
-</tr>
-<tr class="odd">
-<td>WPR1 Review</td>
-<td>25 Feb</td>
-<td>26 Feb</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>WPR1</td>
-<td>02 Mar</td>
-<td>03 Mar</td>
-<td>Project 1</td>
-<td>22 Mar</td>
-</tr>
-<tr class="odd">
-<td>13- Network Layer</td>
-<td>04 Mar</td>
-<td>05 Mar</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>14- Internet Protocol v4</td>
-<td>09 Mar</td>
-<td>10 Mar</td>
-<td>Problem Set 8</td>
-<td>20 Mar</td>
-</tr>
-<tr class="odd">
-<td>15- Internet Protocol v6</td>
-<td>11 Mar</td>
-<td>12 Mar</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>16- Routing Protocols- Link State, Distance Vector</td>
-<td>16 Mar</td>
-<td>17 Mar</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>17- Control Plane</td>
-<td>18 Mar</td>
-<td>19 Mar</td>
-<td>Project 2</td>
-<td>12 Apr</td>
-</tr>
-<tr class="even">
-<td>18- Link Layer</td>
-<td>23 Mar</td>
-<td>24 Mar</td>
-<td>Problem Set 9</td>
-<td>06 Apr</td>
-</tr>
-<tr class="odd">
-<td>19- Multiple Access Protocols &amp; Switched LANs</td>
-<td>25 Mar</td>
-<td>26 Mar</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>20- Wireless Networks</td>
-<td>07 Apr</td>
-<td>08 Apr</td>
-<td>Problem Set 10</td>
-<td>10 Apr</td>
-</tr>
-<tr class="odd">
-<td>21- Bluetooth &amp; Cellular Networks</td>
-<td>09 Apr</td>
-<td>10 Apr</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>22- Network Security Basics</td>
-<td>13 Apr</td>
-<td>14 Apr</td>
-<td>Project 3</td>
-<td>10 May</td>
-</tr>
-<tr class="odd">
-<td>23- Transport Layer Security</td>
-<td>15 Apr</td>
-<td>16 Apr</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>24- VPNs and Wireless Network Security</td>
-<td>20 Apr</td>
-<td>21 Apr</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>WPR2</td>
-<td>27 Apr</td>
-<td>28 Apr</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>25- Network Security Appliances</td>
-<td>29 Apr</td>
-<td>30 Apr</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>26- TBD</td>
-<td>04 May</td>
-<td>05 May</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>27- TBD</td>
-<td>06 May</td>
-<td>07 May</td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-
 
 
 </section>
@@ -1392,5 +828,5 @@ Feb 4, 2026
 
 
 
-<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

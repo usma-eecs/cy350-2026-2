@@ -3,6 +3,13 @@
     "listing": "/index.html",
     "items": [
       "/content/syllabus.html",
+      "/content/01-intro.html",
+      "/content/02-layers.html",
+      "/content/03-metrics.html",
+      "/content/04-application-layer.html",
+      "/content/05-http-web.html",
+      "/content/06-smtp-dns.html",
+      "/content/07-socket-programming.html",
       "/labs/01.html",
       "/labs/02.html",
       "/labs/03.html"
