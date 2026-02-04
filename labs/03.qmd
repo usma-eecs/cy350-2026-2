@@ -1,0 +1,191 @@
+---
+format: html
+title: In-Class Lab 3 (10 points)
+description: Basic Client-Server Communication with HTTP and netcat
+subtitle: Initial setup of your development environment using WSL and VSCode. This lab introduces you to basic Linux commands, Python execution, and packet capturing.
+date: 2026-02-04
+image: /images/lab03-socket-http.png
+---
+
+Upon the completion of all activities, have your instructor review your work and track your progress to receive full credit.
+
+## EECSNet VM Setup
+
+1. VPN to EECSNet by changing the server address to `vpn.eecs.ninja` in your Cisco AnyConnect client. Login with your EECSNet credentials. Username remains the same and initial password is `qwer1234QWER!@#$`. Change it immediately. See [Linux setup guide](https://usma-eecs.github.io/linux-guide/) for more details.
+1. [Login to vSphere](https://vcsa1.eecs.net/)
+1. Find your VM by navigating the tree on the left and expanding all folders.
+1. Click on `Launch Web Console` button and login using your VM credentials: `ubuntu` and `cy350pass`
+1. Start a DHCP client by running `sudo dhcpcd` in the terminal
+1. Check your VM's IP address with `ip addr`. Note down the address for the Ethernet adapter.
+
+### SSH from Windows (not WSL!)
+
+::: {.callout-note}
+Do not run SSH from Ubuntu or WSL on your local machine. WSL cannot access your EECSNet VPN.
+:::
+
+From a Windows Terminal (PowerShell), run the following command:
+
+```sh
+ssh ubuntu@<VM_IP_ADDRESS> # e.g. ssh ubuntu@10.20.30.40
+```
+
+Use your VM password to login. Now you can run commands on your EECSNet VM remotely.
+
+### Passwordless SSH
+
+- On your Windows laptop, open PowerShell and check if you have existing SSH keys:
+
+    ```sh
+    cd ~ # go to your home directory
+    cd .ssh # go to the .ssh directory within your home directory
+    ls # list files in the .ssh directory
+    ```
+
+- If you do not have `id_ecdsa.pub` or `id_rsa.pub` files or something similar, generate a new SSH key pair: `ssh-keygen`; press `Enter` twice to accept defaults.
+
+- Copy your public key to the VM: `ssh-copy-id ubuntu@<VM_IP_ADDRESS>`
+    - You will need to enter your VM password one last time.
+
+- Optionally, now you can connect your VS Code to your VM using the [Remote - SSH extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh).
+
+Reminder: In VS Code,  [Features > Chat > Disable AI Features](vscode://settings/chat.disableAIFeatures) to protect yourself from unintentional AI completions!
+
+## netcat (nc)
+
+Try the following with your lab partner. Note down each other's VM IP addresses.
+
+### listen (server)
+
+- Use `nc` (netcat) to create a TCP socket
+- Listen on port 12345: `nc -v -l -p 12345`
+- Why did you not enter an IP address? Where do you enter it?
+
+### connect (client)
+
+- On the other VM, connect to the socket above: `nc PARTNER_VM_IP_ADDRESS 12345`
+- Type a message and hit enter. Can your partner see it?
+
+### send a file from client to server
+
+- On the server:
+
+    ```sh
+    nc -v -l -p 23456 > incoming.jpg
+    ```
+
+- On the client:
+
+    ```sh
+    wget http.cat/404 # get a cat picture from the internet
+    nc PARTNER_VM_IP_ADDRESS 23456 < 404 # send it to your partner
+    ```
+
+### send a file from server to client
+
+- On the server:
+
+    ```sh
+    wget http.cat/404 # get a cat picture from the internet
+    nc -v -l -p 34567 < 404
+    ```
+
+- On the client:
+
+    ```sh
+    nc PARTNER_VM_IP_ADDRESS 34567 > incoming.jpg
+    ```
+
+### UDP mode
+
+- Repeat the above steps using UDP instead of TCP by adding `-u` flag to `nc` commands.
+- What differences do you notice?
+
+
+## HTTP Server
+
+Copy the following code into a file named `http_server.py` on your VM or WSL. Try the copy icon on the top-right of the code block. Fill in the blanks. Run it to start listening for HTTP requests on port 8080. You can stop the server with `Ctrl+C`.
+
+### Starter Code
+
+```{.python filename="http_server.py" code-line-numbers=true}
+import socket
+
+
+class TCPServer:
+    def __init__(self, server_ip='127.0.0.128', server_port=8080):
+        print("Initializing TCP Server...")
+        self.server_ip = server_ip
+        self.server_port = server_port
+        self.listening = True
+        print(f"Creating TCP socket")
+        self.setup_socket()
+
+        self.resources = {
+            "/": "Welcome to the TCP Server!",
+            "/hello": "Hello, TCP Client!",
+            "/goodbye": "Goodbye from the TCP Server!",
+            "/joke": "Why do programmers prefer dark mode? Because light attracts bugs!"
+        }
+
+    def setup_socket(self) -> None:
+        pass
+        # TODO create a TCP listening socket
+        # TODO bind the socket
+        # TODO start listening
+        #
+
+    def parse_request(self, request) -> tuple[str | None, str | None]:
+        pass
+        # TODO parse the request and extract the method and resource if applicable
+
+    def build_http_response(self, request) -> str:
+        pass
+        # TODO parse the resource and create the corresponding message
+        # TODO 200 OK
+        # TODO 404 Not Found
+        # TODO 400 Bad Request
+
+    def send_response(self, response) -> None:
+        pass
+        # TODO send the response through the connection
+
+    def listen(self) -> None:
+        pass
+        # TODO accept a connection
+        # TODO store the request somewhere
+        # TODO use the connection to listen for the request
+        # TODO once the request is received
+
+        # TODO build the response
+        # TODO send the response
+        # TODO close the connection
+
+    def close_server(self) -> None:
+        self.sock.close()
+        print("Listening socket closed.")
+
+    def close_connection(self) -> None:
+        pass
+        # TODO close the connection socket
+
+
+if __name__ == "__main__":
+    server = TCPServer()
+    try:
+        server.listen()
+    except KeyboardInterrupt:
+        print("Shutting down server...")
+        server.listening = False
+    finally:
+        server.close_server()
+```
+
+### Testing
+
+- Use `curl` to test your server: `curl http://localhost:8080/hello`
+    - You should see the message "Hello, TCP Client!" in the terminal.
+
+- Use `curl -v` to see the full HTTP response.
+- Try other resources like `/`, `/goodbye`, and `/joke`.
+- Try an invalid resource like `/invalid` to see the 404 response.
