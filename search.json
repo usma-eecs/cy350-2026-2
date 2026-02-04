@@ -196,6 +196,13 @@
     "text": "This course provides an introduction to computer networks from both a theoretical and software design perspective. The goal is to provide the basic concepts necessary to understand the design and operation of computer networks and gain experience writing programs that use the network. Each level of the TCP/IP protocol stack is examined in detail with a heavy emphasis on socket programming, theoretical foundations, and cybersecurity implications."
   },
   {
+    "objectID": "index.html#course-content",
+    "href": "index.html#course-content",
+    "title": "CY350 Computer Networks",
+    "section": "Course Content",
+    "text": "Course Content\n\n\n\n\n\n\n\n\n\n\nCourse Syllabus\n\n\nWelcome to CY350 - Computer Networks!\n\n\n\n\n\n\nJan 5, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nIntroduction\n\n\nComputer Networking and the Internet\n\n\n\n\n\n\nJan 6, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nProtocols, Layers, and Abstraction\n\n\nHow networking is structured\n\n\n\n\n\n\nJan 8, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nNetwork Evolution and Measuring Performance\n\n\nDelay, loss, and throughput\n\n\n\n\n\n\nJan 12, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nApplication Layer\n\n\nHow data is transmitted over the Internet\n\n\n\n\n\n\nJan 14, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nHTTP and the Web\n\n\nProtocols and mechanisms\n\n\n\n\n\n\nJan 20, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nSMTP and DNS\n\n\nEmail and Directory of the Internet\n\n\n\n\n\n\nJan 27, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nSocket Programming\n\n\nCreating Network Applications\n\n\n\n\n\n\nFeb 4, 2026\n\n\n\n\n\n\nNo matching items"
+  },
+  {
     "objectID": "index.html#lab-exercises",
     "href": "index.html#lab-exercises",
     "title": "CY350 Computer Networks",
