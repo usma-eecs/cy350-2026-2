@@ -13,14 +13,50 @@ Upon the completion of all activities, have your instructor review your work and
 
 Write your program in VSCode connected to WSL (Ubuntu). If you have not yet set this up, refer to the instructions in lab 1.
 
-Open three terimnals and display them side-by-side:
-1. In the first terminal, run your server program.
-2. In the second terminal, run your client program.
-3. In the third terminal, use `tcpdump` or `tshark` to capture and display the packets exchanged between client and server. Filter by port number to minimize noise.
-
 ## Run Server Program
 
-Use the provided `02-server.py`. Review the code and understand what it does. Run it in the first terminal. Ensure that it is listening on the correct port that you are going to use for the client.
+Complete the following server program. Review the code and understand what it does. Run it in the first terminal. Ensure that it is listening on the correct port that you are going to use for the client.
+
+```python
+import socket
+
+
+def main() -> None:
+    host = "0.0.0.0"
+    port = 8000
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        s.bind((host, port))
+        s.listen(5)
+        print(f"Listening on {host}:{port}")
+    except Exception as e:
+        print(f"Failed to set up server: {e}")
+        return
+
+    try:
+        while True:
+            conn, addr = s.accept()
+            with conn:
+                print(f"Client connected: {addr}")
+                while True:
+                    data = conn.recv(4096)
+                    if not data:
+                        break
+                    text = data.decode("utf-8")
+                    response = text.upper()
+                    responseBytes = response.encode("utf-8")
+                    conn.sendall(responseBytes)
+
+    # capture keyboard interrupt to gracefully shutdown the server
+    except KeyboardInterrupt:
+        print("Shutting down server.")
+        s.close()
+
+
+if __name__ == "__main__":
+    main()
+```
 
 ## Verify Server
 
@@ -31,16 +67,75 @@ What does `nc` or `netcat` do?
 
 ## Client Program
 
-Use the provided `02-client.py` as a starter. Modify it as needed to connect to the server you started in the first terminal. Run it in the second terminal.
+Update the following socket client. Modify it as needed to connect to the server you started in the first terminal. Run it in the second terminal.
+
+```python
+import socket
+
+HOST = "127.0.0.1"
+PORT = 8000
+
+
+def main() -> None:
+
+    # see https://docs.python.org/3/library/socket.html
+    # Example -> Echo client program
+
+    # Create a TCP socket
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    # TODO: connect to the server
+    sock.connect((HOST, PORT))
+
+    # ask for user input in a loop
+    while True:
+        message = input("> ")
+        if message == "exit":
+            break
+
+        # TODO: encode user input into bytes
+
+        # TODO: send the bytes to the server
+
+        # TODO: receive the response from the server
+
+        # TODO: decode the response into a string
+
+        # TODO: print the response
+        print(f"Not Server Response: {message}")
+
+    # TODO: close the connection to the server
+
+
+if __name__ == "__main__":
+    main()
+```
 
 ## Capture Traffic
 
-In the third terminal, run `sudo tcpdump -i eth0 ... any port <port>` or `sudo tshark -i any -f "port <port>"` to capture the traffic between the client and server. See lab 1 for `tcpdump` command line flags.  Observe the packets being exchanged. Save your capture to a file for later analysis.
+In the third terminal, run `tcpdump` or `tshark` to capture the traffic between the client and server. Filter by port number to minimize noise. Run `man tcpdump` or see lab 1 for the correct command line flags. Observe the packets being exchanged. Save your capture to a file for later analysis.
+
+```sh
+sudo tcpdump -i any --print -w ... port <port>
+sudo tshark -i any -w ... -f "tcp port <port>"
+```
+
+- Why do we need `sudo` to run these commands?
+- What does the `-i any` flag do?
+- What does the `-w` flag do?
 
 ## Analyze Capture
 
 Use Wireshark to open the saved capture file. Analyze the packets exchanged between the client and server. Identify the request and response messages. Note any interesting details about the protocol being used. Reason about how you would distinguish messages from different clients if multiple clients were connected simultaneously.
 
+- Where did the communication begin? Do you see the SYN, SYN-ACK, ACK handshake in the TCP connection setup?
+- Where did the communication end? Do you see the FIN, ACK, FIN, ACK handshake in the TCP connection teardown?
+- How many bytes were sent in each direction?
+
 ## Instructor Review
 
-To complete the lab, you must bring up all three terminals and demonstrate the working client-server interaction along with the packet capture to your instructor.
+To complete the lab, show your instructor the following:
+
+- Packet capture that includes the TCP handshake, client-server communication, and TCP teardown
+- The client and server terminal outputs that demonstrate the working client-server interaction
+- Your client and server code with the TODOs completed
