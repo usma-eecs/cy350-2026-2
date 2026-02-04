@@ -44,8 +44,23 @@ Use your VM password to login. Now you can run commands on your EECSNet VM remot
 
 - If you do not have `id_ecdsa.pub` or `id_rsa.pub` files or something similar, generate a new SSH key pair: `ssh-keygen`; press `Enter` twice to accept defaults.
 
-- Copy your public key to the VM: `ssh-copy-id ubuntu@<VM_IP_ADDRESS>`
-    - You will need to enter your VM password one last time.
+- Grab your public key:
+
+    ```sh
+    cat id_ecdsa.pub # or cat id_*.pub
+    ```
+- Place your public key onto the VM:
+
+    ```sh
+    mkdir .ssh
+    nano .ssh/authorized_keys
+    # paste the public key into the text editor
+    # save Ctrl+S
+    # exit Ctrl+X
+    cat .ssh/authorized_keys # verify the key is there
+    ```
+
+- Now attempt to SSH again: `ssh ubuntu@<VM_IP_ADDRESS>`. You should not be prompted for a password this time.
 
 - Optionally, now you can connect your VS Code to your VM using the [Remote - SSH extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh).
 
