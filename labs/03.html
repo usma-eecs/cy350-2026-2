@@ -336,7 +336,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#eecsnet-vm-setup" id="toc-eecsnet-vm-setup" class="nav-link active" data-scroll-target="#eecsnet-vm-setup">EECSNet VM Setup</a>
+  <li><a href="#http-server" id="toc-http-server" class="nav-link active" data-scroll-target="#http-server">HTTP Server</a>
+  <ul class="collapse">
+  <li><a href="#starter-code" id="toc-starter-code" class="nav-link" data-scroll-target="#starter-code">Starter Code</a></li>
+  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing">Testing</a></li>
+  </ul></li>
+  <li><a href="#eecsnet-vm-setup" id="toc-eecsnet-vm-setup" class="nav-link" data-scroll-target="#eecsnet-vm-setup">EECSNet VM Setup</a>
   <ul class="collapse">
   <li><a href="#ssh-from-windows-not-wsl" id="toc-ssh-from-windows-not-wsl" class="nav-link" data-scroll-target="#ssh-from-windows-not-wsl">SSH from Windows (not WSL!)</a></li>
   <li><a href="#passwordless-ssh" id="toc-passwordless-ssh" class="nav-link" data-scroll-target="#passwordless-ssh">Passwordless SSH</a></li>
@@ -348,11 +353,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#send-a-file-from-client-to-server" id="toc-send-a-file-from-client-to-server" class="nav-link" data-scroll-target="#send-a-file-from-client-to-server">send a file from client to server</a></li>
   <li><a href="#send-a-file-from-server-to-client" id="toc-send-a-file-from-server-to-client" class="nav-link" data-scroll-target="#send-a-file-from-server-to-client">send a file from server to client</a></li>
   <li><a href="#udp-mode" id="toc-udp-mode" class="nav-link" data-scroll-target="#udp-mode">UDP mode</a></li>
-  </ul></li>
-  <li><a href="#http-server" id="toc-http-server" class="nav-link" data-scroll-target="#http-server">HTTP Server</a>
-  <ul class="collapse">
-  <li><a href="#starter-code" id="toc-starter-code" class="nav-link" data-scroll-target="#starter-code">Starter Code</a></li>
-  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing">Testing</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -393,6 +393,126 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Upon the completion of all activities, have your instructor review your work and track your progress to receive full credit.</p>
+<section id="http-server" class="level2">
+<h2 class="anchored" data-anchor-id="http-server">HTTP Server</h2>
+<p>Copy the following code into a file named <code>http_server.py</code> on your VM or WSL. Try the copy icon on the top-right of the code block. Fill in the blanks. Run it to start listening for HTTP requests on port <code>8080</code>. You can stop the server with <code>Ctrl+C</code>.</p>
+<section id="starter-code" class="level3">
+<h3 class="anchored" data-anchor-id="starter-code">Starter Code</h3>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>http_server.py</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-filename="http_server.py"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> socket</span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">class</span> TCPServer:</span>
+<span id="cb1-5"><a href="#cb1-5"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, server_ip<span class="op">=</span><span class="st">'127.0.0.1'</span>, server_port<span class="op">=</span><span class="dv">8080</span>):</span>
+<span id="cb1-6"><a href="#cb1-6"></a>        <span class="bu">print</span>(<span class="st">"Initializing TCP Server..."</span>)</span>
+<span id="cb1-7"><a href="#cb1-7"></a>        <span class="va">self</span>.server_ip <span class="op">=</span> server_ip</span>
+<span id="cb1-8"><a href="#cb1-8"></a>        <span class="va">self</span>.server_port <span class="op">=</span> server_port</span>
+<span id="cb1-9"><a href="#cb1-9"></a>        <span class="va">self</span>.listening <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>        <span class="va">self</span>.setup_socket()</span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a>        <span class="va">self</span>.resources <span class="op">=</span> {</span>
+<span id="cb1-13"><a href="#cb1-13"></a>            <span class="st">"/"</span>: <span class="st">"Welcome to the TCP Server!"</span>,</span>
+<span id="cb1-14"><a href="#cb1-14"></a>            <span class="st">"/hello"</span>: <span class="st">"Hello, TCP Client!"</span>,</span>
+<span id="cb1-15"><a href="#cb1-15"></a>            <span class="st">"/goodbye"</span>: <span class="st">"Goodbye from the TCP Server!"</span>,</span>
+<span id="cb1-16"><a href="#cb1-16"></a>            <span class="st">"/joke"</span>: <span class="st">"Why do programmers prefer dark mode? Because light attracts bugs!"</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a>        }</span>
+<span id="cb1-18"><a href="#cb1-18"></a></span>
+<span id="cb1-19"><a href="#cb1-19"></a>    <span class="kw">def</span> setup_socket(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb1-20"><a href="#cb1-20"></a>        <span class="cf">try</span>:</span>
+<span id="cb1-21"><a href="#cb1-21"></a>            <span class="bu">print</span>(<span class="ss">f"Creating TCP socket"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22"></a></span>
+<span id="cb1-23"><a href="#cb1-23"></a>            <span class="co"># </span><span class="al">TODO</span><span class="co"> create a TCP listening socket</span></span>
+<span id="cb1-24"><a href="#cb1-24"></a>            <span class="co"># </span><span class="al">TODO</span><span class="co"> bind the socket</span></span>
+<span id="cb1-25"><a href="#cb1-25"></a>            <span class="co"># </span><span class="al">TODO</span><span class="co"> start listening</span></span>
+<span id="cb1-26"><a href="#cb1-26"></a></span>
+<span id="cb1-27"><a href="#cb1-27"></a>            <span class="va">self</span>.listening <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb1-28"><a href="#cb1-28"></a>            <span class="co"># print(...)</span></span>
+<span id="cb1-29"><a href="#cb1-29"></a></span>
+<span id="cb1-30"><a href="#cb1-30"></a>        <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb1-31"><a href="#cb1-31"></a>            <span class="bu">print</span>(<span class="ss">f"Error setting up socket: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-32"><a href="#cb1-32"></a>            <span class="va">self</span>.listening <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb1-33"><a href="#cb1-33"></a></span>
+<span id="cb1-34"><a href="#cb1-34"></a>        <span class="cf">pass</span></span>
+<span id="cb1-35"><a href="#cb1-35"></a></span>
+<span id="cb1-36"><a href="#cb1-36"></a>    <span class="kw">def</span> acceptConnection(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb1-37"><a href="#cb1-37"></a>        <span class="cf">pass</span></span>
+<span id="cb1-38"><a href="#cb1-38"></a></span>
+<span id="cb1-39"><a href="#cb1-39"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> accept a connection</span></span>
+<span id="cb1-40"><a href="#cb1-40"></a>        <span class="co"># print(...)</span></span>
+<span id="cb1-41"><a href="#cb1-41"></a></span>
+<span id="cb1-42"><a href="#cb1-42"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> store the request data somewhere</span></span>
+<span id="cb1-43"><a href="#cb1-43"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> in a loop, receive data until the full request is obtained</span></span>
+<span id="cb1-44"><a href="#cb1-44"></a></span>
+<span id="cb1-45"><a href="#cb1-45"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> use the connection to receive data</span></span>
+<span id="cb1-46"><a href="#cb1-46"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> append the received data somewhere</span></span>
+<span id="cb1-47"><a href="#cb1-47"></a></span>
+<span id="cb1-48"><a href="#cb1-48"></a>        <span class="co"># print(...)</span></span>
+<span id="cb1-49"><a href="#cb1-49"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> once the request is received, parse it</span></span>
+<span id="cb1-50"><a href="#cb1-50"></a></span>
+<span id="cb1-51"><a href="#cb1-51"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> build the response using build_http_response()</span></span>
+<span id="cb1-52"><a href="#cb1-52"></a>        <span class="co"># print(...)</span></span>
+<span id="cb1-53"><a href="#cb1-53"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> send the response using send_response()</span></span>
+<span id="cb1-54"><a href="#cb1-54"></a>        <span class="co"># print(...)</span></span>
+<span id="cb1-55"><a href="#cb1-55"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> close the connection</span></span>
+<span id="cb1-56"><a href="#cb1-56"></a>        <span class="co"># print(...)</span></span>
+<span id="cb1-57"><a href="#cb1-57"></a></span>
+<span id="cb1-58"><a href="#cb1-58"></a>    <span class="kw">def</span> parse_request(<span class="va">self</span>, request: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">tuple</span>[<span class="bu">str</span> <span class="op">|</span> <span class="va">None</span>, <span class="bu">str</span> <span class="op">|</span> <span class="va">None</span>]:</span>
+<span id="cb1-59"><a href="#cb1-59"></a>        method <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb1-60"><a href="#cb1-60"></a>        resource <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb1-61"><a href="#cb1-61"></a></span>
+<span id="cb1-62"><a href="#cb1-62"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> parse the request string and extract the method and resource</span></span>
+<span id="cb1-63"><a href="#cb1-63"></a></span>
+<span id="cb1-64"><a href="#cb1-64"></a>        <span class="cf">return</span> method, resource</span>
+<span id="cb1-65"><a href="#cb1-65"></a></span>
+<span id="cb1-66"><a href="#cb1-66"></a>    <span class="kw">def</span> build_http_response(<span class="va">self</span>, method: <span class="bu">str</span>, resource: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb1-67"><a href="#cb1-67"></a>        responseCode <span class="op">=</span> <span class="dv">500</span></span>
+<span id="cb1-68"><a href="#cb1-68"></a>        responseMsg <span class="op">=</span> <span class="st">"Internal Server Error"</span></span>
+<span id="cb1-69"><a href="#cb1-69"></a>        responseBody <span class="op">=</span> <span class="st">"Sadness ensues. Something did not go as planned. All hope is lost."</span></span>
+<span id="cb1-70"><a href="#cb1-70"></a></span>
+<span id="cb1-71"><a href="#cb1-71"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> parse the resource and create the corresponding message</span></span>
+<span id="cb1-72"><a href="#cb1-72"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> 200 OK</span></span>
+<span id="cb1-73"><a href="#cb1-73"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> 404 Not Found</span></span>
+<span id="cb1-74"><a href="#cb1-74"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> 400 Bad Request</span></span>
+<span id="cb1-75"><a href="#cb1-75"></a></span>
+<span id="cb1-76"><a href="#cb1-76"></a>        http_response <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb1-77"><a href="#cb1-77"></a>        <span class="cf">return</span> http_response</span>
+<span id="cb1-78"><a href="#cb1-78"></a></span>
+<span id="cb1-79"><a href="#cb1-79"></a>    <span class="kw">def</span> send_response(<span class="va">self</span>, response) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb1-80"><a href="#cb1-80"></a>        <span class="cf">pass</span></span>
+<span id="cb1-81"><a href="#cb1-81"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> send the response through the connection</span></span>
+<span id="cb1-82"><a href="#cb1-82"></a></span>
+<span id="cb1-83"><a href="#cb1-83"></a>    <span class="kw">def</span> close_connection(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb1-84"><a href="#cb1-84"></a>        <span class="va">self</span>.sock.close()</span>
+<span id="cb1-85"><a href="#cb1-85"></a>        <span class="bu">print</span>(<span class="st">"Listening socket closed."</span>)</span>
+<span id="cb1-86"><a href="#cb1-86"></a></span>
+<span id="cb1-87"><a href="#cb1-87"></a></span>
+<span id="cb1-88"><a href="#cb1-88"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb1-89"><a href="#cb1-89"></a>    server <span class="op">=</span> TCPServer()</span>
+<span id="cb1-90"><a href="#cb1-90"></a>    <span class="cf">try</span>:</span>
+<span id="cb1-91"><a href="#cb1-91"></a>        server.listen()</span>
+<span id="cb1-92"><a href="#cb1-92"></a>    <span class="cf">except</span> <span class="pp">KeyboardInterrupt</span>:</span>
+<span id="cb1-93"><a href="#cb1-93"></a>        <span class="bu">print</span>(<span class="st">"Shutting down server..."</span>)</span>
+<span id="cb1-94"><a href="#cb1-94"></a>        server.listening <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb1-95"><a href="#cb1-95"></a>    <span class="cf">finally</span>:</span>
+<span id="cb1-96"><a href="#cb1-96"></a>        server.close_connection()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="testing" class="level3">
+<h3 class="anchored" data-anchor-id="testing">Testing</h3>
+<ul>
+<li>Use <code>curl</code> to test your server: <code>curl http://localhost:8080/hello</code>
+<ul>
+<li>You should see the message “Hello, TCP Client!” in the terminal.</li>
+</ul></li>
+<li>Use <code>curl -v</code> to see the full HTTP response.</li>
+<li>Try other resources like <code>/</code>, <code>/goodbye</code>, and <code>/joke</code>.</li>
+<li>Try an invalid resource like <code>/invalid</code> to see the 404 response.</li>
+</ul>
+</section>
+</section>
 <section id="eecsnet-vm-setup" class="level2">
 <h2 class="anchored" data-anchor-id="eecsnet-vm-setup">EECSNet VM Setup</h2>
 <ol type="1">
@@ -419,26 +539,26 @@ Note
 </div>
 </div>
 <p>From a Windows Terminal (PowerShell), run the following command:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> ubuntu@<span class="op">&lt;</span>VM_IP_ADDRESS<span class="op">&gt;</span> <span class="co"># e.g. ssh ubuntu@10.20.30.40</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> ubuntu@<span class="op">&lt;</span>VM_IP_ADDRESS<span class="op">&gt;</span> <span class="co"># e.g. ssh ubuntu@10.3.50.123</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Use your VM password to login. Now you can run commands on your EECSNet VM remotely.</p>
 </section>
 <section id="passwordless-ssh" class="level3">
 <h3 class="anchored" data-anchor-id="passwordless-ssh">Passwordless SSH</h3>
 <ul>
 <li><p>On your Windows laptop, open PowerShell and check if you have existing SSH keys:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~ <span class="co"># go to your home directory</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> .ssh <span class="co"># go to the .ssh directory within your home directory</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="co"># list files in the .ssh directory</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~ <span class="co"># go to your home directory</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> .ssh <span class="co"># go to the .ssh directory within your home directory</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="co"># list files in the .ssh directory</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>If you do not have <code>id_ecdsa.pub</code> or <code>id_rsa.pub</code> files or something similar, generate a new SSH key pair: <code>ssh-keygen</code>; press <code>Enter</code> twice to accept defaults.</p></li>
 <li><p>Grab your public key:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> id_ecdsa.pub <span class="co"># or cat id_*.pub</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> id_ecdsa.pub <span class="co"># or cat id_*.pub</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>Place your public key onto the VM:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> .ssh</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> .ssh/authorized_keys</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># paste the public key into the text editor</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># save Ctrl+S</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># exit Ctrl+X</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> .ssh/authorized_keys <span class="co"># verify the key is there</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> .ssh</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> .ssh/authorized_keys</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># paste the public key into the text editor</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># save Ctrl+S</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># exit Ctrl+X</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> .ssh/authorized_keys <span class="co"># verify the key is there</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>Now attempt to SSH again: <code>ssh ubuntu@&lt;VM_IP_ADDRESS&gt;</code>. You should not be prompted for a password this time.</p></li>
 <li><p>Optionally, now you can connect your VS Code to your VM using the <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh">Remote - SSH extension</a>.</p></li>
 </ul>
@@ -467,20 +587,20 @@ Note
 <h3 class="anchored" data-anchor-id="send-a-file-from-client-to-server">send a file from client to server</h3>
 <ul>
 <li><p>On the server:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> <span class="at">-v</span> <span class="at">-l</span> <span class="at">-p</span> 23456 <span class="op">&gt;</span> incoming.jpg</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> <span class="at">-v</span> <span class="at">-l</span> <span class="at">-p</span> 23456 <span class="op">&gt;</span> incoming.jpg</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>On the client:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> http.cat/404 <span class="co"># get a cat picture from the internet</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> PARTNER_VM_IP_ADDRESS 23456 <span class="op">&lt;</span> 404 <span class="co"># send it to your partner</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> http.cat/404 <span class="co"># get a cat picture from the internet</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> PARTNER_VM_IP_ADDRESS 23456 <span class="op">&lt;</span> 404 <span class="co"># send it to your partner</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ul>
 </section>
 <section id="send-a-file-from-server-to-client" class="level3">
 <h3 class="anchored" data-anchor-id="send-a-file-from-server-to-client">send a file from server to client</h3>
 <ul>
 <li><p>On the server:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> http.cat/404 <span class="co"># get a cat picture from the internet</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> <span class="at">-v</span> <span class="at">-l</span> <span class="at">-p</span> 34567 <span class="op">&lt;</span> 404</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> http.cat/404 <span class="co"># get a cat picture from the internet</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> <span class="at">-v</span> <span class="at">-l</span> <span class="at">-p</span> 34567 <span class="op">&lt;</span> 404</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>On the client:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> PARTNER_VM_IP_ADDRESS 34567 <span class="op">&gt;</span> incoming.jpg</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> PARTNER_VM_IP_ADDRESS 34567 <span class="op">&gt;</span> incoming.jpg</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ul>
 </section>
 <section id="udp-mode" class="level3">
@@ -488,100 +608,6 @@ Note
 <ul>
 <li>Repeat the above steps using UDP instead of TCP by adding <code>-u</code> flag to <code>nc</code> commands.</li>
 <li>What differences do you notice?</li>
-</ul>
-</section>
-</section>
-<section id="http-server" class="level2">
-<h2 class="anchored" data-anchor-id="http-server">HTTP Server</h2>
-<p>Copy the following code into a file named <code>http_server.py</code> on your VM or WSL. Try the copy icon on the top-right of the code block. Fill in the blanks. Run it to start listening for HTTP requests on port 8080. You can stop the server with <code>Ctrl+C</code>.</p>
-<section id="starter-code" class="level3">
-<h3 class="anchored" data-anchor-id="starter-code">Starter Code</h3>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>http_server.py</strong></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" data-filename="http_server.py"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">import</span> socket</span>
-<span id="cb9-2"><a href="#cb9-2"></a></span>
-<span id="cb9-3"><a href="#cb9-3"></a></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="kw">class</span> TCPServer:</span>
-<span id="cb9-5"><a href="#cb9-5"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, server_ip<span class="op">=</span><span class="st">'127.0.0.128'</span>, server_port<span class="op">=</span><span class="dv">8080</span>):</span>
-<span id="cb9-6"><a href="#cb9-6"></a>        <span class="bu">print</span>(<span class="st">"Initializing TCP Server..."</span>)</span>
-<span id="cb9-7"><a href="#cb9-7"></a>        <span class="va">self</span>.server_ip <span class="op">=</span> server_ip</span>
-<span id="cb9-8"><a href="#cb9-8"></a>        <span class="va">self</span>.server_port <span class="op">=</span> server_port</span>
-<span id="cb9-9"><a href="#cb9-9"></a>        <span class="va">self</span>.listening <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb9-10"><a href="#cb9-10"></a>        <span class="bu">print</span>(<span class="ss">f"Creating TCP socket"</span>)</span>
-<span id="cb9-11"><a href="#cb9-11"></a>        <span class="va">self</span>.setup_socket()</span>
-<span id="cb9-12"><a href="#cb9-12"></a></span>
-<span id="cb9-13"><a href="#cb9-13"></a>        <span class="va">self</span>.resources <span class="op">=</span> {</span>
-<span id="cb9-14"><a href="#cb9-14"></a>            <span class="st">"/"</span>: <span class="st">"Welcome to the TCP Server!"</span>,</span>
-<span id="cb9-15"><a href="#cb9-15"></a>            <span class="st">"/hello"</span>: <span class="st">"Hello, TCP Client!"</span>,</span>
-<span id="cb9-16"><a href="#cb9-16"></a>            <span class="st">"/goodbye"</span>: <span class="st">"Goodbye from the TCP Server!"</span>,</span>
-<span id="cb9-17"><a href="#cb9-17"></a>            <span class="st">"/joke"</span>: <span class="st">"Why do programmers prefer dark mode? Because light attracts bugs!"</span></span>
-<span id="cb9-18"><a href="#cb9-18"></a>        }</span>
-<span id="cb9-19"><a href="#cb9-19"></a></span>
-<span id="cb9-20"><a href="#cb9-20"></a>    <span class="kw">def</span> setup_socket(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
-<span id="cb9-21"><a href="#cb9-21"></a>        <span class="cf">pass</span></span>
-<span id="cb9-22"><a href="#cb9-22"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> create a TCP listening socket</span></span>
-<span id="cb9-23"><a href="#cb9-23"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> bind the socket</span></span>
-<span id="cb9-24"><a href="#cb9-24"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> start listening</span></span>
-<span id="cb9-25"><a href="#cb9-25"></a>        <span class="co">#</span></span>
-<span id="cb9-26"><a href="#cb9-26"></a></span>
-<span id="cb9-27"><a href="#cb9-27"></a>    <span class="kw">def</span> parse_request(<span class="va">self</span>, request) <span class="op">-&gt;</span> <span class="bu">tuple</span>[<span class="bu">str</span> <span class="op">|</span> <span class="va">None</span>, <span class="bu">str</span> <span class="op">|</span> <span class="va">None</span>]:</span>
-<span id="cb9-28"><a href="#cb9-28"></a>        <span class="cf">pass</span></span>
-<span id="cb9-29"><a href="#cb9-29"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> parse the request and extract the method and resource if applicable</span></span>
-<span id="cb9-30"><a href="#cb9-30"></a></span>
-<span id="cb9-31"><a href="#cb9-31"></a>    <span class="kw">def</span> build_http_response(<span class="va">self</span>, request) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
-<span id="cb9-32"><a href="#cb9-32"></a>        <span class="cf">pass</span></span>
-<span id="cb9-33"><a href="#cb9-33"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> parse the resource and create the corresponding message</span></span>
-<span id="cb9-34"><a href="#cb9-34"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> 200 OK</span></span>
-<span id="cb9-35"><a href="#cb9-35"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> 404 Not Found</span></span>
-<span id="cb9-36"><a href="#cb9-36"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> 400 Bad Request</span></span>
-<span id="cb9-37"><a href="#cb9-37"></a></span>
-<span id="cb9-38"><a href="#cb9-38"></a>    <span class="kw">def</span> send_response(<span class="va">self</span>, response) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
-<span id="cb9-39"><a href="#cb9-39"></a>        <span class="cf">pass</span></span>
-<span id="cb9-40"><a href="#cb9-40"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> send the response through the connection</span></span>
-<span id="cb9-41"><a href="#cb9-41"></a></span>
-<span id="cb9-42"><a href="#cb9-42"></a>    <span class="kw">def</span> listen(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
-<span id="cb9-43"><a href="#cb9-43"></a>        <span class="cf">pass</span></span>
-<span id="cb9-44"><a href="#cb9-44"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> accept a connection</span></span>
-<span id="cb9-45"><a href="#cb9-45"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> store the request somewhere</span></span>
-<span id="cb9-46"><a href="#cb9-46"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> use the connection to listen for the request</span></span>
-<span id="cb9-47"><a href="#cb9-47"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> once the request is received</span></span>
-<span id="cb9-48"><a href="#cb9-48"></a></span>
-<span id="cb9-49"><a href="#cb9-49"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> build the response</span></span>
-<span id="cb9-50"><a href="#cb9-50"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> send the response</span></span>
-<span id="cb9-51"><a href="#cb9-51"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> close the connection</span></span>
-<span id="cb9-52"><a href="#cb9-52"></a></span>
-<span id="cb9-53"><a href="#cb9-53"></a>    <span class="kw">def</span> close_server(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
-<span id="cb9-54"><a href="#cb9-54"></a>        <span class="va">self</span>.sock.close()</span>
-<span id="cb9-55"><a href="#cb9-55"></a>        <span class="bu">print</span>(<span class="st">"Listening socket closed."</span>)</span>
-<span id="cb9-56"><a href="#cb9-56"></a></span>
-<span id="cb9-57"><a href="#cb9-57"></a>    <span class="kw">def</span> close_connection(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
-<span id="cb9-58"><a href="#cb9-58"></a>        <span class="cf">pass</span></span>
-<span id="cb9-59"><a href="#cb9-59"></a>        <span class="co"># </span><span class="al">TODO</span><span class="co"> close the connection socket</span></span>
-<span id="cb9-60"><a href="#cb9-60"></a></span>
-<span id="cb9-61"><a href="#cb9-61"></a></span>
-<span id="cb9-62"><a href="#cb9-62"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
-<span id="cb9-63"><a href="#cb9-63"></a>    server <span class="op">=</span> TCPServer()</span>
-<span id="cb9-64"><a href="#cb9-64"></a>    <span class="cf">try</span>:</span>
-<span id="cb9-65"><a href="#cb9-65"></a>        server.listen()</span>
-<span id="cb9-66"><a href="#cb9-66"></a>    <span class="cf">except</span> <span class="pp">KeyboardInterrupt</span>:</span>
-<span id="cb9-67"><a href="#cb9-67"></a>        <span class="bu">print</span>(<span class="st">"Shutting down server..."</span>)</span>
-<span id="cb9-68"><a href="#cb9-68"></a>        server.listening <span class="op">=</span> <span class="va">False</span></span>
-<span id="cb9-69"><a href="#cb9-69"></a>    <span class="cf">finally</span>:</span>
-<span id="cb9-70"><a href="#cb9-70"></a>        server.close_server()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="testing" class="level3">
-<h3 class="anchored" data-anchor-id="testing">Testing</h3>
-<ul>
-<li>Use <code>curl</code> to test your server: <code>curl http://localhost:8080/hello</code>
-<ul>
-<li>You should see the message “Hello, TCP Client!” in the terminal.</li>
-</ul></li>
-<li>Use <code>curl -v</code> to see the full HTTP response.</li>
-<li>Try other resources like <code>/</code>, <code>/goodbye</code>, and <code>/joke</code>.</li>
-<li>Try an invalid resource like <code>/invalid</code> to see the 404 response.</li>
 </ul>
 
 
