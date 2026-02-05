@@ -9,6 +9,25 @@ image: /images/lab03-socket-http.png
 
 Upon the completion of all activities, have your instructor review your work and track your progress to receive full credit.
 
+## HTTP Server
+
+Copy the following code into a file named `http_server.py` on your VM or WSL. Try the copy icon on the top-right of the code block. Fill in the blanks. Run it to start listening for HTTP requests on port `8080`. You can stop the server with `Ctrl+C`.
+
+### Starter Code
+
+```{.python filename="http_server.py" code-line-numbers=true }
+{{< include 03_http_server.py >}}
+```
+
+### Testing
+
+- Use `curl` to test your server: `curl http://localhost:8080/hello`
+    - You should see the message "Hello, TCP Client!" in the terminal.
+
+- Use `curl -v` to see the full HTTP response.
+- Try other resources like `/`, `/goodbye`, and `/joke`.
+- Try an invalid resource like `/invalid` to see the 404 response.
+
 ## EECSNet VM Setup
 
 1. VPN to EECSNet by changing the server address to `vpn.eecs.ninja` in your Cisco AnyConnect client. Login with your EECSNet credentials. Username remains the same and initial password is `qwer1234QWER!@#$`. Change it immediately. See [Linux setup guide](https://usma-eecs.github.io/linux-guide/) for more details.
@@ -27,7 +46,7 @@ Do not run SSH from Ubuntu or WSL on your local machine. WSL cannot access your 
 From a Windows Terminal (PowerShell), run the following command:
 
 ```sh
-ssh ubuntu@<VM_IP_ADDRESS> # e.g. ssh ubuntu@10.20.30.40
+ssh ubuntu@<VM_IP_ADDRESS> # e.g. ssh ubuntu@10.3.50.123
 ```
 
 Use your VM password to login. Now you can run commands on your EECSNet VM remotely.
@@ -115,92 +134,3 @@ Try the following with your lab partner. Note down each other's VM IP addresses.
 
 - Repeat the above steps using UDP instead of TCP by adding `-u` flag to `nc` commands.
 - What differences do you notice?
-
-
-## HTTP Server
-
-Copy the following code into a file named `http_server.py` on your VM or WSL. Try the copy icon on the top-right of the code block. Fill in the blanks. Run it to start listening for HTTP requests on port 8080. You can stop the server with `Ctrl+C`.
-
-### Starter Code
-
-```{.python filename="http_server.py" code-line-numbers=true}
-import socket
-
-
-class TCPServer:
-    def __init__(self, server_ip='127.0.0.128', server_port=8080):
-        print("Initializing TCP Server...")
-        self.server_ip = server_ip
-        self.server_port = server_port
-        self.listening = True
-        print(f"Creating TCP socket")
-        self.setup_socket()
-
-        self.resources = {
-            "/": "Welcome to the TCP Server!",
-            "/hello": "Hello, TCP Client!",
-            "/goodbye": "Goodbye from the TCP Server!",
-            "/joke": "Why do programmers prefer dark mode? Because light attracts bugs!"
-        }
-
-    def setup_socket(self) -> None:
-        pass
-        # TODO create a TCP listening socket
-        # TODO bind the socket
-        # TODO start listening
-        #
-
-    def parse_request(self, request) -> tuple[str | None, str | None]:
-        pass
-        # TODO parse the request and extract the method and resource if applicable
-
-    def build_http_response(self, request) -> str:
-        pass
-        # TODO parse the resource and create the corresponding message
-        # TODO 200 OK
-        # TODO 404 Not Found
-        # TODO 400 Bad Request
-
-    def send_response(self, response) -> None:
-        pass
-        # TODO send the response through the connection
-
-    def listen(self) -> None:
-        pass
-        # TODO accept a connection
-        # TODO store the request somewhere
-        # TODO use the connection to listen for the request
-        # TODO once the request is received
-
-        # TODO build the response
-        # TODO send the response
-        # TODO close the connection
-
-    def close_server(self) -> None:
-        self.sock.close()
-        print("Listening socket closed.")
-
-    def close_connection(self) -> None:
-        pass
-        # TODO close the connection socket
-
-
-if __name__ == "__main__":
-    server = TCPServer()
-    try:
-        server.listen()
-    except KeyboardInterrupt:
-        print("Shutting down server...")
-        server.listening = False
-    finally:
-        server.close_server()
-```
-
-### Testing
-
-- Use `curl` to test your server: `curl http://localhost:8080/hello`
-    - You should see the message "Hello, TCP Client!" in the terminal.
-
-- Use `curl -v` to see the full HTTP response.
-- Try other resources like `/`, `/goodbye`, and `/joke`.
-- Try an invalid resource like `/invalid` to see the 404 response.
