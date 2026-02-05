@@ -1,4 +1,5 @@
 import socket
+import time
 
 
 class TCPServer:
@@ -31,10 +32,11 @@ class TCPServer:
             print(f"Error setting up socket: {e}")
             self.listening = False
 
-        pass
+        print('NOT IMPLEMENTED')
 
     def acceptConnection(self) -> None:
-        pass
+
+        print('Accepting connections...')
 
         # TODO accept a connection
         # print(...)
@@ -77,7 +79,7 @@ class TCPServer:
         return http_response
 
     def send_response(self, response) -> None:
-        pass
+        print('NOT IMPLEMENTED')
         # TODO send the response through the connection
 
     def close_connection(self) -> None:
@@ -87,8 +89,11 @@ class TCPServer:
 
 if __name__ == "__main__":
     server = TCPServer()
+    server.listening = True
     try:
-        server.listen()
+        while server.listening:
+            server.acceptConnection()
+            time.sleep(1)
     except KeyboardInterrupt:
         print("Shutting down server...")
         server.listening = False
