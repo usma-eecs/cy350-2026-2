@@ -70,6 +70,24 @@ All of the following methods are documented in the provided starter files.
 
 ## Sample Output
 
+The console output of the program should look like this. Spaces are for readability and do not need to be exact.
+
+```txt
+ Timestamp   | Altitude (m) | Temp (C) | Volts | Velocity (m/s) | Attitude (p,y,r)
+  1750000660 |      135.674 |    255.7 |  3.89 |           0.00 | (24.0, 1.0, 250.0)
+  1750000700 |      142.408 |    295.6 |  3.87 |         168.35 | (16.0, 0.2, 290.0)
+  1750000712 |      144.850 |    300.3 |  3.87 |         203.50 | (14.0, 0.1, 300.0)
+  1750000760 |      149.031 |    320.4 |  3.85 |          87.10 | (0.0, -0.3, 340.0)
+  1750000772 |      149.488 |    318.9 |  3.84 |          38.08 | (-2.0, -0.4, 350.0)
+  1750000784 |      149.556 |    316.1 |  3.84 |           5.67 | (-4.0, -0.5, 0.0)
+  1750000788 |      149.551 |    312.6 |  3.83 |          -1.25 | (-6.0, -0.6, 10.0)
+  1750000803 |      149.441 |    295.4 |  3.82 |          -7.33 | (-12.0, -0.9, 40.0)
+  1750000818 |      149.186 |    288.7 |  3.81 |         -17.00 | (-14.0, -1.0, 50.0)
+
+Summary JSON saved to telemetry_small.txt_summary.json
+```
+
+
 Create a JSON summary file with the following attributes:
 
 Attributes:
