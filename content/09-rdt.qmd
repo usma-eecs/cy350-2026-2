@@ -1,0 +1,31 @@
+---
+format: html
+title: Reliable Data Transfer
+description: Getting messages across unreliable media
+date: 2026-02-11
+image: /images/09-rdt.png
+---
+
+#### Preparation
+
+- $3.4$ Principles of Reliable Data Transfer
+
+#### Lesson Objectives
+
+- Explain the need for reliable data transfer (Understand/Analyze)
+- Describe the basic RDT problem (Understand)
+- Differentiate between RDT 1.0, 2.0, and 2.1 (Understand/Analyze)
+- Explain how RDT 2.x handles errors (Understand/Apply)
+- Differentiate between RDT 2.x and 3.0 (Understand/Analyze)
+- Explain how RDT 3.0 handles loss (Understand/Apply)
+- Compare and contrast RDT protocols (Analyze/Evaluate)
+
+#### Discussion Plan
+
+- Describe the challenges of reliable data transfer over an unreliable channel, including bit errors and packet loss. Emphasize that the sender cannot assume that the receiver will receive the message correctly or at all.
+- Introduce the concept of an RDT protocol as a set of rules for the sender and receiver to follow to achieve reliable data transfer. Explain that the sender must have a way to detect errors and losses, and the receiver must have a way to acknowledge correct receipt of messages.
+- Describe RDT 1.0 as a naive protocol that simply sends messages without any error detection or acknowledgment. Explain that this protocol is not reliable because it cannot detect or recover from errors or losses.
+- Describe RDT 2.0 as an improvement that adds error detection using checksums and acknowledgments (ACKs). Explain that the sender waits for an ACK from the receiver before sending the next message. However, this protocol still has issues with duplicate messages and ACKs.
+- Describe RDT 2.1 as a further improvement that adds sequence numbers to messages and ACKs to handle duplicates. Explain that the sender alternates between two sequence numbers (0 and 1) for each message, and the receiver uses the sequence number to determine if a message is new or a duplicate.
+- Describe RDT 3.0 as an extension of RDT 2.1 that also handles packet loss by introducing timeouts and retransmissions. Explain that if the sender does not receive an ACK within a certain time, it assumes the message was lost and retransmits it. The receiver can still use sequence numbers to handle duplicates.
+- Compare and contrast the RDT protocols, highlighting their strengths and weaknesses. Discuss the trade-offs between simplicity and reliability, and how real-world protocols like TCP build on these principles to achieve reliable data transfer over the Internet.

@@ -1,0 +1,36 @@
+---
+format: html
+title: Transport Layer
+description: Data transfer between hosts
+date: 2026-02-09
+image: /images/08-transport-layer.png
+---
+
+#### Preparation
+
+- $3.1$ Introduction and Transport-Layer Services
+- $3.2$ Multiplexing and Demultiplexing
+- $3.3$ Connectionless Transport: UDP
+
+#### Lesson Objectives
+
+- Differentiate network vs. transport layer responsibilities (Understand/Analyze)
+- Enumerate transport-layer services (Remember/Understand)
+- Explain sockets and port numbers (Understand)
+- Describe multiplexing and demultiplexing (Understand)
+- Contrast with reliable transports (Analyze)
+- Parse the UDP segment format (Remember/Apply)
+- Map application traffic to sockets and ports (Apply)
+- Recognize common UDP operational/security considerations (Understand)
+
+#### Discussion Plan
+
+- Describe the transport layer’s role in providing logical communication between processes, and contrast it with the network layer’s host-to-host delivery. Emphasize that the transport layer does not guarantee reliability, ordering, or congestion control by default (e.g., UDP).
+- List and describe core transport services (multiplexing/demultiplexing, integrity via checksum, optional reliability/ordering provided by some protocols, congestion control support in reliable transports) and map each service to applications that need them.
+- Define socket and port; distinguish well-known, registered, and dynamic/ephemeral ports; and explain how operating systems allocate ephemeral ports for client-side communications.
+- Diagram how the transport layer uses port numbers to multiplex outgoing segments and demultiplex incoming segments to the right process, and contrast typical demux keys for UDP (usually dest IP + dest port) versus TCP (4‑tuple).
+- Given an application scenario (e.g., DNS query, streaming/VoIP, telemetry, QUIC-based protocols), justify when UDP is preferable over a reliable transport, citing latency, application-controlled reliability, and message semantics.
+- Identify and label UDP header fields (source port, destination port, length, checksum) and payload, and explain the purpose of each field.
+- Describe how the UDP checksum provides error detection using one’s complement arithmetic, what kinds of errors it helps detect, and limitations (e.g., not cryptographically secure). Note that many implementations include a pseudo-header in checksum computation to protect key IP-layer fields; IPv6 requires the UDP checksum.
+- Contrast UDP’s connectionless, no-handshake, no retransmission, no ordering, no congestion control behavior with the concept of a reliable, connection-oriented transport (foreshadowing TCP), including implications for fairness and network stability.
+- Describe how UDP’s statelessness and spoofability can be abused (e.g., amplification/reflection), and identify why middleboxes/NAT/firewalls often treat UDP differently—framing later modules on security and NAT.
