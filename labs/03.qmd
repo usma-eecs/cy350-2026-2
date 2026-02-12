@@ -13,6 +13,11 @@ Upon the completion of all activities, have your instructor review your work and
 
 Copy the following code into a file named `http_server.py` on your VM or WSL. Try the copy icon on the top-right of the code block. Fill in the blanks. Run it to start listening for HTTP requests on port `8080`. You can stop the server with `Ctrl+C`.
 
+### Resources
+
+- [HTTP Message Format - Mozilla docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Messages)
+- [socket library - Python docs](https://docs.python.org/3/library/socket.html) -> see Echo Server example
+
 ### Starter Code
 
 ```{.python filename="http_server.py" code-line-numbers=true }
