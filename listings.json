@@ -12,6 +12,8 @@
       "/content/07-socket-programming.html",
       "/content/08-transport-layer.html",
       "/content/09-rdt.html",
+      "/content/10-tcp.html",
+      "/content/11-flow-congestion-control.html",
       "/labs/01.html",
       "/labs/02.html",
       "/labs/03.html"
