@@ -1,0 +1,16 @@
+---
+format: html
+title: Flow and Congestion Control
+description: Understanding how to manage data flow and prevent congestion in networks
+date: 2026-02-19
+image: /images/11-flow-congestion-control.png
+---
+
+#### Preparation
+
+- $3.4$ Principles of Reliable Data Transfer
+- $3.5.5$ Flow Control
+- $3.6$ Principles of Congestion Control
+- $3.7$ TCP Congestion Control
+
+<!-- #### Lesson Objectives -->

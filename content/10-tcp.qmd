@@ -1,0 +1,17 @@
+---
+format: html
+title: Transmission Control Protocol (TCP)
+description: Understanding the Transmission Control Protocol (TCP) and its role in reliable data transfer
+date: 2026-02-17
+image: /images/10-tcp.png
+---
+
+#### Preparation
+
+- $3.5.1$ The TCP Connection
+- $3.5.2$ TCP Segment Structure
+- $3.5.3$ RTT Estimation and Timeout
+- $3.5.4$ Reliable Data Transfer
+
+
+<!-- #### Lesson Objectives -->
