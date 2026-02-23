@@ -119,32 +119,130 @@
     "text": "Lesson Objectives\n\nExplain the role of each layer in the TCP/IP model\nDefine network protocol\nExplain how protocol design principles enable networks\nWhy abstraction fails under attack or congestion\nIdentify network traffic using Wireshark / Wireview\n\n\n\nPreparation\n\n\\(1.1\\) What is the Internet?\n\\(1.5\\) Protocol Layers and Their Service Models\n\\(1.6\\) Networks Under Attack\n\\(1.2\\) The Network Edge (skim)\n\\(1.3\\) The Network Core (skim)\n\\(1.7\\) History of Computer Networking and the Internet (skim)\n\n\n\nExercise\n\nUse Wireview to identify layers and protocols in captured traffic.\nMap observed protocols to TCP/IP layers.\nDraw the path of a Signal or Whatsapp message — what must go right?\n\n\n\n\n\nReuseCC BY-NC-SA 4.0"
   },
   {
-    "objectID": "labs/03.html",
-    "href": "labs/03.html",
-    "title": "In-Class Lab 3 (10 points)",
+    "objectID": "labs/04.html",
+    "href": "labs/04.html",
+    "title": "In-Class Lab 4 (10 points)",
+    "section": "",
+    "text": "Experience the unreliability of UDP through incremental challenges. Implement strategies to overcome the madness."
+  },
+  {
+    "objectID": "labs/04.html#objective",
+    "href": "labs/04.html#objective",
+    "title": "In-Class Lab 4 (10 points)",
+    "section": "",
+    "text": "Experience the unreliability of UDP through incremental challenges. Implement strategies to overcome the madness."
+  },
+  {
+    "objectID": "labs/04.html#steps",
+    "href": "labs/04.html#steps",
+    "title": "In-Class Lab 4 (10 points)",
+    "section": "Steps",
+    "text": "Steps\n\nRun the provided server. There is only one server program that will work with all levels of the client. Scroll to the bottom of this page to find the server code.\nImplement the client for each level, starting with the simplest and working your way up.\nUse Wireshark to capture and analyze the packets for each level. Take screenshots of the relevant packets and annotate them to show where things went wrong (e.g., lost packets, duplicates, ACKs).\nShare these screenshots with your instructor for the first three levels for full credit."
+  },
+  {
+    "objectID": "labs/04.html#levels",
+    "href": "labs/04.html#levels",
+    "title": "In-Class Lab 4 (10 points)",
+    "section": "Levels",
+    "text": "Levels\n\nUDP is unreliable. Watch your packets get lost in despair.\nRetransmit lost packets. Maybe duplicates will arrive, but who cares? Just get the data there.\nUse an alternating bit to detect duplicates. Slow but reliable.\nHandle 20 packets to capture the flag.\n\n\nLevel 1: UDP is Unreliable\n\n\nudp_client_1.py\n\nimport socket\nimport time\n\nTYPE_DATA = 0xD1  # level 1 DATA\nTYPE_ACK = 0xA1  # level 1 ACK\nSTART_TIME = time.time()\n\n\ndef print_with_time(msg: str):\n    elapsed = time.time() - START_TIME\n    print(f\"[{elapsed:7.3f}s] {msg}\", flush=True)\n\n\ndef build_packet(seq: int, msg: str, pkt_type: int = TYPE_DATA) -&gt; bytes:\n    return bytes([pkt_type, seq]) + msg.encode()\n\n\ndef get_payload(data: bytes):\n    if len(data) &lt; 2:\n        return False\n    payload = data[2:]\n    return payload.decode()\n\n\ndef main():\n    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)\n    sock.settimeout(1.0)\n\n    server = (\"127.0.0.1\", 5005)\n\n    for i in range(20):\n        msg = f\"packet {i}\"\n        pkt = build_packet(i, msg)\n        sock.sendto(pkt, server)\n        print_with_time(f\"Sent: packet {i}\")\n        try:\n            data, addr = sock.recvfrom(4096)\n            payload = get_payload(data)\n            print_with_time(f\"Received: {payload}\")\n        except socket.timeout:\n            print_with_time(f\"Packet {i} was lost. No ACK.\")\n\n\nif __name__ == \"__main__\":\n    try:\n        main()\n    except KeyboardInterrupt:\n        print_with_time(\"Client interrupted. Exiting.\")\n\n\n\nLevel 2: Timeout and Retransmission\n\n\nudp_client_2.py\n\nimport socket\nimport time\n\nTYPE_DATA = 0xD2  # level 2 DATA\nTYPE_ACK = 0xA2  # level 2 ACK\nSTART_TIME = time.time()\n\n\ndef print_with_time(msg: str):\n    elapsed = time.time() - START_TIME\n    print(f\"[{elapsed:7.3f}s] {msg}\", flush=True)\n\n\ndef build_packet(seq: int, msg: str, pkt_type: int = TYPE_DATA) -&gt; bytes:\n    return bytes([pkt_type, seq]) + msg.encode()\n\n\ndef get_payload(data: bytes):\n    if len(data) &lt; 2:\n        return False\n    payload = data[2:]\n    return payload.decode()\n\n\ndef main():\n    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)\n    sock.settimeout(1.0)\n\n    server = (\"127.0.0.1\", 5005)\n\n    for i in range(20):\n        msg = f\"packet {i}\"\n        pkt = build_packet(i, msg, TYPE_DATA)\n        acked = False\n\n        while not acked:\n            sock.sendto(pkt, server)\n            print_with_time(f\"Sent: packet {i}\")\n            try:\n                data, addr = sock.recvfrom(4096)\n                payload = get_payload(data)\n                print_with_time(f\"Received ACK\")\n                acked = True\n            except socket.timeout:\n                print_with_time(f\"Packet {i} was lost. No ACK.\")\n\n\nif __name__ == \"__main__\":\n    try:\n        main()\n    except KeyboardInterrupt:\n        print_with_time(\"Client interrupted. Exiting.\")\n\n\n\nLevel 3: Stop-and-Wait with ACKs\n\n\nudp_client_3.py\n\nimport socket\nimport time\n\nTYPE_DATA = 0xD3  # level 3 DATA\nTYPE_ACK = 0xA3  # level 3 ACK\nSTART_TIME = time.time()\n\n\ndef print_with_time(msg: str):\n    elapsed = time.time() - START_TIME\n    print(f\"[{elapsed:7.3f}s] {msg}\", flush=True)\n\n\ndef build_packet(seq: int, msg: str, pkt_type: int = TYPE_DATA) -&gt; bytes:\n    return bytes([pkt_type, seq]) + msg.encode()\n\n\ndef parse_response(data: bytes):\n    if len(data) &lt; 2:\n        return None\n    pkt_type = data[0]\n    seq = data[1]\n    payload = data[2:]\n    return pkt_type, seq, payload.decode()\n\n\ndef main():\n    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)\n    sock.settimeout(1.0)\n\n    server = (\"127.0.0.1\", 5005)\n\n    seq = 0\n\n    for i in range(20):\n        msg = f\"packet {i}\"\n        pkt = build_packet(seq, msg, TYPE_DATA)\n        acked = False\n\n        while not acked:\n            sock.sendto(pkt, server)\n            print(f\"Sent: packet {i}\")\n\n            try:\n                data, addr = sock.recvfrom(4096)\n                if data[0] == TYPE_ACK:\n                    ack_seq = data[1]\n                    if ack_seq == seq:\n                        acked = True\n                        print_with_time(f\"Received ACK for seq {ack_seq}\")\n                        seq = (seq + 1) % 2  # toggle between 0 and 1\n                    else:\n                        print_with_time(\n                            f\"Received ACK with wrong seq {ack_seq}, expected {seq}\")\n                        print_with_time(f'Retransmitting packet {i} with seq {seq}')\n\n            except socket.timeout:\n                print_with_time(f\"Packet {i} was lost. No ACK.\")\n\n\nif __name__ == \"__main__\":\n    try:\n        main()\n    except KeyboardInterrupt:\n        print_with_time(\"Client interrupted. Exiting.\")"
+  },
+  {
+    "objectID": "labs/04.html#server-code",
+    "href": "labs/04.html#server-code",
+    "title": "In-Class Lab 4 (10 points)",
+    "section": "Server Code",
+    "text": "Server Code\nRun the following server code in a separate terminal. It simulates an unreliable network by randomly dropping packets and introducing delays. You can adjust the loss rate and delay parameters to see how your client handles different conditions.\n\n\nudp_server.py\n\n#!/usr/bin/env python3\nimport socket\nimport random\nimport argparse\nimport logging\nimport time\n\n# Client types\nD1 = 0xD1  # Stage 1\nD2 = 0xD2  # Stage 2\nD3 = 0xD3  # Stage 3\n\n# Server types\nA1 = 0xA1\nA2 = 0xA2\nA3 = 0xA3\n\ndef build_packet(ptype, seq, payload=b\"\"):\n    return bytes([ptype, seq]) + payload\n\ndef main():\n    parser = argparse.ArgumentParser()\n    parser.add_argument(\"--host\", default=\"0.0.0.0\")\n    parser.add_argument(\"--port\", type=int, default=5005)\n    parser.add_argument(\"--loss\", type=float, default=0.3)\n    parser.add_argument(\"--target\", type=int, default=20)\n    parser.add_argument(\"--max-delay\", type=float, default=0.2, help=\"max delay in seconds for simulating network latency\")\n    parser.add_argument(\"--debug\", action=\"store_true\")\n    args = parser.parse_args()\n\n    logging.basicConfig(level=logging.DEBUG if args.debug else logging.INFO,\n                        format=\"%(asctime)s %(levelname)s: %(message)s\")\n\n    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)\n    sock.bind((args.host, args.port))\n\n    logging.info(\"Server listening on %s:%d\", args.host, args.port)\n\n    # Per-client state for Stage 3\n    client_state = {}  # addr -&gt; {expected_seq, count}\n\n    while True:\n        data, addr = sock.recvfrom(4096)\n\n        if len(data) &lt; 2:\n            continue\n\n        # Simulated loss\n        if random.random() &lt; args.loss:\n            logging.debug(\"Dropped packet from %s\", addr)\n            continue\n\n        # Simulated delay\n        delay = random.random() * args.max_delay\n        time.sleep(delay)\n\n        ptype = data[0]\n        seq = data[1]\n        payload = data[2:]\n\n        # -----------------------\n        # Stage 1: Simple Echo\n        # -----------------------\n        if ptype == D1:\n            logging.debug(\"Stage 1 packet from %s\", addr)\n            response = build_packet(A1, seq, payload.upper())\n            sock.sendto(response, addr)\n\n        # -----------------------\n        # Stage 2: Echo with loss (students retransmit)\n        # -----------------------\n        elif ptype == D2:\n            logging.debug(\"Stage 2 packet from %s\", addr)\n            response = build_packet(A2, seq)\n            sock.sendto(response, addr)\n\n        # -----------------------\n        # Stage 3: Stop-and-Wait\n        # -----------------------\n        elif ptype == D3:\n            state = client_state.get(addr)\n            if state is None:\n                state = {\"expected_seq\": 0, \"count\": 0}\n                client_state[addr] = state\n\n            expected = state[\"expected_seq\"]\n\n            if seq == expected:\n                # Valid in-order packet\n                ack = build_packet(A3, seq)\n                sock.sendto(ack, addr)\n\n                state[\"expected_seq\"] ^= 1\n                state[\"count\"] += 1\n\n                logging.debug(\"Accepted seq %d from %s (count=%d)\",\n                              seq, addr, state[\"count\"])\n\n                if state[\"count\"] &gt;= args.target:\n                    flag_msg = b\"FLAG{STOP_AND_WAIT_SUCCESS}\"\n                    sock.sendto(build_packet(A3, seq, flag_msg), addr)\n                    state[\"count\"] = 0  # reset for replay\n\n            else:\n                # Duplicate — resend last ACK\n                last_ack_seq = 1 - expected\n                ack = build_packet(A3, last_ack_seq)\n                sock.sendto(ack, addr)\n\n        else:\n            logging.debug(\"Unknown packet type from %s\", addr)\n\nif __name__ == \"__main__\":\n    try:\n        main()\n    except KeyboardInterrupt:\n        print(\"Server interrupted. Exiting.\")"
+  },
+  {
+    "objectID": "labs/02.html",
+    "href": "labs/02.html",
+    "title": "In-Class Lab 2 (10 points)",
     "section": "",
     "text": "Upon the completion of all activities, have your instructor review your work and track your progress to receive full credit."
   },
   {
-    "objectID": "labs/03.html#http-server",
-    "href": "labs/03.html#http-server",
-    "title": "In-Class Lab 3 (10 points)",
-    "section": "HTTP Server",
-    "text": "HTTP Server\nCopy the following code into a file named http_server.py on your VM or WSL. Try the copy icon on the top-right of the code block. Fill in the blanks. Run it to start listening for HTTP requests on port 8080. You can stop the server with Ctrl+C.\n\nResources\n\nHTTP Message Format - Mozilla docs\nsocket library - Python docs -&gt; see Echo Server example\n\n\n\nStarter Code\n\n\nhttp_server.py\n\nimport socket\nimport time\n\n\nclass TCPServer:\n    def __init__(self, server_ip='127.0.0.1', server_port=8080):\n        print(\"Initializing TCP Server...\")\n        self.server_ip = server_ip\n        self.server_port = server_port\n        self.listening = False\n        self.setup_socket()\n\n        self.resources = {\n            \"/\": \"Welcome to the TCP Server!\",\n            \"/hello\": \"Hello, TCP Client!\",\n            \"/goodbye\": \"Goodbye from the TCP Server!\",\n            \"/joke\": \"Why do programmers prefer dark mode? Because light attracts bugs!\"\n        }\n\n    def setup_socket(self) -&gt; None:\n        try:\n            print(f\"Creating TCP socket\")\n\n            # TODO create a TCP listening socket\n            # TODO bind the socket\n            # TODO start listening\n\n            self.listening = True\n            # print(...)\n\n        except Exception as e:\n            print(f\"Error setting up socket: {e}\")\n            self.listening = False\n\n        print('NOT IMPLEMENTED')\n\n    def acceptConnection(self) -&gt; None:\n\n        print('Accepting connections...')\n\n        # TODO accept a connection\n        # print(...)\n\n        # TODO store the request data somewhere\n        # TODO in a loop, receive data until the full request is obtained\n\n        # TODO use the connection to receive data\n        # TODO append the received data somewhere\n\n        # print(...)\n        # TODO once the request is received, parse it\n\n        # TODO build the response using build_http_response()\n        # print(...)\n        # TODO send the response using send_response()\n        # print(...)\n        # TODO close the connection\n        # print(...)\n\n    def parse_request(self, request: str) -&gt; tuple[str | None, str | None]:\n        method = None\n        resource = None\n\n        # TODO parse the request string and extract the method and resource\n\n        return method, resource\n\n    def build_http_response(self, method: str, resource: str) -&gt; str:\n        responseCode = 500\n        responseMsg = \"Internal Server Error\"\n        responseBody = \"Sadness ensues. Something did not go as planned. All hope is lost.\"\n\n        # TODO parse the resource and create the corresponding message\n        # TODO 200 OK\n        # TODO 404 Not Found\n        # TODO 400 Bad Request\n\n        http_response = None\n        return http_response\n\n    def send_response(self, response) -&gt; None:\n        print('NOT IMPLEMENTED')\n        # TODO send the response through the connection\n\n    def close_connection(self) -&gt; None:\n        self.sock.close()\n        print(\"Listening socket closed.\")\n\n\nif __name__ == \"__main__\":\n    server = TCPServer()\n    server.listening = True\n    try:\n        while server.listening:\n            server.acceptConnection()\n            time.sleep(1)\n    except KeyboardInterrupt:\n        print(\"Shutting down server...\")\n        server.listening = False\n    finally:\n        server.close_connection()\n\n\n\nTesting\n\nUse curl to test your server: curl http://localhost:8080/hello\n\nYou should see the message “Hello, TCP Client!” in the terminal.\n\nUse curl -v to see the full HTTP response.\nTry other resources like /, /goodbye, and /joke.\nTry an invalid resource like /invalid to see the 404 response."
+    "objectID": "labs/02.html#environment",
+    "href": "labs/02.html#environment",
+    "title": "In-Class Lab 2 (10 points)",
+    "section": "Environment",
+    "text": "Environment\nWrite your program in VSCode connected to WSL (Ubuntu). If you have not yet set this up, refer to the instructions in lab 1."
   },
   {
-    "objectID": "labs/03.html#eecsnet-vm-setup",
-    "href": "labs/03.html#eecsnet-vm-setup",
-    "title": "In-Class Lab 3 (10 points)",
-    "section": "EECSNet VM Setup",
-    "text": "EECSNet VM Setup\n\nVPN to EECSNet by changing the server address to vpn.eecs.ninja in your Cisco AnyConnect client. Login with your EECSNet credentials. Username remains the same and initial password is qwer1234QWER!@#$. Change it immediately. See Linux setup guide for more details.\nLogin to vSphere\nFind your VM by navigating the tree on the left and expanding all folders.\nClick on Launch Web Console button and login using your VM credentials: ubuntu and cy350pass\nStart a DHCP client by running sudo dhcpcd in the terminal\nCheck your VM’s IP address with ip addr. Note down the address for the Ethernet adapter.\n\n\nSSH from Windows (not WSL!)\n\n\n\n\n\n\nNote\n\n\n\nDo not run SSH from Ubuntu or WSL on your local machine. WSL cannot access your EECSNet VPN.\n\n\nFrom a Windows Terminal (PowerShell), run the following command:\nssh ubuntu@&lt;VM_IP_ADDRESS&gt; # e.g. ssh ubuntu@10.3.50.123\nUse your VM password to login. Now you can run commands on your EECSNet VM remotely.\n\n\nPasswordless SSH\n\nOn your Windows laptop, open PowerShell and check if you have existing SSH keys:\ncd ~ # go to your home directory\ncd .ssh # go to the .ssh directory within your home directory\nls # list files in the .ssh directory\nIf you do not have id_ecdsa.pub or id_rsa.pub files or something similar, generate a new SSH key pair: ssh-keygen; press Enter twice to accept defaults.\nGrab your public key:\ncat id_ecdsa.pub # or cat id_*.pub\nPlace your public key onto the VM:\nmkdir .ssh\nnano .ssh/authorized_keys\n# paste the public key into the text editor\n# save Ctrl+S\n# exit Ctrl+X\ncat .ssh/authorized_keys # verify the key is there\nNow attempt to SSH again: ssh ubuntu@&lt;VM_IP_ADDRESS&gt;. You should not be prompted for a password this time.\nOptionally, now you can connect your VS Code to your VM using the Remote - SSH extension.\n\nReminder: In VS Code, Features &gt; Chat &gt; Disable AI Features to protect yourself from unintentional AI completions!"
+    "objectID": "labs/02.html#run-server-program",
+    "href": "labs/02.html#run-server-program",
+    "title": "In-Class Lab 2 (10 points)",
+    "section": "Run Server Program",
+    "text": "Run Server Program\nComplete the following server program. Review the code and understand what it does. Run it in the first terminal. Ensure that it is listening on the correct port that you are going to use for the client.\nimport socket\n\n\ndef main() -&gt; None:\n    host = \"0.0.0.0\"\n    port = 8000\n    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    try:\n        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)\n        s.bind((host, port))\n        s.listen(5)\n        print(f\"Listening on {host}:{port}\")\n    except Exception as e:\n        print(f\"Failed to set up server: {e}\")\n        return\n\n    try:\n        while True:\n            conn, addr = s.accept()\n            with conn:\n                print(f\"Client connected: {addr}\")\n                while True:\n                    data = conn.recv(4096)\n                    if not data:\n                        break\n                    text = data.decode(\"utf-8\")\n                    response = text.upper()\n                    responseBytes = response.encode(\"utf-8\")\n                    conn.sendall(responseBytes)\n\n    # capture keyboard interrupt to gracefully shutdown the server\n    except KeyboardInterrupt:\n        print(\"Shutting down server.\")\n        s.close()\n\n\nif __name__ == \"__main__\":\n    main()"
   },
   {
-    "objectID": "labs/03.html#netcat-nc",
-    "href": "labs/03.html#netcat-nc",
-    "title": "In-Class Lab 3 (10 points)",
-    "section": "netcat (nc)",
-    "text": "netcat (nc)\nTry the following with your lab partner. Note down each other’s VM IP addresses.\n\nlisten (server)\n\nUse nc (netcat) to create a TCP socket\nListen on port 12345: nc -v -l -p 12345\nWhy did you not enter an IP address? Where do you enter it?\n\n\n\nconnect (client)\n\nOn the other VM, connect to the socket above: nc PARTNER_VM_IP_ADDRESS 12345\nType a message and hit enter. Can your partner see it?\n\n\n\nsend a file from client to server\n\nOn the server:\nnc -v -l -p 23456 &gt; incoming.jpg\nOn the client:\nwget http.cat/404 # get a cat picture from the internet\nnc PARTNER_VM_IP_ADDRESS 23456 &lt; 404 # send it to your partner\n\n\n\nsend a file from server to client\n\nOn the server:\nwget http.cat/404 # get a cat picture from the internet\nnc -v -l -p 34567 &lt; 404\nOn the client:\nnc PARTNER_VM_IP_ADDRESS 34567 &gt; incoming.jpg\n\n\n\nUDP mode\n\nRepeat the above steps using UDP instead of TCP by adding -u flag to nc commands.\nWhat differences do you notice?"
+    "objectID": "labs/02.html#verify-server",
+    "href": "labs/02.html#verify-server",
+    "title": "In-Class Lab 2 (10 points)",
+    "section": "Verify Server",
+    "text": "Verify Server\n\nUse netstat -tuln or ss -tuln to verify that the server is listening on the expected port.\nUse nc localhost &lt;port&gt; to connect to the server and verify it responds correctly.\n\nWhat does nc or netcat do?"
+  },
+  {
+    "objectID": "labs/02.html#client-program",
+    "href": "labs/02.html#client-program",
+    "title": "In-Class Lab 2 (10 points)",
+    "section": "Client Program",
+    "text": "Client Program\nUpdate the following socket client. Modify it as needed to connect to the server you started in the first terminal. Run it in the second terminal.\nimport socket\n\nHOST = \"127.0.0.1\"\nPORT = 8000\n\n\ndef main() -&gt; None:\n\n    # see https://docs.python.org/3/library/socket.html\n    # Example -&gt; Echo client program\n\n    # Create a TCP socket\n    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n\n    # TODO: connect to the server\n    sock.connect((HOST, PORT))\n\n    # ask for user input in a loop\n    while True:\n        message = input(\"&gt; \")\n        if message == \"exit\":\n            break\n\n        # TODO: encode user input into bytes\n\n        # TODO: send the bytes to the server\n\n        # TODO: receive the response from the server\n\n        # TODO: decode the response into a string\n\n        # TODO: print the response\n        print(f\"Not Server Response: {message}\")\n\n    # TODO: close the connection to the server\n\n\nif __name__ == \"__main__\":\n    main()"
+  },
+  {
+    "objectID": "labs/02.html#capture-traffic",
+    "href": "labs/02.html#capture-traffic",
+    "title": "In-Class Lab 2 (10 points)",
+    "section": "Capture Traffic",
+    "text": "Capture Traffic\nIn the third terminal, run tcpdump or tshark to capture the traffic between the client and server. Filter by port number to minimize noise. Run man tcpdump or see lab 1 for the correct command line flags. Observe the packets being exchanged. Save your capture to a file for later analysis.\nsudo tcpdump -i any --print -w ... port &lt;port&gt;\nsudo tshark -i any -w ... -f \"tcp port &lt;port&gt;\"\n\nWhy do we need sudo to run these commands?\nWhat does the -i any flag do?\nWhat does the -w flag do?"
+  },
+  {
+    "objectID": "labs/02.html#analyze-capture",
+    "href": "labs/02.html#analyze-capture",
+    "title": "In-Class Lab 2 (10 points)",
+    "section": "Analyze Capture",
+    "text": "Analyze Capture\nUse Wireshark to open the saved capture file. Analyze the packets exchanged between the client and server. Identify the request and response messages. Note any interesting details about the protocol being used. Reason about how you would distinguish messages from different clients if multiple clients were connected simultaneously.\n\nWhere did the communication begin? Do you see the SYN, SYN-ACK, ACK handshake in the TCP connection setup?\nWhere did the communication end? Do you see the FIN, ACK, FIN, ACK handshake in the TCP connection teardown?\nHow many bytes were sent in each direction?"
+  },
+  {
+    "objectID": "labs/02.html#instructor-review",
+    "href": "labs/02.html#instructor-review",
+    "title": "In-Class Lab 2 (10 points)",
+    "section": "Instructor Review",
+    "text": "Instructor Review\nTo complete the lab, show your instructor the following:\n\nPacket capture that includes the TCP handshake, client-server communication, and TCP teardown\nThe client and server terminal outputs that demonstrate the working client-server interaction\nYour client and server code with the TODOs completed"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "CY350 Computer Networks",
+    "section": "",
+    "text": "This course provides an introduction to computer networks from both a theoretical and software design perspective. The goal is to provide the basic concepts necessary to understand the design and operation of computer networks and gain experience writing programs that use the network. Each level of the TCP/IP protocol stack is examined in detail with a heavy emphasis on socket programming, theoretical foundations, and cybersecurity implications."
+  },
+  {
+    "objectID": "index.html#course-content",
+    "href": "index.html#course-content",
+    "title": "CY350 Computer Networks",
+    "section": "Course Content",
+    "text": "Course Content\n\n\n\n\n\n\n\n\n\n\nCourse Syllabus\n\n\nWelcome to CY350 - Computer Networks!\n\n\n\n\n\n\nJan 5, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nIntroduction\n\n\nComputer Networking and the Internet\n\n\n\n\n\n\nJan 6, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nProtocols, Layers, and Abstraction\n\n\nHow networking is structured\n\n\n\n\n\n\nJan 8, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nNetwork Evolution and Measuring Performance\n\n\nDelay, loss, and throughput\n\n\n\n\n\n\nJan 12, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nApplication Layer\n\n\nHow data is transmitted over the Internet\n\n\n\n\n\n\nJan 14, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nHTTP and the Web\n\n\nProtocols and mechanisms\n\n\n\n\n\n\nJan 20, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nSMTP and DNS\n\n\nEmail and Directory of the Internet\n\n\n\n\n\n\nJan 27, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nSocket Programming\n\n\nCreating Network Applications\n\n\n\n\n\n\nFeb 4, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nTransport Layer\n\n\nData transfer between hosts\n\n\n\n\n\n\nFeb 9, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nReliable Data Transfer\n\n\nGetting messages across unreliable media\n\n\n\n\n\n\nFeb 11, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nTransmission Control Protocol (TCP)\n\n\nUnderstanding the Transmission Control Protocol (TCP) and its role in reliable data transfer\n\n\n\n\n\n\nFeb 17, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nFlow and Congestion Control\n\n\nUnderstanding how to manage data flow and prevent congestion in networks\n\n\n\n\n\n\nFeb 19, 2026\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html#lab-exercises",
+    "href": "index.html#lab-exercises",
+    "title": "CY350 Computer Networks",
+    "section": "Lab Exercises",
+    "text": "Lab Exercises\n\n\n\n\n\n\n\n\n\n\nIn-Class Lab 1 (10 points)\n\n\nEnvironment Setup with WSL and VSCode\n\n\n\n\n\n\nJan 6, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nIn-Class Lab 2 (10 points)\n\n\nAnalyzing Client-Server Communication with netcat and tcpdump\n\n\n\n\n\n\nJan 14, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nIn-Class Lab 3 (10 points)\n\n\nBasic Client-Server Communication with HTTP and netcat\n\n\n\n\n\n\nFeb 4, 2026\n\n\n\n\n\n\n\n\n\n\n\nIn-Class Lab 4 (10 points)\n\n\nStop-and-Wait Reliable Transfer over UDP\n\n\n\n\n\n\nFeb 23, 2026\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html#course-resources",
+    "href": "index.html#course-resources",
+    "title": "CY350 Computer Networks",
+    "section": "Course Resources",
+    "text": "Course Resources\nAll the resources listed below are considered common knowledge and do not need to be cited.\n\nWhere to get the textbook\n\nComputer Networking (pearson.com)\nComputer Networking: A Top-Down Approach: James Kurose: 9789356061316: Amazon.com: Books\nAmazon.com: Computer Networking [RENTAL EDITION]: 9780136681557: James Kurose: Books\nSee Modules &gt; Course Resources\n\n\n\nTextbook Assistance Websites\n\nTextbook Companion Website\nAuthor Website\n\n\n\nGuides and Documentation\n\nPython 3 Documentation\nPython f-strings\nPython Notes for Professionals\nLinux Notes for Professionals\nCY350 Linux Setup Guide\nCY350 Python Refresher\nUnofficial Instrtuctor Website: cy350.bhatia.dev"
+  },
+  {
+    "objectID": "index.html#course-schedule",
+    "href": "index.html#course-schedule",
+    "title": "CY350 Computer Networks",
+    "section": "Course Schedule",
+    "text": "Course Schedule\n\n\n\n\n\n\n\n\n\n\nLesson\nDay1\nDay2\nAssigned\nDue Date\n\n\n\n\n1- Introduction to Networking\n07 Jan\n06 Jan\nUsage Agreement\n11 Jan\n\n\n2- Protocols, Layers, and Abstraction\n09 Jan\n08 Jan\nProblem Set 1\n18 Jan\n\n\n3- Assessing Terrain Conditions: Network Metrics\n12 Jan\n13 Jan\nProblem Set 2\n25 Jan\n\n\n4- Application Layer\n14 Jan\n15 Jan\n\n\n\n\n5- HTTP and the Web\n20 Jan\n21 Jan\n\n\n\n\n6- DNS and Email\n30 Jan\n27 Jan\nProblem Set 3\n08 Feb\n\n\n7- Socket Programming Lab\n04 Feb\n05 Feb\nProblem Set 4\n15 Feb\n\n\n8- Transport Layer\n09 Feb\n10 Feb\nProblem Set 5\n22 Feb\n\n\n9- Reliable Data Transfer\n11 Feb\n12 Feb\n\n\n\n\n10- Transmission Control Protocol\n18 Feb\n17 Feb\nProblem Set 6\n01 Mar\n\n\n11- Flow and Congestion Control\n20 Feb\n19 Feb\n\n\n\n\n12- UDP and QUIC\n23 Feb\n24 Feb\nProblem Set 7\n08 Mar\n\n\nWPR1 Review\n25 Feb\n26 Feb\n\n\n\n\nWPR1\n02 Mar\n03 Mar\nProject 1\n22 Mar\n\n\n13- Network Layer\n04 Mar\n05 Mar\n\n\n\n\n14- Internet Protocol v4\n09 Mar\n10 Mar\nProblem Set 8\n20 Mar\n\n\n15- Internet Protocol v6\n11 Mar\n12 Mar\n\n\n\n\n16- Routing Protocols- Link State, Distance Vector\n16 Mar\n17 Mar\n\n\n\n\n17- Control Plane\n18 Mar\n19 Mar\nProject 2\n12 Apr\n\n\n18- Link Layer\n23 Mar\n24 Mar\nProblem Set 9\n06 Apr\n\n\n19- Multiple Access Protocols & Switched LANs\n25 Mar\n26 Mar\n\n\n\n\n20- Wireless Networks\n07 Apr\n08 Apr\nProblem Set 10\n10 Apr\n\n\n21- Bluetooth & Cellular Networks\n09 Apr\n10 Apr\n\n\n\n\n22- Network Security Basics\n13 Apr\n14 Apr\nProject 3\n10 May\n\n\n23- Transport Layer Security\n15 Apr\n16 Apr\n\n\n\n\n24- VPNs and Wireless Network Security\n20 Apr\n21 Apr\n\n\n\n\nWPR2\n27 Apr\n28 Apr\n\n\n\n\n25- Network Security Appliances\n29 Apr\n30 Apr\n\n\n\n\n26- TBD\n04 May\n05 May\n\n\n\n\n27- TBD\n06 May\n07 May"
   },
   {
     "objectID": "labs/01.html",
@@ -203,95 +301,32 @@
     "text": "Hide AI features in vscode\nFeatures &gt; Chat &gt; Disable AI Features to protect yourself from unintentional AI completions!\nAlternatively:\n\nPress Ctrl + Shift + P\nSearch for “Hide AI Features”\nUnder setting, check the “Disable” box"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "CY350 Computer Networks",
-    "section": "",
-    "text": "This course provides an introduction to computer networks from both a theoretical and software design perspective. The goal is to provide the basic concepts necessary to understand the design and operation of computer networks and gain experience writing programs that use the network. Each level of the TCP/IP protocol stack is examined in detail with a heavy emphasis on socket programming, theoretical foundations, and cybersecurity implications."
-  },
-  {
-    "objectID": "index.html#course-content",
-    "href": "index.html#course-content",
-    "title": "CY350 Computer Networks",
-    "section": "Course Content",
-    "text": "Course Content\n\n\n\n\n\n\n\n\n\n\nCourse Syllabus\n\n\nWelcome to CY350 - Computer Networks!\n\n\n\n\n\n\nJan 5, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nIntroduction\n\n\nComputer Networking and the Internet\n\n\n\n\n\n\nJan 6, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nProtocols, Layers, and Abstraction\n\n\nHow networking is structured\n\n\n\n\n\n\nJan 8, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nNetwork Evolution and Measuring Performance\n\n\nDelay, loss, and throughput\n\n\n\n\n\n\nJan 12, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nApplication Layer\n\n\nHow data is transmitted over the Internet\n\n\n\n\n\n\nJan 14, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nHTTP and the Web\n\n\nProtocols and mechanisms\n\n\n\n\n\n\nJan 20, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nSMTP and DNS\n\n\nEmail and Directory of the Internet\n\n\n\n\n\n\nJan 27, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nSocket Programming\n\n\nCreating Network Applications\n\n\n\n\n\n\nFeb 4, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nTransport Layer\n\n\nData transfer between hosts\n\n\n\n\n\n\nFeb 9, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nReliable Data Transfer\n\n\nGetting messages across unreliable media\n\n\n\n\n\n\nFeb 11, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nTransmission Control Protocol (TCP)\n\n\nUnderstanding the Transmission Control Protocol (TCP) and its role in reliable data transfer\n\n\n\n\n\n\nFeb 17, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nFlow and Congestion Control\n\n\nUnderstanding how to manage data flow and prevent congestion in networks\n\n\n\n\n\n\nFeb 19, 2026\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html#lab-exercises",
-    "href": "index.html#lab-exercises",
-    "title": "CY350 Computer Networks",
-    "section": "Lab Exercises",
-    "text": "Lab Exercises\n\n\n\n\n\n\n\n\n\n\nIn-Class Lab 1 (10 points)\n\n\nEnvironment Setup with WSL and VSCode\n\n\n\n\n\n\nJan 6, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nIn-Class Lab 2 (10 points)\n\n\nAnalyzing Client-Server Communication with netcat and tcpdump\n\n\n\n\n\n\nJan 14, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nIn-Class Lab 3 (10 points)\n\n\nBasic Client-Server Communication with HTTP and netcat\n\n\n\n\n\n\nFeb 4, 2026\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html#course-resources",
-    "href": "index.html#course-resources",
-    "title": "CY350 Computer Networks",
-    "section": "Course Resources",
-    "text": "Course Resources\nAll the resources listed below are considered common knowledge and do not need to be cited.\n\nWhere to get the textbook\n\nComputer Networking (pearson.com)\nComputer Networking: A Top-Down Approach: James Kurose: 9789356061316: Amazon.com: Books\nAmazon.com: Computer Networking [RENTAL EDITION]: 9780136681557: James Kurose: Books\nSee Modules &gt; Course Resources\n\n\n\nTextbook Assistance Websites\n\nTextbook Companion Website\nAuthor Website\n\n\n\nGuides and Documentation\n\nPython 3 Documentation\nPython f-strings\nPython Notes for Professionals\nLinux Notes for Professionals\nCY350 Linux Setup Guide\nCY350 Python Refresher\nUnofficial Instrtuctor Website: cy350.bhatia.dev"
-  },
-  {
-    "objectID": "index.html#course-schedule",
-    "href": "index.html#course-schedule",
-    "title": "CY350 Computer Networks",
-    "section": "Course Schedule",
-    "text": "Course Schedule\n\n\n\n\n\n\n\n\n\n\nLesson\nDay1\nDay2\nAssigned\nDue Date\n\n\n\n\n1- Introduction to Networking\n07 Jan\n06 Jan\nUsage Agreement\n11 Jan\n\n\n2- Protocols, Layers, and Abstraction\n09 Jan\n08 Jan\nProblem Set 1\n18 Jan\n\n\n3- Assessing Terrain Conditions: Network Metrics\n12 Jan\n13 Jan\nProblem Set 2\n25 Jan\n\n\n4- Application Layer\n14 Jan\n15 Jan\n\n\n\n\n5- HTTP and the Web\n20 Jan\n21 Jan\n\n\n\n\n6- DNS and Email\n30 Jan\n27 Jan\nProblem Set 3\n08 Feb\n\n\n7- Socket Programming Lab\n04 Feb\n05 Feb\nProblem Set 4\n15 Feb\n\n\n8- Transport Layer\n09 Feb\n10 Feb\nProblem Set 5\n22 Feb\n\n\n9- Reliable Data Transfer\n11 Feb\n12 Feb\n\n\n\n\n10- Transmission Control Protocol\n18 Feb\n17 Feb\nProblem Set 6\n01 Mar\n\n\n11- Flow and Congestion Control\n20 Feb\n19 Feb\n\n\n\n\n12- UDP and QUIC\n23 Feb\n24 Feb\nProblem Set 7\n08 Mar\n\n\nWPR1 Review\n25 Feb\n26 Feb\n\n\n\n\nWPR1\n02 Mar\n03 Mar\nProject 1\n22 Mar\n\n\n13- Network Layer\n04 Mar\n05 Mar\n\n\n\n\n14- Internet Protocol v4\n09 Mar\n10 Mar\nProblem Set 8\n20 Mar\n\n\n15- Internet Protocol v6\n11 Mar\n12 Mar\n\n\n\n\n16- Routing Protocols- Link State, Distance Vector\n16 Mar\n17 Mar\n\n\n\n\n17- Control Plane\n18 Mar\n19 Mar\nProject 2\n12 Apr\n\n\n18- Link Layer\n23 Mar\n24 Mar\nProblem Set 9\n06 Apr\n\n\n19- Multiple Access Protocols & Switched LANs\n25 Mar\n26 Mar\n\n\n\n\n20- Wireless Networks\n07 Apr\n08 Apr\nProblem Set 10\n10 Apr\n\n\n21- Bluetooth & Cellular Networks\n09 Apr\n10 Apr\n\n\n\n\n22- Network Security Basics\n13 Apr\n14 Apr\nProject 3\n10 May\n\n\n23- Transport Layer Security\n15 Apr\n16 Apr\n\n\n\n\n24- VPNs and Wireless Network Security\n20 Apr\n21 Apr\n\n\n\n\nWPR2\n27 Apr\n28 Apr\n\n\n\n\n25- Network Security Appliances\n29 Apr\n30 Apr\n\n\n\n\n26- TBD\n04 May\n05 May\n\n\n\n\n27- TBD\n06 May\n07 May"
-  },
-  {
-    "objectID": "labs/02.html",
-    "href": "labs/02.html",
-    "title": "In-Class Lab 2 (10 points)",
+    "objectID": "labs/03.html",
+    "href": "labs/03.html",
+    "title": "In-Class Lab 3 (10 points)",
     "section": "",
     "text": "Upon the completion of all activities, have your instructor review your work and track your progress to receive full credit."
   },
   {
-    "objectID": "labs/02.html#environment",
-    "href": "labs/02.html#environment",
-    "title": "In-Class Lab 2 (10 points)",
-    "section": "Environment",
-    "text": "Environment\nWrite your program in VSCode connected to WSL (Ubuntu). If you have not yet set this up, refer to the instructions in lab 1."
+    "objectID": "labs/03.html#http-server",
+    "href": "labs/03.html#http-server",
+    "title": "In-Class Lab 3 (10 points)",
+    "section": "HTTP Server",
+    "text": "HTTP Server\nCopy the following code into a file named http_server.py on your VM or WSL. Try the copy icon on the top-right of the code block. Fill in the blanks. Run it to start listening for HTTP requests on port 8080. You can stop the server with Ctrl+C.\n\nResources\n\nHTTP Message Format - Mozilla docs\nsocket library - Python docs -&gt; see Echo Server example\n\n\n\nStarter Code\n\n\nhttp_server.py\n\nimport socket\nimport time\n\n\nclass TCPServer:\n    def __init__(self, server_ip='127.0.0.1', server_port=8080):\n        print(\"Initializing TCP Server...\")\n        self.server_ip = server_ip\n        self.server_port = server_port\n        self.listening = False\n        self.setup_socket()\n\n        self.resources = {\n            \"/\": \"Welcome to the TCP Server!\",\n            \"/hello\": \"Hello, TCP Client!\",\n            \"/goodbye\": \"Goodbye from the TCP Server!\",\n            \"/joke\": \"Why do programmers prefer dark mode? Because light attracts bugs!\"\n        }\n\n    def setup_socket(self) -&gt; None:\n        try:\n            print(f\"Creating TCP socket\")\n\n            # TODO create a TCP listening socket\n            # TODO bind the socket\n            # TODO start listening\n\n            self.listening = True\n            # print(...)\n\n        except Exception as e:\n            print(f\"Error setting up socket: {e}\")\n            self.listening = False\n\n        print('NOT IMPLEMENTED')\n\n    def acceptConnection(self) -&gt; None:\n\n        print('Accepting connections...')\n\n        # TODO accept a connection\n        # print(...)\n\n        # TODO store the request data somewhere\n        # TODO in a loop, receive data until the full request is obtained\n\n        # TODO use the connection to receive data\n        # TODO append the received data somewhere\n\n        # print(...)\n        # TODO once the request is received, parse it\n\n        # TODO build the response using build_http_response()\n        # print(...)\n        # TODO send the response using send_response()\n        # print(...)\n        # TODO close the connection\n        # print(...)\n\n    def parse_request(self, request: str) -&gt; tuple[str | None, str | None]:\n        method = None\n        resource = None\n\n        # TODO parse the request string and extract the method and resource\n\n        return method, resource\n\n    def build_http_response(self, method: str, resource: str) -&gt; str:\n        responseCode = 500\n        responseMsg = \"Internal Server Error\"\n        responseBody = \"Sadness ensues. Something did not go as planned. All hope is lost.\"\n\n        # TODO parse the resource and create the corresponding message\n        # TODO 200 OK\n        # TODO 404 Not Found\n        # TODO 400 Bad Request\n\n        http_response = None\n        return http_response\n\n    def send_response(self, response) -&gt; None:\n        print('NOT IMPLEMENTED')\n        # TODO send the response through the connection\n\n    def close_connection(self) -&gt; None:\n        self.sock.close()\n        print(\"Listening socket closed.\")\n\n\nif __name__ == \"__main__\":\n    server = TCPServer()\n    server.listening = True\n    try:\n        while server.listening:\n            server.acceptConnection()\n            time.sleep(1)\n    except KeyboardInterrupt:\n        print(\"Shutting down server...\")\n        server.listening = False\n    finally:\n        server.close_connection()\n\n\n\nTesting\n\nUse curl to test your server: curl http://localhost:8080/hello\n\nYou should see the message “Hello, TCP Client!” in the terminal.\n\nUse curl -v to see the full HTTP response.\nTry other resources like /, /goodbye, and /joke.\nTry an invalid resource like /invalid to see the 404 response."
   },
   {
-    "objectID": "labs/02.html#run-server-program",
-    "href": "labs/02.html#run-server-program",
-    "title": "In-Class Lab 2 (10 points)",
-    "section": "Run Server Program",
-    "text": "Run Server Program\nComplete the following server program. Review the code and understand what it does. Run it in the first terminal. Ensure that it is listening on the correct port that you are going to use for the client.\nimport socket\n\n\ndef main() -&gt; None:\n    host = \"0.0.0.0\"\n    port = 8000\n    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    try:\n        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)\n        s.bind((host, port))\n        s.listen(5)\n        print(f\"Listening on {host}:{port}\")\n    except Exception as e:\n        print(f\"Failed to set up server: {e}\")\n        return\n\n    try:\n        while True:\n            conn, addr = s.accept()\n            with conn:\n                print(f\"Client connected: {addr}\")\n                while True:\n                    data = conn.recv(4096)\n                    if not data:\n                        break\n                    text = data.decode(\"utf-8\")\n                    response = text.upper()\n                    responseBytes = response.encode(\"utf-8\")\n                    conn.sendall(responseBytes)\n\n    # capture keyboard interrupt to gracefully shutdown the server\n    except KeyboardInterrupt:\n        print(\"Shutting down server.\")\n        s.close()\n\n\nif __name__ == \"__main__\":\n    main()"
+    "objectID": "labs/03.html#eecsnet-vm-setup",
+    "href": "labs/03.html#eecsnet-vm-setup",
+    "title": "In-Class Lab 3 (10 points)",
+    "section": "EECSNet VM Setup",
+    "text": "EECSNet VM Setup\n\nVPN to EECSNet by changing the server address to vpn.eecs.ninja in your Cisco AnyConnect client. Login with your EECSNet credentials. Username remains the same and initial password is qwer1234QWER!@#$. Change it immediately. See Linux setup guide for more details.\nLogin to vSphere\nFind your VM by navigating the tree on the left and expanding all folders.\nClick on Launch Web Console button and login using your VM credentials: ubuntu and cy350pass\nStart a DHCP client by running sudo dhcpcd in the terminal\nCheck your VM’s IP address with ip addr. Note down the address for the Ethernet adapter.\n\n\nSSH from Windows (not WSL!)\n\n\n\n\n\n\nNote\n\n\n\nDo not run SSH from Ubuntu or WSL on your local machine. WSL cannot access your EECSNet VPN.\n\n\nFrom a Windows Terminal (PowerShell), run the following command:\nssh ubuntu@&lt;VM_IP_ADDRESS&gt; # e.g. ssh ubuntu@10.3.50.123\nUse your VM password to login. Now you can run commands on your EECSNet VM remotely.\n\n\nPasswordless SSH\n\nOn your Windows laptop, open PowerShell and check if you have existing SSH keys:\ncd ~ # go to your home directory\ncd .ssh # go to the .ssh directory within your home directory\nls # list files in the .ssh directory\nIf you do not have id_ecdsa.pub or id_rsa.pub files or something similar, generate a new SSH key pair: ssh-keygen; press Enter twice to accept defaults.\nGrab your public key:\ncat id_ecdsa.pub # or cat id_*.pub\nPlace your public key onto the VM:\nmkdir .ssh\nnano .ssh/authorized_keys\n# paste the public key into the text editor\n# save Ctrl+S\n# exit Ctrl+X\ncat .ssh/authorized_keys # verify the key is there\nNow attempt to SSH again: ssh ubuntu@&lt;VM_IP_ADDRESS&gt;. You should not be prompted for a password this time.\nOptionally, now you can connect your VS Code to your VM using the Remote - SSH extension.\n\nReminder: In VS Code, Features &gt; Chat &gt; Disable AI Features to protect yourself from unintentional AI completions!"
   },
   {
-    "objectID": "labs/02.html#verify-server",
-    "href": "labs/02.html#verify-server",
-    "title": "In-Class Lab 2 (10 points)",
-    "section": "Verify Server",
-    "text": "Verify Server\n\nUse netstat -tuln or ss -tuln to verify that the server is listening on the expected port.\nUse nc localhost &lt;port&gt; to connect to the server and verify it responds correctly.\n\nWhat does nc or netcat do?"
-  },
-  {
-    "objectID": "labs/02.html#client-program",
-    "href": "labs/02.html#client-program",
-    "title": "In-Class Lab 2 (10 points)",
-    "section": "Client Program",
-    "text": "Client Program\nUpdate the following socket client. Modify it as needed to connect to the server you started in the first terminal. Run it in the second terminal.\nimport socket\n\nHOST = \"127.0.0.1\"\nPORT = 8000\n\n\ndef main() -&gt; None:\n\n    # see https://docs.python.org/3/library/socket.html\n    # Example -&gt; Echo client program\n\n    # Create a TCP socket\n    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n\n    # TODO: connect to the server\n    sock.connect((HOST, PORT))\n\n    # ask for user input in a loop\n    while True:\n        message = input(\"&gt; \")\n        if message == \"exit\":\n            break\n\n        # TODO: encode user input into bytes\n\n        # TODO: send the bytes to the server\n\n        # TODO: receive the response from the server\n\n        # TODO: decode the response into a string\n\n        # TODO: print the response\n        print(f\"Not Server Response: {message}\")\n\n    # TODO: close the connection to the server\n\n\nif __name__ == \"__main__\":\n    main()"
-  },
-  {
-    "objectID": "labs/02.html#capture-traffic",
-    "href": "labs/02.html#capture-traffic",
-    "title": "In-Class Lab 2 (10 points)",
-    "section": "Capture Traffic",
-    "text": "Capture Traffic\nIn the third terminal, run tcpdump or tshark to capture the traffic between the client and server. Filter by port number to minimize noise. Run man tcpdump or see lab 1 for the correct command line flags. Observe the packets being exchanged. Save your capture to a file for later analysis.\nsudo tcpdump -i any --print -w ... port &lt;port&gt;\nsudo tshark -i any -w ... -f \"tcp port &lt;port&gt;\"\n\nWhy do we need sudo to run these commands?\nWhat does the -i any flag do?\nWhat does the -w flag do?"
-  },
-  {
-    "objectID": "labs/02.html#analyze-capture",
-    "href": "labs/02.html#analyze-capture",
-    "title": "In-Class Lab 2 (10 points)",
-    "section": "Analyze Capture",
-    "text": "Analyze Capture\nUse Wireshark to open the saved capture file. Analyze the packets exchanged between the client and server. Identify the request and response messages. Note any interesting details about the protocol being used. Reason about how you would distinguish messages from different clients if multiple clients were connected simultaneously.\n\nWhere did the communication begin? Do you see the SYN, SYN-ACK, ACK handshake in the TCP connection setup?\nWhere did the communication end? Do you see the FIN, ACK, FIN, ACK handshake in the TCP connection teardown?\nHow many bytes were sent in each direction?"
-  },
-  {
-    "objectID": "labs/02.html#instructor-review",
-    "href": "labs/02.html#instructor-review",
-    "title": "In-Class Lab 2 (10 points)",
-    "section": "Instructor Review",
-    "text": "Instructor Review\nTo complete the lab, show your instructor the following:\n\nPacket capture that includes the TCP handshake, client-server communication, and TCP teardown\nThe client and server terminal outputs that demonstrate the working client-server interaction\nYour client and server code with the TODOs completed"
+    "objectID": "labs/03.html#netcat-nc",
+    "href": "labs/03.html#netcat-nc",
+    "title": "In-Class Lab 3 (10 points)",
+    "section": "netcat (nc)",
+    "text": "netcat (nc)\nTry the following with your lab partner. Note down each other’s VM IP addresses.\n\nlisten (server)\n\nUse nc (netcat) to create a TCP socket\nListen on port 12345: nc -v -l -p 12345\nWhy did you not enter an IP address? Where do you enter it?\n\n\n\nconnect (client)\n\nOn the other VM, connect to the socket above: nc PARTNER_VM_IP_ADDRESS 12345\nType a message and hit enter. Can your partner see it?\n\n\n\nsend a file from client to server\n\nOn the server:\nnc -v -l -p 23456 &gt; incoming.jpg\nOn the client:\nwget http.cat/404 # get a cat picture from the internet\nnc PARTNER_VM_IP_ADDRESS 23456 &lt; 404 # send it to your partner\n\n\n\nsend a file from server to client\n\nOn the server:\nwget http.cat/404 # get a cat picture from the internet\nnc -v -l -p 34567 &lt; 404\nOn the client:\nnc PARTNER_VM_IP_ADDRESS 34567 &gt; incoming.jpg\n\n\n\nUDP mode\n\nRepeat the above steps using UDP instead of TCP by adding -u flag to nc commands.\nWhat differences do you notice?"
   },
   {
     "objectID": "content/01-intro.html",
