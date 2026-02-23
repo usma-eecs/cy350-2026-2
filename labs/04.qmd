@@ -4,7 +4,7 @@ title: In-Class Lab 4 (10 points)
 description: Stop-and-Wait Reliable Transfer over UDP
 subtitle: Implementing a reliable data transfer protocol over an unreliable transport layer
 date: 2026-02-23
-# image: /images/lab04-stop-and-wait.png
+image: /images/lab04-udp-rdt.png
 ---
 
 ## Objective
