@@ -1,0 +1,52 @@
+---
+format: html
+title: In-Class Lab 4 (10 points)
+description: Stop-and-Wait Reliable Transfer over UDP
+subtitle: Implementing a reliable data transfer protocol over an unreliable transport layer
+date: 2026-02-23
+# image: /images/lab04-stop-and-wait.png
+---
+
+## Objective
+
+Experience the unreliability of UDP through incremental challenges. Implement strategies to overcome the madness.
+
+## Steps
+
+1. Run the provided server. There is only one server program that will work with all levels of the client. Scroll to the bottom of this page to find the server code.
+2. Implement the client for each level, starting with the simplest and working your way up.
+3. Use Wireshark to capture and analyze the packets for each level. Take screenshots of the relevant packets and annotate them to show where things went wrong (e.g., lost packets, duplicates, ACKs).
+4. Share these screenshots with your instructor for the first three levels for full credit.
+
+## Levels
+
+1. UDP is unreliable. Watch your packets get lost in despair.
+2. Retransmit lost packets. Maybe duplicates will arrive, but who cares? Just get the data there.
+3. Use an alternating bit to detect duplicates. Slow but reliable.
+4. Handle 20 packets to capture the flag.
+
+### Level 1: UDP is Unreliable
+
+```{.python filename="udp_client_1.py" code-line-numbers=true}
+{{< include 04_client_1.py >}}
+```
+
+### Level 2: Timeout and Retransmission
+
+```{.python filename="udp_client_2.py" code-line-numbers=true}
+{{< include 04_client_2.py >}}
+```
+
+### Level 3: Stop-and-Wait with ACKs
+
+```{.python filename="udp_client_3.py" code-line-numbers=true}
+{{< include 04_client_3.py >}}
+```
+
+## Server Code
+
+Run the following server code in a separate terminal. It simulates an unreliable network by randomly dropping packets and introducing delays. You can adjust the loss rate and delay parameters to see how your client handles different conditions.
+
+```{.python filename="udp_server.py" code-line-numbers=true}
+{{< include 04_server.py >}}
+```
