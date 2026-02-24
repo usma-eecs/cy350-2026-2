@@ -431,7 +431,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="verify-server" class="level2">
 <h2 class="anchored" data-anchor-id="verify-server">Verify Server</h2>
 <ol type="1">
-<li>Use <code>netstat -tuln</code> or <code>ss -tuln</code> to verify that the server is listening on the expected port.</li>
+<li>Use <code>ss -tulnp</code> to verify that the server is listening on the expected port.</li>
 <li>Use <code>nc localhost &lt;port&gt;</code> to connect to the server and verify it responds correctly.</li>
 </ol>
 <p>What does <code>nc</code> or <code>netcat</code> do?</p>
@@ -484,20 +484,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In the third terminal, run <code>tcpdump</code> or <code>tshark</code> to capture the traffic between the client and server. Filter by port number to minimize noise. Run <code>man tcpdump</code> or see lab 1 for the correct command line flags. Observe the packets being exchanged. Save your capture to a file for later analysis.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> tcpdump <span class="at">-i</span> any <span class="at">--print</span> <span class="at">-w</span> ... port <span class="op">&lt;</span>port<span class="op">&gt;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> tshark <span class="at">-i</span> any <span class="at">-w</span> ... <span class="at">-f</span> <span class="st">"tcp port &lt;port&gt;"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ul>
 <li>Why do we need <code>sudo</code> to run these commands?</li>
 <li>What does the <code>-i any</code> flag do?</li>
 <li>What does the <code>-w</code> flag do?</li>
 </ul>
+</div>
+</div>
 </section>
 <section id="analyze-capture" class="level2">
 <h2 class="anchored" data-anchor-id="analyze-capture">Analyze Capture</h2>
 <p>Use Wireshark to open the saved capture file. Analyze the packets exchanged between the client and server. Identify the request and response messages. Note any interesting details about the protocol being used. Reason about how you would distinguish messages from different clients if multiple clients were connected simultaneously.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ul>
 <li>Where did the communication begin? Do you see the SYN, SYN-ACK, ACK handshake in the TCP connection setup?</li>
 <li>Where did the communication end? Do you see the FIN, ACK, FIN, ACK handshake in the TCP connection teardown?</li>
-<li>How many bytes were sent in each direction?</li>
+<li>How many bytes were sent in each direction? Identify the packets carrying the actual data.</li>
 </ul>
+</div>
+</div>
 </section>
 <section id="instructor-review" class="level2">
 <h2 class="anchored" data-anchor-id="instructor-review">Instructor Review</h2>
@@ -505,7 +529,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Packet capture that includes the TCP handshake, client-server communication, and TCP teardown</li>
 <li>The client and server terminal outputs that demonstrate the working client-server interaction</li>
-<li>Your client and server code with the TODOs completed</li>
+<li>Your client code with the TODOs completed</li>
 </ul>
 
 

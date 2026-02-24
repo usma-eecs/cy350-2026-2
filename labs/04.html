@@ -345,6 +345,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#level-3-stop-and-wait-with-acks" id="toc-level-3-stop-and-wait-with-acks" class="nav-link" data-scroll-target="#level-3-stop-and-wait-with-acks">Level 3: Stop-and-Wait with ACKs</a></li>
   </ul></li>
   <li><a href="#server-code" id="toc-server-code" class="nav-link" data-scroll-target="#server-code">Server Code</a></li>
+  <li><a href="#completion" id="toc-completion" class="nav-link" data-scroll-target="#completion">Completion</a></li>
   </ul>
 </nav>
     </div>
@@ -392,8 +393,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="1">
 <li>Run the provided server. There is only one server program that will work with all levels of the client. Scroll to the bottom of this page to find the server code.</li>
 <li>Implement the client for each level, starting with the simplest and working your way up.</li>
-<li>Use Wireshark to capture and analyze the packets for each level. Take screenshots of the relevant packets and annotate them to show where things went wrong (e.g., lost packets, duplicates, ACKs).</li>
-<li>Share these screenshots with your instructor for the first three levels for full credit.</li>
+<li>Use Wireshark to capture and analyze the packets for each level.</li>
+<li>Discuss these packet captures with your instructor for the first three levels for full credit.</li>
 </ol>
 </section>
 <section id="levels" class="level2">
@@ -402,7 +403,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>UDP is unreliable. Watch your packets get lost in despair.</li>
 <li>Retransmit lost packets. Maybe duplicates will arrive, but who cares? Just get the data there.</li>
 <li>Use an alternating bit to detect duplicates. Slow but reliable.</li>
-<li>Handle 20 packets to capture the flag.</li>
 </ol>
 <section id="level-1-udp-is-unreliable" class="level3">
 <h3 class="anchored" data-anchor-id="level-1-udp-is-unreliable">Level 1: UDP is Unreliable</h3>
@@ -719,6 +719,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-116"><a href="#cb4-116"></a>    <span class="cf">except</span> <span class="pp">KeyboardInterrupt</span>:</span>
 <span id="cb4-117"><a href="#cb4-117"></a>        <span class="bu">print</span>(<span class="st">"Server interrupted. Exiting."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</section>
+<section id="completion" class="level2">
+<h2 class="anchored" data-anchor-id="completion">Completion</h2>
+<p>Be prepared to discuss these ideas.</p>
+<ul>
+<li>Explain the retransmission strategy of each level.</li>
+<li>Identify the packet header. What are the first two bytes?</li>
+<li>Is there a sequence number present? How does it increment or change?</li>
+<li>Does the client detect duplicates in level 3?</li>
+<li>What is unique about level 3 compared to the previous levels?</li>
+</ul>
 
 
 </section>

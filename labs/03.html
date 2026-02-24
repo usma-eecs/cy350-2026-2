@@ -344,6 +344,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#eecsnet-vm-setup" id="toc-eecsnet-vm-setup" class="nav-link" data-scroll-target="#eecsnet-vm-setup">EECSNet VM Setup</a>
   <ul class="collapse">
+  <li><a href="#setup-your-vm-network" id="toc-setup-your-vm-network" class="nav-link" data-scroll-target="#setup-your-vm-network">Setup your VM Network</a></li>
   <li><a href="#ssh-from-windows-not-wsl" id="toc-ssh-from-windows-not-wsl" class="nav-link" data-scroll-target="#ssh-from-windows-not-wsl">SSH from Windows (not WSL!)</a></li>
   <li><a href="#passwordless-ssh" id="toc-passwordless-ssh" class="nav-link" data-scroll-target="#passwordless-ssh">Passwordless SSH</a></li>
   </ul></li>
@@ -533,9 +534,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="https://vcsa1.eecs.net/">Login to vSphere</a></li>
 <li>Find your VM by navigating the tree on the left and expanding all folders.</li>
 <li>Click on <code>Launch Web Console</code> button and login using your VM credentials: <code>ubuntu</code> and <code>cy350pass</code></li>
-<li>Start a DHCP client by running <code>sudo dhcpcd</code> in the terminal</li>
-<li>Check your VM’s IP address with <code>ip addr</code>. Note down the address for the Ethernet adapter.</li>
 </ol>
+<section id="setup-your-vm-network" class="level3">
+<h3 class="anchored" data-anchor-id="setup-your-vm-network">Setup your VM Network</h3>
+<p>Because whoever created the template did not do it correctly the first time around. 🤷</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>These commands are a pain to type by hand. Use the tab key extensively to autocomplete.</p>
+</div>
+</div>
+<ol type="1">
+<li>There is an example network configuration file that tells your system to configure the <em>wired</em> interfaces using DHCP. You will learn all about DHCP in a later lesson. For now, link to this file to correctly configure your system.</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the symbolic link to the example network configuration file</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> ln <span class="at">-s</span> /usr/lib/systemd/network/89-ethernet.network.example /etc/systemd/network/89-ethernet.network</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># verify the contents of the file</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> /etc/systemd/network/89-ethernet.network</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">## restart the network service to apply the new configuration</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> systemctl restart systemd-networkd.service</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol type="1">
+<li>Now check your VM’s IP address with <code>ip addr</code>. Note down this address and keep track of it.</li>
+</ol>
+</section>
 <section id="ssh-from-windows-not-wsl" class="level3">
 <h3 class="anchored" data-anchor-id="ssh-from-windows-not-wsl">SSH from Windows (not WSL!)</h3>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -548,30 +578,30 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Do not run SSH from Ubuntu or WSL on your local machine. WSL cannot access your EECSNet VPN.</p>
+<p>Run SSH PowerShell or Windows, not WSL. WSL cannot access your EECSNet VPN.</p>
 </div>
 </div>
 <p>From a Windows Terminal (PowerShell), run the following command:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> ubuntu@<span class="op">&lt;</span>VM_IP_ADDRESS<span class="op">&gt;</span> <span class="co"># e.g. ssh ubuntu@10.3.50.123</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> ubuntu@<span class="op">&lt;</span>VM_IP_ADDRESS<span class="op">&gt;</span> <span class="co"># e.g. ssh ubuntu@10.3.50.X</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Use your VM password to login. Now you can run commands on your EECSNet VM remotely.</p>
 </section>
 <section id="passwordless-ssh" class="level3">
 <h3 class="anchored" data-anchor-id="passwordless-ssh">Passwordless SSH</h3>
 <ul>
 <li><p>On your Windows laptop, open PowerShell and check if you have existing SSH keys:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~ <span class="co"># go to your home directory</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> .ssh <span class="co"># go to the .ssh directory within your home directory</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="co"># list files in the .ssh directory</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~ <span class="co"># go to your home directory</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> .ssh <span class="co"># go to the .ssh directory within your home directory</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="co"># list files in the .ssh directory</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>If you do not have <code>id_ecdsa.pub</code> or <code>id_rsa.pub</code> files or something similar, generate a new SSH key pair: <code>ssh-keygen</code>; press <code>Enter</code> twice to accept defaults.</p></li>
 <li><p>Grab your public key:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> id_ecdsa.pub <span class="co"># or cat id_*.pub</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> id_ed25519.pub <span class="co"># or cat id_*.pub</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>Place your public key onto the VM:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> .ssh</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> .ssh/authorized_keys</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># paste the public key into the text editor</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># save Ctrl+S</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># exit Ctrl+X</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> .ssh/authorized_keys <span class="co"># verify the key is there</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> .ssh</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> .ssh/authorized_keys</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># paste the public key into the text editor</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># save Ctrl+S</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># exit Ctrl+X</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> .ssh/authorized_keys <span class="co"># verify the key is there</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>Now attempt to SSH again: <code>ssh ubuntu@&lt;VM_IP_ADDRESS&gt;</code>. You should not be prompted for a password this time.</p></li>
 <li><p>Optionally, now you can connect your VS Code to your VM using the <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh">Remote - SSH extension</a>.</p></li>
 </ul>
@@ -600,20 +630,20 @@ Note
 <h3 class="anchored" data-anchor-id="send-a-file-from-client-to-server">send a file from client to server</h3>
 <ul>
 <li><p>On the server:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> <span class="at">-v</span> <span class="at">-l</span> <span class="at">-p</span> 23456 <span class="op">&gt;</span> incoming.jpg</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> <span class="at">-v</span> <span class="at">-l</span> <span class="at">-p</span> 23456 <span class="op">&gt;</span> incoming.jpg</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>On the client:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> http.cat/404 <span class="co"># get a cat picture from the internet</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> PARTNER_VM_IP_ADDRESS 23456 <span class="op">&lt;</span> 404 <span class="co"># send it to your partner</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> http.cat/404 <span class="co"># get a cat picture from the internet</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> PARTNER_VM_IP_ADDRESS 23456 <span class="op">&lt;</span> 404 <span class="co"># send it to your partner</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ul>
 </section>
 <section id="send-a-file-from-server-to-client" class="level3">
 <h3 class="anchored" data-anchor-id="send-a-file-from-server-to-client">send a file from server to client</h3>
 <ul>
 <li><p>On the server:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> http.cat/404 <span class="co"># get a cat picture from the internet</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> <span class="at">-v</span> <span class="at">-l</span> <span class="at">-p</span> 34567 <span class="op">&lt;</span> 404</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> http.cat/404 <span class="co"># get a cat picture from the internet</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> <span class="at">-v</span> <span class="at">-l</span> <span class="at">-p</span> 34567 <span class="op">&lt;</span> 404</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>On the client:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> PARTNER_VM_IP_ADDRESS 34567 <span class="op">&gt;</span> incoming.jpg</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> PARTNER_VM_IP_ADDRESS 34567 <span class="op">&gt;</span> incoming.jpg</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ul>
 </section>
 <section id="udp-mode" class="level3">
