@@ -94,21 +94,21 @@ All the resources listed below are considered common knowledge and do not need t
 |  9- Reliable Data Transfer                          | 11 Feb | 12 Feb |                 |          |
 | 10- Transmission Control Protocol                   | 18 Feb | 17 Feb | Problem Set 6   | 01 Mar   |
 | 11- Flow and Congestion Control                     | 20 Feb | 19 Feb |                 |          |
-| 12- UDP and QUIC                                    |---☃--- | 24 Feb | Problem Set 7   | 08 Mar   |
+| 12- UDP and QUIC                                    |---☃---| 24 Feb |                 |          |
 | WPR1 Review                                         | 25 Feb | 26 Feb |                 |          |
 | WPR1                                                | 02 Mar | 03 Mar | Project 1       | 22 Mar   |
 | 13- Network Layer                                   | 04 Mar | 05 Mar |                 |          |
-| 14- Internet Protocol v4                            | 09 Mar | 10 Mar | Problem Set 8   | 20 Mar   |
+| 14- Internet Protocol v4                            | 09 Mar | 10 Mar | Problem Set 7   | 20 Mar   |
 | 15- Internet Protocol v6                            | 11 Mar | 12 Mar |                 |          |
-| 16- Routing Protocols- Link State, Distance Vector  | 16 Mar | 17 Mar |                 |          |
+| 16- Routing Protocols- Link State, Distance Vector  | 16 Mar | 17 Mar | Problem Set 8   | 29 Mar   |
 | 17- Control Plane                                   | 18 Mar | 19 Mar | Project 2       | 12 Apr   |
 | 18- Link Layer                                      | 23 Mar | 24 Mar | Problem Set 9   | 06 Apr   |
 | 19- Multiple Access Protocols & Switched LANs       | 25 Mar | 26 Mar |                 |          |
-| 20- Wireless Networks                               | 07 Apr | 08 Apr | Problem Set 10  | 10 Apr   |
+| 20- Wireless Networks                               | 07 Apr | 08 Apr |                 |          |
 | 21- Bluetooth & Cellular Networks                   | 09 Apr | 10 Apr |                 |          |
 | 22- Network Security Basics                         | 13 Apr | 14 Apr | Project 3       | 10 May   |
 | 23- Transport Layer Security                        | 15 Apr | 16 Apr |                 |          |
-| 24- VPNs and Wireless Network Security              | 20 Apr | 21 Apr |                 |          |
+| 24- VPNs and Wireless Network Security              | 20 Apr | 21 Apr | Problem Set 10  | 03 May   |
 | WPR2                                                | 27 Apr | 28 Apr |                 |          |
 | 25- Network Security Appliances                     | 29 Apr | 30 Apr |                 |          |
 | 26- TBD                                             | 04 May | 05 May |                 |          |
