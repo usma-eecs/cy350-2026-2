@@ -39,19 +39,40 @@ Copy the following code into a file named `http_server.py` on your VM or WSL. Tr
 1. [Login to vSphere](https://vcsa1.eecs.net/)
 1. Find your VM by navigating the tree on the left and expanding all folders.
 1. Click on `Launch Web Console` button and login using your VM credentials: `ubuntu` and `cy350pass`
-1. Start a DHCP client by running `sudo dhcpcd` in the terminal
-1. Check your VM's IP address with `ip addr`. Note down the address for the Ethernet adapter.
+
+### Setup your VM Network
+
+Because whoever created the template did not do it correctly the first time around. 🤷
+
+::: {.callout-note}
+These commands are a pain to type by hand. Use the tab key extensively to autocomplete.
+:::
+
+1. There is an example network configuration file that tells your system to configure the _wired_ interfaces using DHCP. You will learn all about DHCP in a later lesson. For now, link to this file to correctly configure your system.
+
+```sh
+# create the symbolic link to the example network configuration file
+sudo ln -s /usr/lib/systemd/network/89-ethernet.network.example /etc/systemd/network/89-ethernet.network
+
+# verify the contents of the file
+cat /etc/systemd/network/89-ethernet.network
+
+## restart the network service to apply the new configuration
+sudo systemctl restart systemd-networkd.service
+```
+
+1. Now check your VM's IP address with `ip addr`. Note down this address and keep track of it.
 
 ### SSH from Windows (not WSL!)
 
 ::: {.callout-note}
-Do not run SSH from Ubuntu or WSL on your local machine. WSL cannot access your EECSNet VPN.
+Run SSH PowerShell or Windows, not WSL. WSL cannot access your EECSNet VPN.
 :::
 
 From a Windows Terminal (PowerShell), run the following command:
 
 ```sh
-ssh ubuntu@<VM_IP_ADDRESS> # e.g. ssh ubuntu@10.3.50.123
+ssh ubuntu@<VM_IP_ADDRESS> # e.g. ssh ubuntu@10.3.50.X
 ```
 
 Use your VM password to login. Now you can run commands on your EECSNet VM remotely.
@@ -71,7 +92,7 @@ Use your VM password to login. Now you can run commands on your EECSNet VM remot
 - Grab your public key:
 
     ```sh
-    cat id_ecdsa.pub # or cat id_*.pub
+    cat id_ed25519.pub # or cat id_*.pub
     ```
 - Place your public key onto the VM:
 
