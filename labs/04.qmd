@@ -15,15 +15,14 @@ Experience the unreliability of UDP through incremental challenges. Implement st
 
 1. Run the provided server. There is only one server program that will work with all levels of the client. Scroll to the bottom of this page to find the server code.
 2. Implement the client for each level, starting with the simplest and working your way up.
-3. Use Wireshark to capture and analyze the packets for each level. Take screenshots of the relevant packets and annotate them to show where things went wrong (e.g., lost packets, duplicates, ACKs).
-4. Share these screenshots with your instructor for the first three levels for full credit.
+3. Use Wireshark to capture and analyze the packets for each level.
+4. Discuss these packet captures with your instructor for the first three levels for full credit.
 
 ## Levels
 
 1. UDP is unreliable. Watch your packets get lost in despair.
 2. Retransmit lost packets. Maybe duplicates will arrive, but who cares? Just get the data there.
 3. Use an alternating bit to detect duplicates. Slow but reliable.
-4. Handle 20 packets to capture the flag.
 
 ### Level 1: UDP is Unreliable
 
@@ -50,3 +49,13 @@ Run the following server code in a separate terminal. It simulates an unreliable
 ```{.python filename="udp_server.py" code-line-numbers=true}
 {{< include 04_server.py >}}
 ```
+
+## Completion
+
+Be prepared to discuss these ideas.
+
+- Explain the retransmission strategy of each level.
+- Identify the packet header. What are the first two bytes?
+- Is there a sequence number present? How does it increment or change?
+- Does the client detect duplicates in level 3?
+- What is unique about level 3 compared to the previous levels?
