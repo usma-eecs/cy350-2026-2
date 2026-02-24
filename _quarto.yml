@@ -4,6 +4,7 @@ project:
     - index.qmd
     - labs/*.qmd
     - content/*.qmd
+    - slides/*.qmd
   resources:
     - robots.txt
     - resources/

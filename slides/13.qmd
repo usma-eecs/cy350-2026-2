@@ -1,0 +1,169 @@
+---
+format: revealjs
+title: Review
+description: Lesson 1-12
+date: 2026-02-25
+image: /images/00.png
+title-slide-attributes:
+    data-background-image: /images/00.png
+    data-background-opacity: "0.3"
+---
+
+## Topics {.smaller data-background-image="/images/00.png" data-background-opacity="0.1"}
+
+:::: {.columns}
+::: {.column width="50%"}
+- 2.1 Basic components of a network
+- 2.2 Advantages and disadvantages of different types of network media
+- 2.3 Five-layer TCP/IP model and the principle of _encapsulation_
+- 3.1 Compare and contrast _packet switching_ and _circuit switching_
+- 3.2 Four types of delays and their causes
+- 3.3 Concept of throughput; identify the bottleneck
+- 4.2 Common application layer protocols and their purposes
+- 5.1 HTTP protocol; how messages are exchanged
+- 6.1 Functions of DNS; why they are crucial
+- 6.2 DNS server architecture; how it relates to domain names
+:::
+::: {.column width="50%"}
+- 6.3 DNS vulnerabilities and discuss mitigation strategies
+- 8.2 Key services provided by _transport layer_ - segmentation, multiplexing, flow control, error control
+- 8.3 Connection oriented vs connectionless transport layer protocols - TCP vs UDP
+- 9.2 Key principles and techniques of reliable data transfer
+- 9.4 Compare Selective Repeat and Go-Back-N protocols - window management, retransmission, error recovery
+- 10.3 Three-way handshake mechanism used by TCP to establish a connection
+- 11.1 How TCP handles congestion
+- 11.2 How TCP delivers messages _in order_ vs _in a timely manner_ using sender and receiver buffers
+:::
+::::
+
+## What is a protocol?
+
+## Put the five layers of the TCP/IP model in the correct order
+
+:::: {.columns}
+::: {.column width="50%"}
+- Link
+- Network
+- Physical
+- Application
+- Transport
+:::
+::: {.column width="50%"}
+- Frame
+- Bits
+- Segment
+- Datagram
+- Message
+:::
+::::
+
+## Packet switching vs Circuit switching
+
+## What protocol layer?
+
+::: {.incremental}
+- DNS
+- TCP
+- HTTP
+- Ethernet
+- IP
+- UDP
+- SMTP
+:::
+
+## Cookies
+
+::: {.incremental}
+- What are they?
+- Why are they used?
+- What are the risks?
+:::
+
+## What are the elements of a socket?
+
+## What are the four sources of delay in a network?
+
+::: {.incremental}
+- Processing
+- Propagation
+- Queuing
+- Transmission
+:::
+
+## Delay Calculation
+
+- Your computer has a 1Gbps connection to your router
+- Router has 0.2 Gbps bandwidth to the neighborhood trunk
+- Trunk has 400 Mbps bandwidth to the central office
+
+### Where is the bottleneck?
+
+### What is the throughput of the network?
+
+## How does a transport layer protocol detect an error in a segment?
+
+## A reliable data transfer protocol must handle what potential problems?
+
+::: {.incremental}
+- Loss
+- Corruption
+- Duplication
+- Ordering
+:::
+
+## How does reliable data transfer handle errors?
+
+## Difference between flow control and congestion control?
+
+## TCP three-way handshake - what are the three steps?
+
+## What happens when a receiver detects a corrupted packet?
+
+a. Requests retransmission
+a. Drops the packet
+a. Executes error correction
+a. Sends an acknowledgment for the last correctly received packet
+
+## When does TCP resend a segment?
+
+a. When the timer expires
+a. When it receives a NAK
+a. When it receives three duplicate ACKs
+a. Never
+
+## What is the purpose of DNS?
+
+a. To route packets across the internet
+a. To map domain names to IP addresses
+a. To map IP addresses to domain names
+a. To resolve MAC addresses to IP addresses
+
+## What types of records are stored in DNS?
+
+##  What are the three phases of congestion control in TCP?
+
+::: {.incremental}
+- Slow start
+- Congestion avoidance
+- Fast recovery
+:::
+
+## Timeout Interval Calculation
+
+Suppose the `EstimatedRTT` is currently $200$ ms, the DevRTT is $30$ ms, and the value of `α` is $0.125$ and `β` is `0.25`. The most recent SampleRTT is $240$ ms. What is the new `TimeoutInterval`?
+
+## Delay Calculation
+
+Suppose a packet of 6000 bytes is sent from a computer, passing through two routers before reaching the destination server. Each router has a processing delay of 3 ms. There is no processing delay at the source or destination. The length of each link is as follows:
+
+- Link 1 (Computer to Router 1): 1200 km
+- Link 2 (Router 1 to Router 2): 800 km
+- Link 3 (Router 2 to Server): 1000 km
+
+Assume no queuing delay and that the propagation speed is $3 \times 10^8$ m/s.
+
+The bandwidths of the links are:
+
+- Link 1: 300 Mbps
+- Link 2: 100 Mbps
+- Link 3: 1 Gbps

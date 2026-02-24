@@ -1,0 +1,379 @@
+---
+format: revealjs
+title: Introduction to Computer Networks
+subtitle: Understanding the Digital Battlefield
+description: Understanding the Digital Battlefield
+date: 2026-01-06
+image: /images/01-intro.png
+title-slide-attributes:
+    data-background-image: /images/01-intro.png
+    data-background-opacity: "0.3"
+---
+
+## [Instructor Introduction](https://intro.bhatia.dev/)
+
+
+## Introduce Yourself!
+
+- Your Name + Name you like to be called
+- Company
+- Hometown
+- Major + Branch preference
+- What do you hope to get out of this course?
+- What have you heard about the course?
+- Anything else you would like to share?
+    - Interesting fact about you
+    - Something you are passionate about
+    - Any activities you are involved in
+
+
+## Course Overview
+
+1. Understand and apply the five-layer network model.
+1. Compare and contrast network protocols and architectures.
+1. Develop network applications using the socket application programming interface.
+1. Understand fundamental network vulnerabilities and associated mitigation techniques.
+
+
+## Lesson Objectives
+
+- Explain why networking is _critical terrain_ in modern warfare and civilian life.
+- Identify _real-world cyber disruptions_ to critical services and their broader societal effects.
+- Describe the _organization of the Internet_ (end hosts, ISPs, IXPs, CDNs, governments).
+- Understand the unique challenges of _cyberspace operations_ across the physical, logical, and persona _layers_.
+- Verify VSCode setup and access to EECSNet and VMs.
+
+
+## Why Care?
+
+- **Cyber Domain**: Software at all levels of computing devices is where the big opportunities are for exploitation and defense.
+- **The Army**: Communication is critical. All military branches use data networks to communicate.
+- **Elsewhere**: Amazon, Google, Apple, Meta, NSA, the list goes on...
+
+
+## Syllabus at a Glance
+
+- [Canvas](https://westpoint.instructure.com/courses/9973/) = **source of truth** (schedule, readings, rubrics, submissions)
+- In-Class Labs, 5-20 points each $= 100$ points total
+- $10$ Problem Sets, $30$ points each $= 300$ points total
+- $2$ WPRs, $100$ points each $= 200$ points total
+    - closed‑book; one _handwritten_ double‑sided page of notes permitted
+- Programming Project, $3$ milestones, $= 400$ points total
+    - Python 3 & sockets; incremental feedback
+
+::: {.notes}
+Point to Canvas navigation
+* Stress incremental progress on project; encourage early Q\&A and AI‑usage boundaries.
+:::
+
+
+## Policies
+
+- **Late policy:** −10% per 24h; hard stop after 120 hours
+- Extension requests: at least 48h in advance
+- Start early, ask questions, and get help!
+- Academic Use Agreement
+    - with great power comes great responsibility
+    - no unauthorized use of tools on production networks
+    - acknowledge / sign in Problem Set 1
+
+::: {.notes}
+* Require signature/ack in PS1 (Usage Agreement).
+early = 48 hours
+:::
+
+## Additional Instruction
+
+1. Send me a calendar invitation
+1. Find me before/after class
+1. Email me directly
+1. Drive by! (TH106)
+
+
+## Resources
+
+- Textbook: [Computer Networking by Kurose & Ross, 8th Edition](https://www.pearson.com/en-us/subject-catalog/p/computer-networking/P200000003334/9780136681557)
+    - [Companion website](https://gaia.cs.umass.edu/kurose_ross/index.php)
+- Check Canvas modules for additional readings
+- Read *before* class; come prepared to discuss!
+
+
+## Assistance or Collaboration?
+
+::: {.incremental}
+- Getting a verbal explanation of a specific point of confusion
+- Working jointly on a problem set to produce a solution
+- Working on parts of homework separately and then combining them
+- Using AI tools to help debug code or explain concepts
+- Using AI tools to generate code
+- Copying from a source considered common knowledge
+- Copying from another student
+- Looking at another student's code
+:::
+
+::: {.notes}
+Always document assistance or collaboration!
+
+- ✅ verbal explanation of a specific point of confusion
+- ❌ working jointly on a problem set to produce a solution
+- ❌ working on parts of homework separately and then combining them
+- ✅ using AI tools to help debug code or explain concepts
+- ❌ using AI tools to generate code
+- ✅ copying from a source considered common knowledge
+- ❌ copying from another student
+- ❌ looking at another student's code
+:::
+
+
+## Measure of Software Similarity (MOSS)
+
+- This course uses MOSS to compare student solutions
+    - detects similarities in code
+    - looks for similarities in structure and logic
+
+
+## Classroom Standards
+
+- Exhibit peer leadership
+- Attendance -> Inspection -> Call Attention
+- No food or backpacks
+- If you see ⭐, call class to attention!
+
+
+# Introduction to Networking
+
+## TCP/IP Model
+
+![Network Layers](https://www.alpharithms.com/wp-content/uploads/170/network-protocol-layers-diagram.jpg)
+
+
+## What is EECSNet?
+
+- External network provided by EECS Department
+- Supports networking labs and virtual machines for classes and research
+- Outside of normal USMA network security protections and restrictions
+    - Must be accessed via VPN or direct connection (WiFi or Ethernet)
+    - Carries a little more risk to participating machines
+
+
+## Quick Linux Network Commands
+
+```bash
+# Find interfaces & addresses
+ip addr
+ip route
+
+# DNS & connectivity checks
+ping -c 3 8.8.8.8
+dig www.example.com
+```
+
+::: {.notes}
+* Explain why IP/route helps pick the right interface in captures.
+:::
+
+## Quick Windows Network Commands
+
+```powershell
+# Find interfaces & addresses
+ipconfig
+route print
+
+# DNS & connectivity checks
+ping 1.1.1.1
+nslookup www.example.com
+```
+
+
+# In-Class Exercise
+
+When you just logged into the VM, where do you think those packets actually went?
+
+
+# Wireshark Primer
+
+## What is Wireshark?
+
+* GUI packet analyzer for **sniffing** packets to/from your system
+* Parses protocol stacks; shows headers and payloads
+* Save/share captures as **PCAP** files
+* Powerful **display filters** to focus on the traffic you care about
+
+#### Check out the web version: [Wireview](https://wireview.github.io/)
+
+
+#### Now: Download any PCAP file from [Wireshark Sample Captures](https://wiki.wireshark.org/SampleCaptures)
+
+
+## Interface Tour
+
+* **Packet List** (top): one row per packet
+* **Packet Details** (middle): protocol tree (L2→L7)
+* **Packet Bytes** (bottom): hex + ASCII view
+* **Filter bar:** type display filters (e.g., `http`, `dns`, `tcp.port==443`)
+
+- Common Menu Options
+    - File → Open/Save PCAPs
+    - Edit → Preferences
+    - View → Time Display Format
+    - Go → Next/Previous Packet
+    - Analyze → Follow TCP Stream
+
+::: {.notes}
+* Live demo: open a small PCAP and narrate the panes.
+:::
+
+## Filters & Tips
+
+```text
+# Display filter examples
+ip.addr == 10.0.0.5
+(tcp.port == 80 or tcp.port == 443) and ip.addr == 192.168.1.10
+dns and !icmp
+http.request.method == "GET"
+```
+
+* Change **Time Display Format** to absolute if helpful
+* Stop capture **before** saving; annotate packets when answering questions
+* Ensure that you are capturing on the correct host / computer!
+* For non-GUI headless captures, use `tcpdump` or `tshark`
+
+```bash
+# Headless capture → PCAP for Wireshark
+sudo tcpdump -i eth0 -w web.pcap 'tcp port 80 or 443'
+# Quick CLI analysis with tshark
+sudo tshark -r web.pcap -Y 'http.request' -T fields -e http.host -e http.request.uri | head
+```
+
+::: {.notes}
+* Show difference between capture and display filters.
+:::
+
+## Common Pitfalls
+
+- Capturing on the **wrong interface** (VPN vs non‑VPN)
+- Not using capture filters to limit data
+- Forgetting to clear old capture or display filters
+- Looking at unrelated IPs/ports
+
+::: {.notes}
+* Teach method: identify app’s IP/port first → then filter.
+:::
+
+## Problem Set Standards
+
+- Prove your answer!
+    - Wireshark portions: If the question is what version of HTTP is run, show it in a Wireshark capture (pdf) by highlighting answer and labelling highlight as to which question is being answered.
+    - Computational portion: On a separate piece of paper, answer each question and upload to appropriate question on Canvas problem set.
+    - This will help with partial credit.
+- Answer all the questions!
+
+
+# Review
+
+## Question 1
+
+### What best describes the Internet?
+
+A) A single global router that forwards all packets
+A) A network of networks using standardized protocols
+A) A social media platform for sharing content
+A) A private military communications backbone
+
+::: {.notes}
+
+**Answer:** B. The Internet is a **network of networks** interconnected by protocols (notably IP) enabling end systems to communicate.
+:::
+
+## Question 2
+
+### Which Wireshark pane displays the protocol tree for a selected packet?
+
+A) Packet List pane
+A) Packet Details pane
+A) Packet Bytes pane
+A) Capture Options pane
+
+::: {.notes}
+
+**Answer:** B. The **Packet Details** pane shows the hierarchical protocol fields for the selected packet.
+
+:::
+
+## Question 3
+
+### Problem sets are submitted via Canvas and are typically due at...
+
+A) 2359 on the posted date
+A) 1700 the day before the posted date
+A) 0730 on the posted date
+A) Rolling deadline; no specific time
+
+::: {.notes}
+
+:::
+
+## Question 4
+
+### Which of the following is a **display filter** example in Wireshark?
+
+A) `tcpdump -i eth0 port 80`
+A) `udp and (dns or quic)`
+A) `host 10.6.7.8 and port 53`
+A) `net 10.0.0.0/8`
+
+::: {.notes}
+
+**Answer:** B. `udp and (dns or quic)` matches Wireshark **display filter** syntax. Other options resemble capture filters/libpcap syntax.
+
+:::
+
+## Question 5
+
+### On a headless Linux VM, which tool is best to capture packets for later analysis in Wireshark?
+
+A) `top`
+A) `curl`
+A) `tcpdump`
+A) `ping`
+
+::: {.notes}
+
+**Answer:** C. Use **tcpdump** (or `tshark`) to write PCAPs you can open in Wireshark.
+
+:::
+
+## Question 6
+
+### Which statement about EECSNet is TRUE?
+
+A) It’s the same as the USMA production network and requires no VPN
+A) It’s an instructional/research network accessed via VPN/Wi‑Fi with fewer enterprise restrictions
+A) It provides free public internet to the entire Hudson Valley
+A) It only supports Windows clients
+
+::: {.notes}
+
+**Answer:** B. **EECSNet** is a separate instructional network typically accessed via VPN or direct EECSNet Wi‑Fi/Ethernet.
+
+:::
+
+
+## What's Next?
+:::: {.columns}
+::: {.column width="50%"}
+- Readings before next class
+    - Chapter 1
+- Assigned
+    - PS0 - Usage Agreement & Basic Programming (due Sunday)
+- Upcoming
+    - PS1 - Python Primer
+:::
+::: {.column width="50%"}
+### Parting Advice
+- Start early, ask questions, and get help!
+- Read before class; come prepared to discuss!
+- Be proactive about academic integrity and use of AI tools!
+- Embrace challenges and stay curious!
+:::
+::::
