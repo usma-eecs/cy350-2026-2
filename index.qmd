@@ -77,7 +77,6 @@ All the resources listed below are considered common knowledge and do not need t
 - [Linux Notes for Professionals](https://goalkicker.com/LinuxBook/)
 - [CY350 Linux Setup Guide](https://usma-eecs.github.io/linux-guide/)
 - [CY350 Python Refresher](https://usma-eecs.github.io/python-refresher/)
-- [Unofficial Instrtuctor Website: cy350.bhatia.dev](https://cy350.bhatia.dev/)
 
 ## Course Schedule
 

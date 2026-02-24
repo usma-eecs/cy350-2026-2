@@ -17,9 +17,9 @@ project:
 website:
   title: CY350
   description: Computer Networks
-  # site-url: https://slides.example.com/
+  site-url: https://usma-eecs.github.io/cy350-2026-2/
   repo-url: https://github.com/usma-eecs/cy350-2026-2
-  image: /images/01.png
+  image: /images/00.png
   favicon: /images/favicon.svg
   page-footer: "© 2026 United States Military Academy"
   page-navigation: true
@@ -38,7 +38,6 @@ format:
     license: CC BY-NC-SA
     toc: true
     toc-expand: 2
-    code-fold: true
     smooth-scroll: true
     page-layout: full
     fig-align: center
@@ -55,7 +54,6 @@ format:
     grid:
       body-width: 1800px
   revealjs:
-    author: CPT Sonny Bhatia
     center: true
     date-format: full
     transition: fade

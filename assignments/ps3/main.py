@@ -11,7 +11,8 @@ def main():
         sys.exit(1)
 
     if len(sys.argv) != 2:
-        print("Usage: python ps_04_solution.py <telemetry_file_path>")
+        script_name = os.path.basename(sys.argv[0])
+        print(f"Usage: python {script_name} <input_file_path>")
         sys.exit(1)
 
     telemetry_file_path = sys.argv[1]
