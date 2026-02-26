@@ -33,130 +33,119 @@ Copy the following code into a file named `http_server.py` on your VM or WSL. Tr
 - Try other resources like `/`, `/goodbye`, and `/joke`.
 - Try an invalid resource like `/invalid` to see the 404 response.
 
-## EECSNet VM Setup
+### Walkthrough
 
-1. VPN to EECSNet by changing the server address to `vpn.eecs.ninja` in your Cisco AnyConnect client. Login with your EECSNet credentials. Username remains the same and initial password is `qwer1234QWER!@#$`. Change it immediately. See [Linux setup guide](https://usma-eecs.github.io/linux-guide/) for more details.
-1. [Login to vSphere](https://vcsa1.eecs.net/)
-1. Find your VM by navigating the tree on the left and expanding all folders.
-1. Click on `Launch Web Console` button and login using your VM credentials: `ubuntu` and `cy350pass`
+Create a listening socket and assign it to a class attribute.
 
-### Setup your VM Network
+```python
+# create a TCP listening socket
+self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-Because whoever created the template did not do it correctly the first time around. 🤷
+# bind the socket
+HOST = self.server_ip
+PORT = self.server_port
+self.sock.bind((HOST, PORT))
 
-::: {.callout-note}
-These commands are a pain to type by hand. Use the tab key extensively to autocomplete.
-:::
-
-1. There is an example network configuration file that tells your system to configure the _wired_ interfaces using DHCP. You will learn all about DHCP in a later lesson. For now, link to this file to correctly configure your system.
-
-```sh
-# create the symbolic link to the example network configuration file
-sudo ln -s /usr/lib/systemd/network/89-ethernet.network.example /etc/systemd/network/89-ethernet.network
-
-# verify the contents of the file
-cat /etc/systemd/network/89-ethernet.network
-
-## restart the network service to apply the new configuration
-sudo systemctl restart systemd-networkd.service
+# start listening
+self.sock.listen(1)
+print(f"Listening on {self.server_ip}:{self.server_port}")
 ```
 
-1. Now check your VM's IP address with `ip addr`. Note down this address and keep track of it.
+Accept incoming connections in a loop and handle them.
 
-### SSH from Windows (not WSL!)
+```python
+print('Ready to accept a connection...')
 
-::: {.callout-note}
-Run SSH PowerShell or Windows, not WSL. WSL cannot access your EECSNet VPN.
-:::
+# accept a connection
+conn, addr = self.sock.accept()
+print(f'Accepted connection from {addr}')
 
-From a Windows Terminal (PowerShell), run the following command:
+self.conn = conn
 
-```sh
-ssh ubuntu@<VM_IP_ADDRESS> # e.g. ssh ubuntu@10.3.50.X
+# store the request data somewhere
+received = b''
+data = b''
+
+# in a loop, receive data until the full request is obtained
+while not data.endswith(b'\r\n\r\n'):
+    # use the connection to receive data
+    data = conn.recv(1024)
+    # append the received data somewhere
+    received += data
+
+print(f'Received data: {len(received)} bytes')
+
+receivedStr = received.decode()
+
+print(f'======= REQUEST =======\n{receivedStr}\n=======================')
+
+# once the request is received, parse it
+method, resource = self.parse_request(receivedStr)
+
+print(f'Method: {method}, Resource: {resource}')
+
+# build the response using build_http_response()
+response = self.build_http_response(method, resource)
+
+print(f'======= RESPONSE =======\n{response}\n=======================')
+
+# send the response using send_response()
+# print(...)
+self.send_response(response)
+
+# close the connection
+self.conn.close()
+self.conn = None
+
+print(f'Connection closed: {addr}')
+# print(...)
 ```
 
-Use your VM password to login. Now you can run commands on your EECSNet VM remotely.
+Parse the HTTP request to extract the method and resource.
 
-### Passwordless SSH
+```python
+items = request.split()
+method = items[0]
+resource = items[1]
+```
 
-- On your Windows laptop, open PowerShell and check if you have existing SSH keys:
+Build the HTTP response based on the method and resource.
 
-    ```sh
-    cd ~ # go to your home directory
-    cd .ssh # go to the .ssh directory within your home directory
-    ls # list files in the .ssh directory
-    ```
+```python
+if method != "GET":
+    responseCode = 400
+    responseMsg = "BAD REQUEST"
+    responseBody = "Only GET method is supported."
 
-- If you do not have `id_ecdsa.pub` or `id_rsa.pub` files or something similar, generate a new SSH key pair: `ssh-keygen`; press `Enter` twice to accept defaults.
+elif not resource in self.resources:
+    responseCode = 404
+    responseMsg = "NOT FOUND"
 
-- Grab your public key:
+else:
+    responseCode = 200
+    responseMsg = "OK"
+    responseBody = self.resources[resource]
 
-    ```sh
-    cat id_ed25519.pub # or cat id_*.pub
-    ```
-- Place your public key onto the VM:
+responseBody += '\r\n'
+header = f'Content-Length: {len(responseBody)}'
 
-    ```sh
-    mkdir .ssh
-    nano .ssh/authorized_keys
-    # paste the public key into the text editor
-    # save Ctrl+S
-    # exit Ctrl+X
-    cat .ssh/authorized_keys # verify the key is there
-    ```
+http_response = f'HTTP/1.1 {responseCode} {responseMsg}\r\n{header}\r\n\r\n{responseBody}'
+```
 
-- Now attempt to SSH again: `ssh ubuntu@<VM_IP_ADDRESS>`. You should not be prompted for a password this time.
+Send the HTTP response back to the client.
 
-- Optionally, now you can connect your VS Code to your VM using the [Remote - SSH extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh).
+```python
+bytes = response.encode()
+self.conn.sendall(bytes)
+print(f'Sent: {len(bytes)} bytes')
+```
 
-Reminder: In VS Code,  [Features > Chat > Disable AI Features](vscode://settings/chat.disableAIFeatures) to protect yourself from unintentional AI completions!
+Finally, close the connection.
 
-## netcat (nc)
-
-Try the following with your lab partner. Note down each other's VM IP addresses.
-
-### listen (server)
-
-- Use `nc` (netcat) to create a TCP socket
-- Listen on port 12345: `nc -v -l -p 12345`
-- Why did you not enter an IP address? Where do you enter it?
-
-### connect (client)
-
-- On the other VM, connect to the socket above: `nc PARTNER_VM_IP_ADDRESS 12345`
-- Type a message and hit enter. Can your partner see it?
-
-### send a file from client to server
-
-- On the server:
-
-    ```sh
-    nc -v -l -p 23456 > incoming.jpg
-    ```
-
-- On the client:
-
-    ```sh
-    wget http.cat/404 # get a cat picture from the internet
-    nc PARTNER_VM_IP_ADDRESS 23456 < 404 # send it to your partner
-    ```
-
-### send a file from server to client
-
-- On the server:
-
-    ```sh
-    wget http.cat/404 # get a cat picture from the internet
-    nc -v -l -p 34567 < 404
-    ```
-
-- On the client:
-
-    ```sh
-    nc PARTNER_VM_IP_ADDRESS 34567 > incoming.jpg
-    ```
-
-### UDP mode
-
-- Repeat the above steps using UDP instead of TCP by adding `-u` flag to `nc` commands.
-- What differences do you notice?
+```python
+def close_connection(self) -> None:
+    if self.conn:
+        self.conn.close()
+    self.sock.close()
+    print("Listening socket closed.")
+```
