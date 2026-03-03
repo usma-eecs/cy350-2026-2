@@ -167,3 +167,14 @@ The bandwidths of the links are:
 - Link 1: 300 Mbps
 - Link 2: 100 Mbps
 - Link 3: 1 Gbps
+
+## WPR 1
+
+- 🎯 25 questions; 100 points total; 🕰 75 minutes
+- 📄 Scratch paper provided; bring your pen 🖊 and calculator 🖩
+- 📑 Show your work for partial credit
+- ⛔ Closed book; closed notes; no internet access authorized
+- 📜 You may use a single 8.5" x 11" sheet of paper with handwritten notes on both sides
+- ⛔ No electronic devices allowed
+- ⚠ All work must be your own; no collaboration or discussion with others
+- ⚠ Academic Security: Do not discuss the content, structure, or any other information about the WPR with anyone else until the WPR is released from academic security.
