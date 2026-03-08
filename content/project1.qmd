@@ -1,0 +1,103 @@
+---
+format:
+    html:
+        code-links:
+            - text: Part 1 Starter Files
+              icon: server
+              href: https://westpoint.instructure.com/courses/11172/files/3917337/download
+        other-links:
+            - text: HTTP Messages
+              icon: globe
+              href: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Messages
+title: Project 1 - Web Server and Reliable Data Transfer
+description: Implement a basic Web Server and Go-Back-N protocols over UDP
+date: 2026-03-04
+image: /images/project1.png
+---
+
+## Overview
+
+In this project, you will tackle two layers of the network stack-
+
+- At the application layer, you will implement a basic HTTP server.
+- At the transport layer, you will implement a reliable data transfer protocol over UDP using the Go-Back-N protocols.
+
+### Generative AI Use Policy
+
+The use of generative AI tools is __prohibited for the written portion__ of this assignment.
+
+The use of generative AI tools such as ChatGPT or Claude is _authorized_ for the programming portion of this assignment subject to the following restrictions:
+
+- You may only use a generative AI tool that has **study mode*- or the equivelant concept enabled.
+    - ChatGPT calls it `Study and learn` mode.
+    - Gemini calls it `Guided Learning` mode.
+    - VS Code Copilot does not meet this requirement and must be disabled within VSCode before you start writing any code for this project. [Features > Chat > Disable AI Features](vscode://settings/chat.disableAIFeatures)
+- You must provide a link to your chat in your DAAW and properly inline cite provided assistance.
+    - Recommend that you open your link in an incognito window to verify that it is publicly accessible. If you cannot reach it from an incognito window, your instructor will not be able to access it either.
+- You must copy and paste the following prompt as the very first message in any chat on any tool you use:
+
+```txt
+Following are the authorized Human-AI teaming (HAT) levels
+
+- HAT Level 1: Support learning of concepts - Focus on explaining concepts, theories, or background knowledge without giving direct solutions.
+- HAT Level 2: Collaborate in thinking/reasoning/design - Brainstorm, evaluate, or suggest ideas and options, but do not provide a fully formed solution.
+
+This conversation is for an assignment where you serve as a tutor for me and all responses should be limited to HAT level 1 and HAT level 2.
+```
+
+_Failure to follow any of the above restrictions will be considered unauthorized collaboration will result in a significant deduction of points._
+
+### Learning Objectives
+
+- Implement a functioning HTTP server that can parse HTTP requests, generate appropriate responses, and handle conditional GET requests.
+- Explain why UDP is unreliable and describe strategies to achieve reliable data transfer over UDP.
+- Design and implement a custom transport header with TCP-like flags and fields.
+- Implement sliding window protocols such as Go-Back-N.
+    - Use a single base timer, cumulative ACKs, and bulk retransmissions.
+- Analyze and understand protocol behavior using Wireshark.
+- Reflect on trade-offs between protocol complexity and performance.
+
+### Submission Instructions
+
+1. You will submit your code to Gradescope. Autograder will give you feedback on the correctness of your implementation.
+
+1. Once you have a working implementation, you will answer several questions on Canvas that explain your thought process. Majority of your grade will be based on your understanding and explanation of your implementation, which requires you to have a working implementation. These must be answered in your own words without any assistance from generative AI tools. You may discuss these questions with your instructor and verbally assist others to develop understanding of the material, but you may not share your written responses with anyone else.
+
+::: {.callout-tip}
+If you are unable to get your code working, explain your testing strategy, what you did to debug your code, and what your steps would have been to get it working. Consider what prevented you from actually taking those steps.
+:::
+
+### Points Breakdown
+
+- Part 1: Basic HTTP Server - 30 points
+- Part 2: Go-Back-N Protocol - 30 points
+- Part 3: Explanation of your work - 40 points
+
+## Part 1: HTTP Server
+
+This part introduces you to the client-server programming paradigm and the basics of HTTP. Using your code from [Lab 3](/labs/03.qmd), implement a HTTP server that supports GET method of the HTTP/1.1 protocol. You are only expected to handle one request per connection.
+
+- Correctly initialize a TCP listening socket.
+- Accept incoming connections from clients.
+- Receive and reassemble a segmented GET or POST request from a client.
+- Handle [GET](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods/GET) request and parse the method, resource, and headers.
+- Look up the requested resource, check the cache, and determine the correct response.
+- Generate the HTTP response, properly segment it, and send it back to the client.
+- Close the TCP connection after each response and start over.
+
+### Key Tasks
+
+- Implement segmentation and reassembly of messages. This means you will need to handle cases where a single HTTP request or response is split across multiple TCP segments.
+- Parse HTTP requests to extract the method, resource, and headers. See [HTTP Message Format](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Messages) for exactly how HTTP messages are structured.
+- Handle GET requests. Parse the [If-None-Match](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/If-None-Match) header and conditionally return [304 Not Modified](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/304) if the content cache entry is valid.
+- Generate appropriate HTTP responses with correct status codes, headers, and body content.
+
+### Hints
+
+- Most autograder test results are hidden. Come up with your own test cases and test your code locally.
+- Test your work incrementally. Don't try to implement everything at once. Test each piece as you go.
+- Use small `frame_size` values to force segmentation and reassembly of messages. This will help you test your implementation more thoroughly.
+- Use Wireshark to analyze the packets being sent and received by your server.
+- Add lots of print statements to your code to understand the flow of execution and produce useful debug information. You can remove these print statements once you have a working implementation.
+- Check CRLF termination `\r\n\r\n` carefully.
+- Ensure `Content-Length` matches body length.
