@@ -173,15 +173,10 @@
           display:block!important;
       }</style></aside>
 </section>
-<section>
-<section class="title-slide slide level1 center">
-<h1>Network Layer Header</h1>
-
-</section>
 <section class="slide level2 center">
-<h2>IPv4 Datagram Structure</h2>
+<h2>IPv4 Datagram</h2>
 
-<img data-src="14-ipv4-datagram.svg" class="r-stretch"></section></section>
+<img data-src="14-ipv4-datagram.svg" class="r-stretch"></section>
 <section>
 <section class="title-slide slide level1 center">
 <h1>Addressing</h1>
@@ -190,17 +185,19 @@
 <section class="slide level2 center">
 <h2>What is an IP Address?</h2>
 <ul>
-<li class="fragment">A 32-bit number that uniquely identifies each host interface on a network.</li>
-<li class="fragment">Written in dotted-decimal notation, e.g.&nbsp;<code>192.168.100.200</code></li>
-<li class="fragment">Logical address - it can change!</li>
-<li class="fragment">Assigned by network administrators or dynamically via DHCP.</li>
-<li class="fragment">Can you assign it yourself?</li>
+<li>A 32-bit number that uniquely identifies each host interface on a network.</li>
+<li>Written in dotted-decimal notation, e.g.&nbsp;<span class="math inline">\(192.168.100.200\)</span></li>
+<li>Logical address - it can change!</li>
+<li>Assigned by network administrators or dynamically via DHCP.</li>
+<li>Can you assign it yourself?</li>
 </ul>
 </section>
 <section class="slide level2 center">
-<h2>What is an interface?</h2>
+<h2>Network Interface</h2>
 <ul>
-<li class="fragment">🔌 Connection point between a host and a physical link.</li>
+<li>🔌 Connection point between a host and a physical link.</li>
+</ul>
+<ul>
 <li class="fragment">🛣️ What about a router?</li>
 <li class="fragment">🖥️ Is a router also a host?</li>
 <li class="fragment">🔁 Can a host have multiple interfaces?</li>
@@ -210,23 +207,24 @@
 <section class="slide level2 center">
 <h2>Reading IPv4 Addresses</h2>
 <ul>
-<li><p>Each octet represents 8 bits (1 byte) of the address, ranging from 0 to 255 (<span class="math inline">\(2^8 - 1\)</span>)</p></li>
-<li><p><code>199.239.136.245</code></p></li>
+<li>Each octet represents 1 byte (8 bits) of the address</li>
+<li>Range: <span class="math inline">\(0 \rightarrow (2^8 - 1) = 255\)</span></li>
 </ul>
-<p><code>_ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _</code></p>
-<ul>
-<li><code>192.168.100.1</code></li>
-</ul>
-<p><code>_ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _</code></p>
-<ul>
-<li><code>172.16.254.255</code></li>
-</ul>
-<p><code>_ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _</code></p>
-<ul>
-<li><code>10.0.0.1</code></li>
-</ul>
-<p><code>_ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _</code></p>
+<div class="hidden">
+<p><span class="math display">\[
+\def\eightblanks{{\_\space\_\space\_\space\_\space\_\space\_\space\_\space\_}}
+\def\fourtimeseightblanks{\eightblanks\cdot\eightblanks\cdot\eightblanks\cdot\eightblanks}
+\]</span></p>
+</div>
+<h3><span class="math display">\[199.239.136.245\]</span></h3>
+<h3><span class="math display">\[\fourtimeseightblanks\]</span></h3>
+<h3><span class="math display">\[192.168.100.1\]</span></h3>
+<h3><span class="math display">\[\fourtimeseightblanks\]</span></h3>
 </section>
+<section class="slide level2 center">
+<h2>Who is in charge of assigning IP addresses? <a href="https://www.iana.org/numbers">IANA</a></h2>
+
+<img data-src="https://www.iana.org/static/_img/2022/rir-map.svg" class="r-stretch"></section>
 <section class="slide level2 center">
 <h2>Reserved Address Spaces</h2>
 <ul>
@@ -255,11 +253,6 @@
 </div>
 </div>
 </div>
-</section></section>
-<section>
-<section class="title-slide slide level1 center">
-<h1>DHCP</h1>
-
 </section>
 <section class="slide level2 center">
 <h2>Where to find an IP Address?</h2>
@@ -296,15 +289,13 @@
 <section class="slide level2 center">
 <h2>Broadcast Domain</h2>
 <ul>
-<li>A group of devices that can communicate directly without a router</li>
-</ul>
-<ul>
-<li class="fragment">📣 Yelling: all devices receive broadcast messages sent by others</li>
-<li class="fragment">❓ Why broadcast? ARP, DHCP etc.</li>
-<li class="fragment">🚧 Routers separate broadcast domains, so they do not forward broadcast traffic</li>
-<li class="fragment">⚡ Direct communication is efficient</li>
-<li class="fragment">🔊 Very noisy if the broadcast domain is too large</li>
-<li class="fragment">⚠️ Also very dangerous if not properly secured</li>
+<li>💻 A group of devices that can communicate directly without a router</li>
+<li>📣 Yelling: all devices receive broadcast messages sent by others</li>
+<li>⚡ Direct communication is efficient</li>
+<li>❓ Who broadcasts? ARP, DHCP etc.</li>
+<li>🚧 Routers separate broadcast domains, so they do not forward broadcast traffic</li>
+<li>🔊 Very noisy if the broadcast domain is too large</li>
+<li>⚠️ Also very dangerous if not properly secured</li>
 </ul>
 </section>
 <section class="slide level2 center">
@@ -314,15 +305,16 @@
 <li>✂️ Used to break up large IP spaces into smaller ones - reduce wastage</li>
 <li>👥 Defined by people in charge of the network</li>
 </ul>
+<p><span class="math display">\[200.23.20.0/24 = \underset{\text{NETWORK ADDRESS}}{\underline{11001000 \cdot 00010111 \cdot 00010100}} \cdot \underset{\text{HOST}}{\underline{00000000}}\]</span></p>
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<p><strong>Network Prefix</strong></p>
+<p><strong>Network Address</strong></p>
 <ul>
-<li>Reserve part of the address</li>
+<li>Reserved part of the address</li>
+<li>Same for all devices in the subnet</li>
 <li>Limits broadcast domain size</li>
 <li>Better security and performance</li>
-<li>Same network prefix = same subnet</li>
 </ul>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
@@ -337,59 +329,82 @@
 </div>
 </section>
 <section class="slide level2 center">
-<h2>Classless Inter-Domain Routing (CIDR)</h2>
+<h2>How many bits?</h2>
+<h4>Classless Inter-Domain Routing (CIDR) Notation</h4>
+<p><span class="math display">\[\text{Network ID} = \underset{\text{NETWORK ADDRESS}}{\underline{10.22.128.0}} / \underset{\text{CIDR}}{\underline{22}} \rightarrow 10 \space \text{host bits}\]</span></p>
+<h4>Subnet Masks</h4>
 <ul>
-<li>Fancy way to write subnet masks and network prefixes</li>
-<li>Defines how many bits belong to the network identifier</li>
-<li>e.g.&nbsp;<code>200.23.20.0/24</code> = <span class="math inline">\(\underline{11001000 . 00010111 . 00010100} . 00000000\)</span></li>
+<li>32-bit number with a bunch of <code>1</code>s followed by a bunch of <code>0</code>s; matches CIDR notation</li>
+<li>Tells you how many bits are in the network vs host portions</li>
 </ul>
-<h3>Reserved Addresses</h3>
-<ol type="1">
-<li>First Address = Network Address (all host bits are 0)</li>
-<li>Last Address = Broadcast Address (all host bits are 1)</li>
-</ol>
-<p><span class="math display">\[USABLE = TOTAL - 2\]</span></p>
+<p><span class="math display">\[\text{Network ID} = \underset{\text{NETWORK ADDRESS}}{\underline{00001010 \cdot 00010110 \cdot 100000}} \space \underset{\text{HOST}}{\underline{00 \cdot 00000000}}\]</span> <span class="math display">\[\text{Subnet Mask} = \underset{\text{22 NETWORK BITS}}{\underline{11111111 \cdot 11111111 \cdot 111111}} \space \underset{\text{10 HOST BITS}}{\underline{00 \cdot 00000000}}\]</span></p>
+<p><span class="math display">\[= 255.255.252.0\]</span></p>
 </section>
 <section class="slide level2 center">
-<h2>CIDR Calculation</h2>
-<div class="columns">
-<div class="column" style="width:45%;">
-<p>Determine the following:</p>
+<h2>How many hosts?</h2>
+<p><span class="math display">\[\text{Total Possible Addresses} = 2^{\text{Number of Host Bits}}\]</span></p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong>Network Address</strong></p>
 <ul>
-<li>Number of total addresses</li>
-<li>Number of usable addresses</li>
-<li>network address</li>
-<li>broadcast address</li>
-<li>range of usable addresses</li>
+<li>Reserved for the subnet itself</li>
+<li>All host bits are <code>0</code></li>
+<li>First address</li>
 </ul>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong>Broadcast Address</strong></p>
+<ul>
+<li>Send messages to all hosts in the subnet</li>
+<li>All host bits are <code>1</code></li>
+<li>Last address</li>
+</ul>
+</div>
+</div>
+</div>
+<p><span class="math display">\[\text{Usable Host Addresses} = \text{Total Possible Addresses} - 2\]</span></p>
+</section>
+<section class="slide level2 center">
+<h2>Subnet Calculations</h2>
+<h4><code>200.23.20.0/24</code> = <span class="math inline">\(\underline{11001000 . 00010111 . 00010100} . 00000000\)</span></h4>
+<div class="columns">
+<div class="column" style="width:30%;">
+<p># Host Bits:</p>
+<p># Total:</p>
+<p># Usable:</p>
 </div><div class="column" style="width:50%;">
-<h3><code>200.23.20.0/24</code></h3>
-<p><span class="math inline">\(\underline{11001000 . 00010111 . 00010100} . 00000000\)</span></p>
-<h3><code>200.23.20.0/23</code></h3>
-<p><span class="math inline">\(\underline{11001000 . 00010111 . 0001010}0 . 00000000\)</span></p>
-<h3><code>200.23.20.0/25</code></h3>
-<p><span class="math inline">\(\underline{11001000 . 00010111 . 00010100 . 0}0000000\)</span></p>
+<p>Broadcast Address:</p>
+<p>First Host Address:</p>
+<p>Last Host Address:</p>
+</div></div>
+<h4><code>200.23.20.0/23</code> = <span class="math inline">\(\underline{11001000 . 00010111 . 0001010}0 . 00000000\)</span></h4>
+<div class="columns">
+<div class="column" style="width:30%;">
+<p># Host Bits:</p>
+<p># Total:</p>
+<p># Usable:</p>
+</div><div class="column" style="width:50%;">
+<p>Broadcast Address:</p>
+<p>First Host Address:</p>
+<p>Last Host Address:</p>
+</div></div>
+<h4><code>200.23.20.0/25</code> = <span class="math inline">\(\underline{11001000 . 00010111 . 00010100 . 0}0000000\)</span></h4>
+<div class="columns">
+<div class="column" style="width:30%;">
+<p># Host Bits:</p>
+<p># Total:</p>
+<p># Usable:</p>
+</div><div class="column" style="width:50%;">
+<p>Broadcast Address:</p>
+<p>First Host Address:</p>
+<p>Last Host Address:</p>
 </div></div>
 </section>
 <section class="slide level2 center">
-<h2>Subnet Masks</h2>
-<ul>
-<li>Another way to represent the network prefix</li>
-<li>A 32-bit number with 1s for network bits and 0s for host</li>
-<li>Always matches the CIDR prefix length</li>
-<li>A bunch of <code>1</code>s followed by a bunch of <code>0</code>s</li>
-</ul>
-<p>Example</p>
-<ul>
-<li><code>10.22.128.0/22</code> Network Prefix</li>
-<li><code>255.255.252.0</code> Subnet Mask</li>
-<li><code>00001010 00010110 10000000 00000000</code> Network Prefix</li>
-<li><code>11111111 11111111 11111100 00000000</code> Subnet Mask</li>
-</ul>
-</section>
-<section class="slide level2 center">
 <h2>Practice</h2>
-<p>This entire network has the network address space <code>192.168.0.0/23</code>. Assign an appropriate address to each subnet.</p>
+<p>Assigned network address space: <code>192.168.0.0/23</code></p>
+<p>Assign an appropriate address to each subnet.</p>
 <div class="cell" data-fig-width="16" data-fig-height="5" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -466,6 +481,100 @@
 <polyline fill="none" stroke="black" points="65.1,-32 65.1,0 "></polyline>
 <polyline fill="none" stroke="black" points="65.1,-32 69.1,-36 "></polyline>
 <text text-anchor="middle" x="36.2" y="-13.8" font-family="Times,serif" font-size="14.00">20 Hosts</text>
+</g>
+<!-- H2&#45;&#45;R1 -->
+<g id="edge3" class="edge">
+<title>H2--R1</title>
+<path fill="none" stroke="black" d="M69.14,-25.45C81.85,-28.42 96.67,-31.87 110.29,-35.05"></path>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2 center">
+<h2>Practice</h2>
+<p>Assigned network address space: <code>172.18.0.0/23</code></p>
+<p>Assign an appropriate address to each subnet.</p>
+<div class="cell" data-fig-width="16" data-fig-height="5" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg width="1536" height="480" viewbox="0.00 0.00 476.44 98.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none; display: block; margin: auto auto auto auto">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 94)">
+<title>Network</title>
+<!-- R1 -->
+<g id="node1" class="node">
+<title>R1</title>
+<ellipse fill="none" stroke="black" cx="153.96" cy="-45" rx="44.62" ry="44.62"></ellipse>
+<text text-anchor="middle" x="153.96" y="-40.8" font-family="Times,serif" font-size="14.00">Router 1</text>
+</g>
+<!-- R2 -->
+<g id="node2" class="node">
+<title>R2</title>
+<ellipse fill="none" stroke="black" cx="321.48" cy="-45" rx="44.62" ry="44.62"></ellipse>
+<text text-anchor="middle" x="321.48" y="-40.8" font-family="Times,serif" font-size="14.00">Router 2</text>
+</g>
+<!-- R1&#45;&#45;R2 -->
+<g id="edge1" class="edge">
+<title>R1--R2</title>
+<path fill="none" stroke="black" d="M198.88,-45C222.92,-45 252.61,-45 276.64,-45"></path>
+<text text-anchor="middle" x="237.72" y="-49.2" font-family="Times,serif" font-size="14.00">2 Hosts</text>
+</g>
+<!-- H3 -->
+<g id="node5" class="node">
+<title>H3</title>
+<polygon fill="none" stroke="black" points="468.64,-90 406.84,-90 402.84,-86 402.84,-54 464.64,-54 468.64,-58 468.64,-90"></polygon>
+<polyline fill="none" stroke="black" points="464.64,-86 402.84,-86 "></polyline>
+<polyline fill="none" stroke="black" points="464.64,-86 464.64,-54 "></polyline>
+<polyline fill="none" stroke="black" points="464.64,-86 468.64,-90 "></polyline>
+<text text-anchor="middle" x="435.74" y="-67.8" font-family="Times,serif" font-size="14.00">64 Hosts</text>
+</g>
+<!-- R2&#45;&#45;H3 -->
+<g id="edge4" class="edge">
+<title>R2--H3</title>
+<path fill="none" stroke="black" d="M364.92,-55.21C377.46,-58.22 390.98,-61.47 402.74,-64.3"></path>
+</g>
+<!-- H4 -->
+<g id="node6" class="node">
+<title>H4</title>
+<polygon fill="none" stroke="black" points="468.64,-36 406.84,-36 402.84,-32 402.84,0 464.64,0 468.64,-4 468.64,-36"></polygon>
+<polyline fill="none" stroke="black" points="464.64,-32 402.84,-32 "></polyline>
+<polyline fill="none" stroke="black" points="464.64,-32 464.64,0 "></polyline>
+<polyline fill="none" stroke="black" points="464.64,-32 468.64,-36 "></polyline>
+<text text-anchor="middle" x="435.74" y="-13.8" font-family="Times,serif" font-size="14.00">32 Hosts</text>
+</g>
+<!-- R2&#45;&#45;H4 -->
+<g id="edge5" class="edge">
+<title>R2--H4</title>
+<path fill="none" stroke="black" d="M364.92,-34.79C377.46,-31.78 390.98,-28.53 402.74,-25.7"></path>
+</g>
+<!-- H1 -->
+<g id="node3" class="node">
+<title>H1</title>
+<polygon fill="none" stroke="black" points="72.6,-90 3.8,-90 -0.2,-86 -0.2,-54 68.6,-54 72.6,-58 72.6,-90"></polygon>
+<polyline fill="none" stroke="black" points="68.6,-86 -0.2,-86 "></polyline>
+<polyline fill="none" stroke="black" points="68.6,-86 68.6,-54 "></polyline>
+<polyline fill="none" stroke="black" points="68.6,-86 72.6,-90 "></polyline>
+<text text-anchor="middle" x="36.2" y="-67.8" font-family="Times,serif" font-size="14.00">128 Hosts</text>
+</g>
+<!-- H1&#45;&#45;R1 -->
+<g id="edge2" class="edge">
+<title>H1--R1</title>
+<path fill="none" stroke="black" d="M72.56,-63.75C84.53,-60.96 98.02,-57.81 110.48,-54.91"></path>
+</g>
+<!-- H2 -->
+<g id="node4" class="node">
+<title>H2</title>
+<polygon fill="none" stroke="black" points="69.1,-36 7.3,-36 3.3,-32 3.3,0 65.1,0 69.1,-4 69.1,-36"></polygon>
+<polyline fill="none" stroke="black" points="65.1,-32 3.3,-32 "></polyline>
+<polyline fill="none" stroke="black" points="65.1,-32 65.1,0 "></polyline>
+<polyline fill="none" stroke="black" points="65.1,-32 69.1,-36 "></polyline>
+<text text-anchor="middle" x="36.2" y="-13.8" font-family="Times,serif" font-size="14.00">16 Hosts</text>
 </g>
 <!-- H2&#45;&#45;R1 -->
 <g id="edge3" class="edge">
