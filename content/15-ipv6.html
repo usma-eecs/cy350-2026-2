@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-03-04">
-<meta name="description" content="Implement a basic Web Server and Go-Back-N protocols over UDP">
+<meta name="dcterms.date" content="2026-03-11">
+<meta name="description" content="Network Address Translation (NAT) and the transition to Internet Protocol version 6 (IPv6)">
 
-<title>Project 1 - Web Server and Reliable Data Transfer – CY350</title>
+<title>NAT and IPv6 – CY350</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -112,14 +77,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<meta property="og:title" content="Project 1 - Web Server and Reliable Data Transfer – CY350">
-<meta property="og:description" content="Implement a basic Web Server and Go-Back-N protocols over UDP">
-<meta property="og:image" content="https://usma-eecs.github.io/cy350-2026-2//images/project1.png">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="NAT and IPv6 – CY350">
+<meta property="og:description" content="Network Address Translation (NAT) and the transition to Internet Protocol version 6 (IPv6)">
+<meta property="og:image" content="https://usma-eecs.github.io/cy350-2026-2//images/15-ipv6.png">
 <meta property="og:site_name" content="CY350">
 <meta property="og:image:height" content="461">
 <meta property="og:image:width" content="826">
-<link rel="canonical" href="https://usma-eecs.github.io/cy350-2026-2/content/project1.html">
+<link rel="canonical" href="https://usma-eecs.github.io/cy350-2026-2/content/15-ipv6.html">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -331,49 +325,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a>
-  <ul class="collapse">
-  <li><a href="#generative-ai-use-policy" id="toc-generative-ai-use-policy" class="nav-link" data-scroll-target="#generative-ai-use-policy">Generative AI Use Policy</a></li>
-  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
-  <li><a href="#submission-instructions" id="toc-submission-instructions" class="nav-link" data-scroll-target="#submission-instructions">Submission Instructions</a></li>
-  <li><a href="#points-breakdown" id="toc-points-breakdown" class="nav-link" data-scroll-target="#points-breakdown">Points Breakdown</a></li>
-  </ul></li>
-  <li><a href="#part-1-http-server" id="toc-part-1-http-server" class="nav-link" data-scroll-target="#part-1-http-server">Part 1: HTTP Server</a>
-  <ul class="collapse">
-  <li><a href="#key-tasks" id="toc-key-tasks" class="nav-link" data-scroll-target="#key-tasks">Key Tasks</a></li>
-  <li><a href="#hints" id="toc-hints" class="nav-link" data-scroll-target="#hints">Hints</a></li>
-  </ul></li>
-  </ul>
-<div class="quarto-other-links"><h2>Other Links</h2><ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Messages"><i class="bi bi-globe"></i>HTTP Messages</a></li></ul></div><div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://westpoint.instructure.com/courses/11172/files/3917337/download"><i class="bi bi-server"></i>Part 1 Starter Files</a></li></ul></div></nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content">
 
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Project 1 - Web Server and Reliable Data Transfer</h1>
+<h1 class="title">NAT and IPv6</h1>
 </div>
 
 <div>
   <div class="description">
-    Implement a basic Web Server and Go-Back-N protocols over UDP
+    Network Address Translation (NAT) and the transition to Internet Protocol version 6 (IPv6)
   </div>
 </div>
 
 
-<div class="quarto-title-meta column-page-left">
+<div class="quarto-title-meta column-page">
 
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 4, 2026</p>
+      <p class="date">March 11, 2026</p>
     </div>
   </div>
   
@@ -385,117 +362,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>In this project, you will tackle two layers of the network stack-</p>
+<section id="preparation" class="level4">
+<h4 class="anchored" data-anchor-id="preparation">Preparation</h4>
 <ul>
-<li>At the application layer, you will implement a basic HTTP server.</li>
-<li>At the transport layer, you will implement a reliable data transfer protocol over UDP using the Go-Back-N protocols.</li>
-</ul>
-<section id="generative-ai-use-policy" class="level3">
-<h3 class="anchored" data-anchor-id="generative-ai-use-policy">Generative AI Use Policy</h3>
-<p>The use of generative AI tools is <strong>prohibited for the written portion</strong> of this assignment.</p>
-<p>The use of generative AI tools such as ChatGPT or Claude is <em>authorized</em> for the programming portion of this assignment subject to the following restrictions:</p>
-<ul>
-<li>You may only use a generative AI tool that has **study mode*- or the equivelant concept enabled.
-<ul>
-<li>ChatGPT calls it <code>Study and learn</code> mode.</li>
-<li>Gemini calls it <code>Guided Learning</code> mode.</li>
-<li>VS Code Copilot does not meet this requirement and must be disabled within VSCode before you start writing any code for this project. <a href="vscode://settings/chat.disableAIFeatures">Features &gt; Chat &gt; Disable AI Features</a></li>
-</ul></li>
-<li>You must provide a link to your chat in your DAAW and properly inline cite provided assistance.
-<ul>
-<li>Recommend that you open your link in an incognito window to verify that it is publicly accessible. If you cannot reach it from an incognito window, your instructor will not be able to access it either.</li>
-</ul></li>
-<li>You must copy and paste the following prompt as the very first message in any chat on any tool you use:</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Following are the authorized Human-AI teaming (HAT) levels</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>- HAT Level 1: Support learning of concepts - Focus on explaining concepts, theories, or background knowledge without giving direct solutions.</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>- HAT Level 2: Collaborate in thinking/reasoning/design - Brainstorm, evaluate, or suggest ideas and options, but do not provide a fully formed solution.</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>This conversation is for an assignment where you serve as a tutor for me and all responses should be limited to HAT level 1 and HAT level 2.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><em>Failure to follow any of the above restrictions will be considered unauthorized collaboration will result in a significant deduction of points.</em></p>
-</section>
-<section id="learning-objectives" class="level3">
-<h3 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h3>
-<ul>
-<li>Implement a functioning HTTP server that can parse HTTP requests, generate appropriate responses, and handle conditional GET requests.</li>
-<li>Explain why UDP is unreliable and describe strategies to achieve reliable data transfer over UDP.</li>
-<li>Design and implement a custom transport header with TCP-like flags and fields.</li>
-<li>Implement sliding window protocols such as Go-Back-N.
-<ul>
-<li>Use a single base timer, cumulative ACKs, and bulk retransmissions.</li>
-</ul></li>
-<li>Analyze and understand protocol behavior using Wireshark.</li>
-<li>Reflect on trade-offs between protocol complexity and performance.</li>
+<li><span class="math inline">\(4.3.3\)</span> Network Address Translation (NAT)</li>
+<li><span class="math inline">\(4.3.4\)</span> IPv6</li>
 </ul>
 </section>
-<section id="submission-instructions" class="level3">
-<h3 class="anchored" data-anchor-id="submission-instructions">Submission Instructions</h3>
-<ol type="1">
-<li><p>You will submit your code to Gradescope. Autograder will give you feedback on the correctness of your implementation.</p></li>
-<li><p>Once you have a working implementation, you will answer several questions on Canvas that explain your thought process. Majority of your grade will be based on your understanding and explanation of your implementation, which requires you to have a working implementation. These must be answered in your own words without any assistance from generative AI tools. You may discuss these questions with your instructor and verbally assist others to develop understanding of the material, but you may not share your written responses with anyone else.</p></li>
-</ol>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If you are unable to get your code working, explain your testing strategy, what you did to debug your code, and what your steps would have been to get it working. Consider what prevented you from actually taking those steps.</p>
-</div>
-</div>
-</section>
-<section id="points-breakdown" class="level3">
-<h3 class="anchored" data-anchor-id="points-breakdown">Points Breakdown</h3>
+<section id="lesson-objectives" class="level4">
+<h4 class="anchored" data-anchor-id="lesson-objectives">Lesson Objectives</h4>
 <ul>
-<li>Part 1: Basic HTTP Server - 30 points</li>
-<li>Part 2: Go-Back-N Protocol - 30 points</li>
-<li>Part 3: Explanation of your work - 40 points</li>
+<li>Understand the concept of Network Address Translation (NAT) and its role in allowing multiple devices to share a single public IP address.</li>
+<li>Learn about the structure and features of IPv6, including its larger address space and improved header format.</li>
+<li>Understand the different types of IPv6 addresses (unicast, multicast, anycast) and how they are used.</li>
 </ul>
-<p>Bonus Points: <strong>5 extra points</strong> if you submit the project in its entirety one week before the deadline.</p>
-</section>
-</section>
-<section id="part-1-http-server" class="level2">
-<h2 class="anchored" data-anchor-id="part-1-http-server">Part 1: HTTP Server</h2>
-<p>This part introduces you to the client-server programming paradigm and the basics of HTTP. Using your code from <a href="../labs/03.html">Lab 3</a>, implement a HTTP server that supports GET method of the HTTP/1.1 protocol. You are only expected to handle one request per connection.</p>
+<p>Bonus Objectives:</p>
 <ul>
-<li>Correctly initialize a TCP listening socket.</li>
-<li>Accept incoming connections from clients.</li>
-<li>Receive and reassemble a segmented GET or POST request from a client.</li>
-<li>Handle <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods/GET">GET</a> request and parse the method, resource, and headers.</li>
-<li>Look up the requested resource, check the cache, and determine the correct response.</li>
-<li>Generate the HTTP response, properly segment it, and send it back to the client.</li>
-<li>Close the TCP connection after each response and start over.</li>
-</ul>
-<section id="key-tasks" class="level3">
-<h3 class="anchored" data-anchor-id="key-tasks">Key Tasks</h3>
-<ul>
-<li>Implement segmentation and reassembly of messages. This means you will need to handle cases where a single HTTP request or response is split across multiple TCP segments.</li>
-<li>Parse HTTP requests to extract the method, resource, and headers. See <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Messages">HTTP Message Format</a> for exactly how HTTP messages are structured.</li>
-<li>Handle GET requests. Parse the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/If-None-Match">If-None-Match</a> header and conditionally return <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/304">304 Not Modified</a> if the content cache entry is valid.</li>
-<li>Generate appropriate HTTP responses with correct status codes, headers, and body content.</li>
-</ul>
-</section>
-<section id="hints" class="level3">
-<h3 class="anchored" data-anchor-id="hints">Hints</h3>
-<ul>
-<li>Most autograder test results are hidden. Come up with your own test cases and test your code locally.</li>
-<li>Test your work incrementally. Don’t try to implement everything at once. Test each piece as you go.</li>
-<li>Use small <code>frame_size</code> values to force segmentation and reassembly of messages. This will help you test your implementation more thoroughly.</li>
-<li>Use Wireshark to analyze the packets being sent and received by your server.</li>
-<li>Add lots of print statements to your code to understand the flow of execution and produce useful debug information. You can remove these print statements once you have a working implementation.</li>
-<li>Check CRLF termination <code>\r\n\r\n</code> carefully.</li>
-<li>Ensure <code>Content-Length</code> matches body length.</li>
+<li>Learn about the transition mechanisms from IPv4 to IPv6, such as tunneling and dual-stack deployment.</li>
+<li>Understand the role of middleboxes (e.g., firewalls, NAT devices) in the context of IPv6 and how they affect end-to-end connectivity.</li>
 </ul>
 
 
-</section>
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></section></div></main> <!-- /main -->
