@@ -1,0 +1,24 @@
+---
+format: html
+title: NAT and IPv6
+description: Network Address Translation (NAT) and the transition to Internet Protocol version 6 (IPv6)
+date: 2026-03-11
+image: /images/15-ipv6.png
+---
+
+#### Preparation
+
+- $4.3.3$ Network Address Translation (NAT)
+- $4.3.4$ IPv6
+
+
+#### Lesson Objectives
+
+- Understand the concept of Network Address Translation (NAT) and its role in allowing multiple devices to share a single public IP address.
+- Learn about the structure and features of IPv6, including its larger address space and improved header format.
+- Understand the different types of IPv6 addresses (unicast, multicast, anycast) and how they are used.
+
+Bonus Objectives:
+
+- Learn about the transition mechanisms from IPv4 to IPv6, such as tunneling and dual-stack deployment.
+- Understand the role of middleboxes (e.g., firewalls, NAT devices) in the context of IPv6 and how they affect end-to-end connectivity.
