@@ -1,0 +1,243 @@
+---
+format: revealjs
+title: Internet Protocol v4 (IPv4)
+description: IPv4 packet structure, addressing, and subnetting
+date: 2026-03-09
+image: /images/14-ipv4.png
+title-slide-attributes:
+    data-background-image: /images/14-ipv4.png
+    data-background-opacity: "0.3"
+---
+
+## Lesson Objectives  {data-background-image="/images/14-ipv4.png" data-background-opacity="0.1"}
+
+1. Understand IPv4 datagram structure and header fields.
+2. Describe IPv4 addressing: classes, subnetting, and CIDR notation.
+3. Explain how DHCP assigns IP addresses dynamically.
+4. Calculate subnet masks, number of hosts, network/broadcast addresses.
+
+### Preparation
+
+- $4.3.1$ IPv4 Datagram Format
+- $4.3.2$ IPv4 Addressing
+
+::: {.notes}
+- Understand the structure of an IPv4 datagram, including its header fields and their purposes.
+- Learn about IPv4 addressing, including the concept of classes, subnetting, and CIDR notation.
+- Understand how Dynamic Host Configuration Protocol (DHCP) works to assign IP addresses dynamically to hosts in a network.
+- Calculate subnet masks, determine the number of hosts in a subnet, and identify the network and broadcast addresses for a given IPv4 address and subnet mask.
+:::
+
+# Network Layer Header
+
+## IPv4 Datagram Structure
+
+![](14-ipv4-datagram.svg)
+
+# Addressing
+
+## What is an IP Address?
+
+::: {.incremental}
+- A 32-bit number that uniquely identifies each host interface on a network.
+- Written in dotted-decimal notation, e.g. `192.168.100.200`
+- Logical address - it can change!
+- Assigned by network administrators or dynamically via DHCP.
+- Can you assign it yourself?
+:::
+
+## What is an interface?
+
+::: {.incremental}
+- 🔌 Connection point between a host and a physical link.
+- 🛣️ What about a router?
+- 🖥️ Is a router also a host?
+- 🔁 Can a host have multiple interfaces?
+- 💻📶 How many actual physical interfaces does your laptop have?
+:::
+
+## Reading IPv4 Addresses
+
+- Each octet represents 8 bits (1 byte) of the address, ranging from 0 to 255 ($2^8 - 1$)
+
+- `199.239.136.245`
+
+`_ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _`
+
+- `192.168.100.1`
+
+`_ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _`
+
+- `172.16.254.255`
+
+`_ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _`
+
+- `10.0.0.1`
+
+`_ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _`
+
+## Reserved Address Spaces
+
+- Cannot be used on the public Internet
+- Used for internal communication within private networks
+
+::: {layout-ncol=2}
+### Private Networks
+
+- Class A: `10.0.0.0/8`
+- Class B: `172.16.0.0/12`
+- Class C: `192.168.0.0/16`
+
+- Used with NAT to reach the Internet
+
+### Special-Purpose Addresses
+
+- Loopback: `127.0.0.0/8`
+- Link-local: `169.254.0.0/16`
+- Multicast: `224.0.0.0/4`
+- Reserved: `240.0.0.0/4`
+:::
+
+# DHCP
+
+## Where to find an IP Address?
+
+::: {.incremental}
+- 🔌 I just plugged in my laptop to the network.
+- 🤔 How do I get an IP address?
+- 🙋 Do I have to ask the network administrator for one?
+- 🎲 Can I just assign myself one?
+- 🚶 What if I move to a different network?
+- 📋 Can someone just keep track of all the IP addresses and tell me which one to use?
+:::
+
+## Dynamic Host Configuration Protocol (DHCP)
+
+### Messages: `DORA`
+- `DISCOVER`: Who is in charge here of assigning IP addresses?
+- `OFFER`: I am the DHCP server. Would you like `x.x.x.x`?
+- `REQUEST`: Yes, I will take `x.x.x.x`
+- `ACK`: Great, I will write that down. You have the lease for _86400 seconds_.
+
+### Leases
+
+- Time to live (TTL) for each assigned IP address
+- Matches physical address (MAC address) to the logical address (IP address)
+- Can be released or renewed; you can request the same one again
+
+# Subnetting
+
+## Broadcast Domain
+
+- A group of devices that can communicate directly without a router
+
+::: {.incremental}
+- 📣 Yelling: all devices receive broadcast messages sent by others
+- ❓ Why broadcast? ARP, DHCP etc.
+- 🚧 Routers separate broadcast domains, so they do not forward broadcast traffic
+- ⚡ Direct communication is efficient
+- 🔊 Very noisy if the broadcast domain is too large
+- ⚠️ Also very dangerous if not properly secured
+:::
+
+## Subnet
+
+- 🌐 Smaller portion of a larger network
+- ✂️ Used to break up large IP spaces into smaller ones - reduce wastage
+- 👥 Defined by people in charge of the network
+
+::: {layout-ncol=2}
+#### Network Prefix
+- Reserve part of the address
+- Limits broadcast domain size
+- Better security and performance
+- Same network prefix = same subnet
+
+#### Host Portion / Part / Number / Identifier
+- Remaining bits after the network prefix
+- Unique to each device within the subnet
+- Used to identify individual hosts
+:::
+
+## Classless Inter-Domain Routing (CIDR)
+
+- Fancy way to write subnet masks and network prefixes
+- Defines how many bits belong to the network identifier
+- e.g. `200.23.20.0/24` = $\underline{11001000 . 00010111 . 00010100} . 00000000$
+
+### Reserved Addresses
+
+1. First Address = Network Address (all host bits are 0)
+2. Last Address = Broadcast Address (all host bits are 1)
+
+$$USABLE = TOTAL - 2$$
+
+## CIDR Calculation
+
+:::: {.columns}
+::: {.column width=45%}
+Determine the following:
+
+- Number of total addresses
+- Number of usable addresses
+- network address
+- broadcast address
+- range of usable addresses
+:::
+::: {.column width=50%}
+### `200.23.20.0/24`
+
+$\underline{11001000 . 00010111 . 00010100} . 00000000$
+
+### `200.23.20.0/23`
+
+$\underline{11001000 . 00010111 . 0001010}0 . 00000000$
+
+### `200.23.20.0/25`
+
+$\underline{11001000 . 00010111 . 00010100 . 0}0000000$
+:::
+::::
+
+## Subnet Masks
+
+- Another way to represent the network prefix
+- A 32-bit number with 1s for network bits and 0s for host
+- Always matches the CIDR prefix length
+- A bunch of `1`s followed by a bunch of `0`s
+
+Example
+
+- `10.22.128.0/22` Network Prefix
+- `255.255.252.0` Subnet Mask
+- `00001010 00010110 10000000 00000000` Network Prefix
+- `11111111 11111111 11111100 00000000` Subnet Mask
+
+
+## Practice
+
+This entire network has the network address space `192.168.0.0/23`. Assign an appropriate address to each subnet.
+
+```{dot width=100%}
+//| fig-width: 16
+//| fig-height: 5
+graph Network {
+    rankdir=LR;
+    bgcolor="transparent"
+
+
+    R1 [label="Router 1", shape=circle];
+    R2 [label="Router 2", shape=circle];
+
+    H1 [label="116 Hosts", shape=box3d];
+    H2 [label="20 Hosts", shape=box3d];
+    H3 [label="53 Hosts", shape=box3d];
+    H4 [label="44 Hosts", shape=box3d];
+
+    R1 -- R2 [label="2 Hosts"];
+    H1 -- R1;
+    H2 -- R1;
+    R2 -- H3;
+    R2 -- H4;
+}
+```
