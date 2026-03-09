@@ -28,9 +28,7 @@ title-slide-attributes:
 - Calculate subnet masks, determine the number of hosts in a subnet, and identify the network and broadcast addresses for a given IPv4 address and subnet mask.
 :::
 
-# Network Layer Header
-
-## IPv4 Datagram Structure
+## IPv4 Datagram
 
 ![](14-ipv4-datagram.svg)
 
@@ -38,18 +36,17 @@ title-slide-attributes:
 
 ## What is an IP Address?
 
-::: {.incremental}
 - A 32-bit number that uniquely identifies each host interface on a network.
-- Written in dotted-decimal notation, e.g. `192.168.100.200`
+- Written in dotted-decimal notation, e.g. $192.168.100.200$
 - Logical address - it can change!
 - Assigned by network administrators or dynamically via DHCP.
 - Can you assign it yourself?
-:::
 
-## What is an interface?
+## Network Interface
+
+- 🔌 Connection point between a host and a physical link.
 
 ::: {.incremental}
-- 🔌 Connection point between a host and a physical link.
 - 🛣️ What about a router?
 - 🖥️ Is a router also a host?
 - 🔁 Can a host have multiple interfaces?
@@ -58,23 +55,24 @@ title-slide-attributes:
 
 ## Reading IPv4 Addresses
 
-- Each octet represents 8 bits (1 byte) of the address, ranging from 0 to 255 ($2^8 - 1$)
+- Each octet represents 1 byte (8 bits) of the address
+- Range: $0 \rightarrow (2^8 - 1) = 255$
 
-- `199.239.136.245`
+::: {.hidden}
+$$
+ \def\eightblanks{{\_\space\_\space\_\space\_\space\_\space\_\space\_\space\_}}
+ \def\fourtimeseightblanks{\eightblanks\cdot\eightblanks\cdot\eightblanks\cdot\eightblanks}
+$$
+:::
 
-`_ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _`
+### $$199.239.136.245$$
+### $$\fourtimeseightblanks$$
+### $$192.168.100.1$$
+### $$\fourtimeseightblanks$$
 
-- `192.168.100.1`
+## Who is in charge of assigning IP addresses? [IANA](https://www.iana.org/numbers)
 
-`_ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _`
-
-- `172.16.254.255`
-
-`_ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _`
-
-- `10.0.0.1`
-
-`_ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _ . _ _ _ _ _ _ _ _`
+![](https://www.iana.org/static/_img/2022/rir-map.svg)
 
 ## Reserved Address Spaces
 
@@ -97,8 +95,6 @@ title-slide-attributes:
 - Multicast: `224.0.0.0/4`
 - Reserved: `240.0.0.0/4`
 :::
-
-# DHCP
 
 ## Where to find an IP Address?
 
@@ -129,16 +125,13 @@ title-slide-attributes:
 
 ## Broadcast Domain
 
-- A group of devices that can communicate directly without a router
-
-::: {.incremental}
+- 💻 A group of devices that can communicate directly without a router
 - 📣 Yelling: all devices receive broadcast messages sent by others
-- ❓ Why broadcast? ARP, DHCP etc.
-- 🚧 Routers separate broadcast domains, so they do not forward broadcast traffic
 - ⚡ Direct communication is efficient
+- ❓ Who broadcasts? ARP, DHCP etc.
+- 🚧 Routers separate broadcast domains, so they do not forward broadcast traffic
 - 🔊 Very noisy if the broadcast domain is too large
 - ⚠️ Also very dangerous if not properly secured
-:::
 
 ## Subnet
 
@@ -146,12 +139,14 @@ title-slide-attributes:
 - ✂️ Used to break up large IP spaces into smaller ones - reduce wastage
 - 👥 Defined by people in charge of the network
 
+$$200.23.20.0/24 = \underset{\text{NETWORK ADDRESS}}{\underline{11001000 \cdot 00010111 \cdot 00010100}} \cdot \underset{\text{HOST}}{\underline{00000000}}$$
+
 ::: {layout-ncol=2}
-#### Network Prefix
-- Reserve part of the address
+#### Network Address
+- Reserved part of the address
+- Same for all devices in the subnet
 - Limits broadcast domain size
 - Better security and performance
-- Same network prefix = same subnet
 
 #### Host Portion / Part / Number / Identifier
 - Remaining bits after the network prefix
@@ -159,64 +154,101 @@ title-slide-attributes:
 - Used to identify individual hosts
 :::
 
-## Classless Inter-Domain Routing (CIDR)
+## How many bits?
 
-- Fancy way to write subnet masks and network prefixes
-- Defines how many bits belong to the network identifier
-- e.g. `200.23.20.0/24` = $\underline{11001000 . 00010111 . 00010100} . 00000000$
+#### Classless Inter-Domain Routing (CIDR) Notation
 
-### Reserved Addresses
+$$\text{Network ID} = \underset{\text{NETWORK ADDRESS}}{\underline{10.22.128.0}} / \underset{\text{CIDR}}{\underline{22}} \rightarrow 10 \space \text{host bits}$$
 
-1. First Address = Network Address (all host bits are 0)
-2. Last Address = Broadcast Address (all host bits are 1)
+#### Subnet Masks
 
-$$USABLE = TOTAL - 2$$
+- 32-bit number with a bunch of `1`s followed by a bunch of `0`s; matches CIDR notation
+- Tells you how many bits are in the network vs host portions
 
-## CIDR Calculation
+$$\text{Network ID} = \underset{\text{NETWORK ADDRESS}}{\underline{00001010 \cdot 00010110 \cdot 100000}} \space \underset{\text{HOST}}{\underline{00 \cdot 00000000}}$$
+$$\text{Subnet Mask} = \underset{\text{22 NETWORK BITS}}{\underline{11111111 \cdot 11111111 \cdot 111111}} \space \underset{\text{10 HOST BITS}}{\underline{00 \cdot 00000000}}$$
 
+$$= 255.255.252.0$$
+
+## How many hosts?
+
+$$\text{Total Possible Addresses} = 2^{\text{Number of Host Bits}}$$
+
+::: {layout-ncol=2}
+#### Network Address
+- Reserved for the subnet itself
+- All host bits are `0`
+- First address
+
+#### Broadcast Address
+- Send messages to all hosts in the subnet
+- All host bits are `1`
+- Last address
+:::
+
+$$\text{Usable Host Addresses} = \text{Total Possible Addresses} - 2$$
+
+## Subnet Calculations
+
+#### `200.23.20.0/24` = $\underline{11001000 . 00010111 . 00010100} . 00000000$
 :::: {.columns}
-::: {.column width=45%}
-Determine the following:
+::: {.column width=30%}
+\# Host Bits:
 
-- Number of total addresses
-- Number of usable addresses
-- network address
-- broadcast address
-- range of usable addresses
+\# Total:
+
+\# Usable:
 :::
 ::: {.column width=50%}
-### `200.23.20.0/24`
+Broadcast Address:
 
-$\underline{11001000 . 00010111 . 00010100} . 00000000$
+First Host Address:
 
-### `200.23.20.0/23`
-
-$\underline{11001000 . 00010111 . 0001010}0 . 00000000$
-
-### `200.23.20.0/25`
-
-$\underline{11001000 . 00010111 . 00010100 . 0}0000000$
+Last Host Address:
 :::
 ::::
 
-## Subnet Masks
+#### `200.23.20.0/23` = $\underline{11001000 . 00010111 . 0001010}0 . 00000000$
+:::: {.columns}
+::: {.column width=30%}
+\# Host Bits:
 
-- Another way to represent the network prefix
-- A 32-bit number with 1s for network bits and 0s for host
-- Always matches the CIDR prefix length
-- A bunch of `1`s followed by a bunch of `0`s
+\# Total:
 
-Example
+\# Usable:
+:::
+::: {.column width=50%}
+Broadcast Address:
 
-- `10.22.128.0/22` Network Prefix
-- `255.255.252.0` Subnet Mask
-- `00001010 00010110 10000000 00000000` Network Prefix
-- `11111111 11111111 11111100 00000000` Subnet Mask
+First Host Address:
 
+Last Host Address:
+:::
+::::
+
+#### `200.23.20.0/25` = $\underline{11001000 . 00010111 . 00010100 . 0}0000000$
+:::: {.columns}
+::: {.column width=30%}
+\# Host Bits:
+
+\# Total:
+
+\# Usable:
+:::
+::: {.column width=50%}
+Broadcast Address:
+
+First Host Address:
+
+Last Host Address:
+:::
+::::
 
 ## Practice
 
-This entire network has the network address space `192.168.0.0/23`. Assign an appropriate address to each subnet.
+Assigned network address space: `192.168.0.0/23`
+
+Assign an appropriate address to each subnet.
 
 ```{dot width=100%}
 //| fig-width: 16
@@ -225,7 +257,6 @@ graph Network {
     rankdir=LR;
     bgcolor="transparent"
 
-
     R1 [label="Router 1", shape=circle];
     R2 [label="Router 2", shape=circle];
 
@@ -233,6 +264,35 @@ graph Network {
     H2 [label="20 Hosts", shape=box3d];
     H3 [label="53 Hosts", shape=box3d];
     H4 [label="44 Hosts", shape=box3d];
+
+    R1 -- R2 [label="2 Hosts"];
+    H1 -- R1;
+    H2 -- R1;
+    R2 -- H3;
+    R2 -- H4;
+}
+```
+
+## Practice
+
+Assigned network address space: `172.18.0.0/23`
+
+Assign an appropriate address to each subnet.
+
+```{dot width=100%}
+//| fig-width: 16
+//| fig-height: 5
+graph Network {
+    rankdir=LR;
+    bgcolor="transparent"
+
+    R1 [label="Router 1", shape=circle];
+    R2 [label="Router 2", shape=circle];
+
+    H1 [label="128 Hosts", shape=box3d];
+    H2 [label="16 Hosts", shape=box3d];
+    H3 [label="64 Hosts", shape=box3d];
+    H4 [label="32 Hosts", shape=box3d];
 
     R1 -- R2 [label="2 Hosts"];
     H1 -- R1;
