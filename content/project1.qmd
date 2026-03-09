@@ -73,6 +73,8 @@ If you are unable to get your code working, explain your testing strategy, what 
 - Part 2: Go-Back-N Protocol - 30 points
 - Part 3: Explanation of your work - 40 points
 
+Bonus Points: __5 extra points__ if you submit the project in its entirety one week before the deadline.
+
 ## Part 1: HTTP Server
 
 This part introduces you to the client-server programming paradigm and the basics of HTTP. Using your code from [Lab 3](/labs/03.qmd), implement a HTTP server that supports GET method of the HTTP/1.1 protocol. You are only expected to handle one request per connection.
