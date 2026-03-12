@@ -305,7 +305,7 @@
 <li>✂️ Used to break up large IP spaces into smaller ones - reduce wastage</li>
 <li>👥 Defined by people in charge of the network</li>
 </ul>
-<p><span class="math display">\[200.23.20.0/24 = \underset{\text{NETWORK ADDRESS}}{\underline{11001000 \cdot 00010111 \cdot 00010100}} \cdot \underset{\text{HOST}}{\underline{00000000}}\]</span></p>
+<p><span class="math display">\[200.23.20.0/24 \rightarrow 24 \text{ network bits} + 8 \text{ host bits} = \underset{\text{NETWORK ADDRESS}}{\underline{11001000 \cdot 00010111 \cdot 00010100}} \cdot \underset{\text{HOST}}{\underline{00000000}}\]</span></p>
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
@@ -314,7 +314,6 @@
 <li>Reserved part of the address</li>
 <li>Same for all devices in the subnet</li>
 <li>Limits broadcast domain size</li>
-<li>Better security and performance</li>
 </ul>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
@@ -331,7 +330,7 @@
 <section class="slide level2 center">
 <h2>How many bits?</h2>
 <h4>Classless Inter-Domain Routing (CIDR) Notation</h4>
-<p><span class="math display">\[\text{Network ID} = \underset{\text{NETWORK ADDRESS}}{\underline{10.22.128.0}} / \underset{\text{CIDR}}{\underline{22}} \rightarrow 10 \space \text{host bits}\]</span></p>
+<p><span class="math display">\[\text{Network ID} = \underset{\text{NETWORK ADDRESS}}{\underline{10.22.128.0}} / \underset{\text{CIDR}}{\underline{22}} \rightarrow 22 \text{ network bits} + 10 \text{ host bits}\]</span></p>
 <h4>Subnet Masks</h4>
 <ul>
 <li>32-bit number with a bunch of <code>1</code>s followed by a bunch of <code>0</code>s; matches CIDR notation</li>
@@ -346,24 +345,35 @@
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<p><strong>Network Address</strong></p>
+<p><strong>First Address: Network ID</strong></p>
 <ul>
 <li>Reserved for the subnet itself</li>
 <li>All host bits are <code>0</code></li>
-<li>First address</li>
 </ul>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<p><strong>Broadcast Address</strong></p>
+<p><strong>Last Address: Broadcast</strong></p>
 <ul>
 <li>Send messages to all hosts in the subnet</li>
 <li>All host bits are <code>1</code></li>
-<li>Last address</li>
 </ul>
 </div>
 </div>
 </div>
 <p><span class="math display">\[\text{Usable Host Addresses} = \text{Total Possible Addresses} - 2\]</span></p>
+</section>
+<section class="slide level2 center">
+<h2>Subnetting</h2>
+<p>🛑 Network Address is assigned by the larger network (e.g.&nbsp;ISP); cannot modify it!</p>
+<p><span class="math display">\[\text{Network ID} = \underset{\text{NETWORK ADDRESS}}{\underline{10.22.128.0}} / \underset{\text{CIDR}}{\underline{22}} \rightarrow 10 \text{ host bits}\]</span></p>
+<p><span class="math display">\[\underset{\text{NETWORK ADDRESS}}{\underline{00001010 \cdot 00010110 \cdot 100000}} \space \underset{\text{HOST}}{\underline{00 \cdot 00000000}}\]</span></p>
+<p>💡 Can borrow bits from the host portion to create smaller networks (subnets).</p>
+<p><span class="math display">\[\underset{\text{NETWORK ADDRESS}}{\underline{00001010 \cdot 00010110 \cdot 100000}} \space \underset{\text{SUBNET}}{\underline{00 \cdot 0}} \space \underset{\text{HOST}}{\underline{0000000}}\]</span></p>
+<h4>If I borrow 3 bits from the host portion</h4>
+<ul>
+<li>Subnets: <span class="math inline">\(2^3 = 8\)</span></li>
+<li>Hosts per subnet: <span class="math inline">\(2^{10 - 3} - 2 = 126\)</span></li>
+</ul>
 </section>
 <section class="slide level2 center">
 <h2>Subnet Calculations</h2>
