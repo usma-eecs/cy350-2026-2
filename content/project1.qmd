@@ -19,7 +19,7 @@ image: /images/project1.png
 
 In this project, you will tackle two layers of the network stack-
 
-- At the application layer, you will implement a basic HTTP server.
+- At the application layer, you will implement a simple HTTP server.
 - At the transport layer, you will implement a reliable data transfer protocol over UDP using the Go-Back-N protocols.
 
 ### Generative AI Use Policy
@@ -52,6 +52,7 @@ _Failure to follow any of the above restrictions will be considered unauthorized
 - Implement a functioning HTTP server that can parse HTTP requests, generate appropriate responses, and handle conditional GET requests.
 - Explain why UDP is unreliable and describe strategies to achieve reliable data transfer over UDP.
 - Design and implement a custom transport header with TCP-like flags and fields.
+- Implement 3-way handshake over UDP and a graceful connection teardown.
 - Implement sliding window protocols such as Go-Back-N.
     - Use a single base timer, cumulative ACKs, and bulk retransmissions.
 - Analyze and understand protocol behavior using Wireshark.
@@ -73,7 +74,7 @@ If you are unable to get your code working, explain your testing strategy, what 
 - Part 2: Go-Back-N Protocol - 30 points
 - Part 3: Explanation of your work - 40 points
 
-Bonus Points: __5 extra points__ if you submit the project in its entirety one week before the deadline.
+Bonus Points: __5 extra points__ if you submit the project in its entirety 5 days before the deadline.
 
 ## Part 1: HTTP Server
 
@@ -94,12 +95,102 @@ This part introduces you to the client-server programming paradigm and the basic
 - Handle GET requests. Parse the [If-None-Match](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/If-None-Match) header and conditionally return [304 Not Modified](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/304) if the content cache entry is valid.
 - Generate appropriate HTTP responses with correct status codes, headers, and body content.
 
+### Testing
+
+Gradescope will give you a score with minimal feedback. You must develop your own testing strategy. Here are some ideas:
+
+#### curl
+
+```sh
+curl -v localhost:8090
+curl -v localhost:8090/
+```
+
+#### firefox (or any web browser)
+
+- Open Developer Tools and go to the [Network Monitor](https://firefox-source-docs.mozilla.org/devtools-user/network_monitor/). Use {{< kbd Ctrl-Shift-E >}} to bring it up.
+- Navigate to `http://localhost:8090`
+- Observe the request and response details
+    - request method, URL, headers
+    - response status code, headers, body
+
 ### Hints
 
 - Most autograder test results are hidden. Come up with your own test cases and test your code locally.
 - Test your work incrementally. Don't try to implement everything at once. Test each piece as you go.
-- Use small `frame_size` values to force segmentation and reassembly of messages. This will help you test your implementation more thoroughly.
 - Use Wireshark to analyze the packets being sent and received by your server.
-- Add lots of print statements to your code to understand the flow of execution and produce useful debug information. You can remove these print statements once you have a working implementation.
+- Add lots of print statements to your code to understand the flow of execution and produce useful debug information. You can comment out these print statements as you progress.
 - Check CRLF termination `\r\n\r\n` carefully.
 - Ensure `Content-Length` matches body length.
+- Use your browser's Network Monitor to analyze [If-None-Match](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/If-None-Match) header and expected [304 Not Modified](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/304) response.
+
+## Part 2: Go-Back-N Protocol
+
+Army needs robust communication protocols that works over unreliable networks especially in contested environments. You propose a new protocol called SABRE (Simple And Basic Reliable Exchange) that provides reliable data transfer over UDP. USMA's CIO is very interested in your protocol and wants you to implement it as a proof of concept. You are very excited to show off your recently acquired CY3350 knowledge and skills, and cannot wait to demonstrate the power of your protocol. You will implement the client side of the SABRE protocol, and I will host the server side for you to test against.
+
+Objective: Implement Go-Back-N protocol for reliable data transfer over UDP.
+
+### SABRE Protocol Packet Structure
+
+<!-- ```{mermaid}
+packet
+title SABRE Packet
++8: "PACKET TYPE"
++4: "PADDING"
++1: "RST"
++1: "FIN"
++1: "SYN"
++1: "ACK"
++16: "LENGTH"
++16: "SEQUENCE NUMBER"
++16: "ACKNOWLEDGEMENT"
++32: "CADET ID"
+``` -->
+
+<img src="https://mermaid.ink/svg/pako:eNpNjtFugjAUQH-F3NcRAi0F6ZtC58y0c4JZXHhppEOjgOlKss3477a6TR_PuT339gjrrpJA4SDWO6nLVm_1Xjr5cLRgzvzXPQyoU8J8mD6zwilWc1aCkeFVZtmEjy8isGKRFzd4nPAb5Ks7MLuuEFmaMj4unu5Ezl6XjKfM4cvZiC3uJibkL29Tlo3ZjPHrLYzsJB1m5nuTzCpwoVbbCqhWvXShkaoRFuFYto55qzeykSXYrBJqZ5OTaQ6ife-65i9TXV9vgH6I_aeh_lAJLbOtqJVo_q2SbSVV2vWtBoqCwWUJ0CN8AY2IF8UIhQEK_ATHxIVvoJgkXkASjBGKCU786OTCz-Wo7yVhGPpRFCCEEYlJcjoDrQ92qg" alt="SABRE Packet Structure" />
+
+### Key Features
+
+- Establish a connection with the receiver using a 3-way handshake with the SYN flag.
+- Use a sliding window mechanism to manage the flow of packets.
+- Implement a single timer for the base of the window to detect timeouts.
+- Implement cumulative acknowledgements to acknowledge all packets up to a certain sequence number.
+- Implement bulk retransmissions of all unacknowledged packets when a timeout occurs.
+- Handle connection teardown using a FIN sequence.
+- Read the payload in the final FIN packet from the server.
+
+### Getting Started
+
+Grab the starter code from the [github repository](https://github.com/usma-eecs/cy350-project1-starter) or [download the ZIP file directly](https://github.com/usma-eecs/cy350-project1-starter/archive/refs/heads/main.zip) and then implement `sender.py`. You will be sending packets to a server that I have hosted on the WREN. The server runs the same SABRE protocol. Once you successfully capture a flag from the server, your instructor will be notified.
+
+Type `python main.py --help` to get started.
+
+### Key Tasks
+
+In `sender.py`, implement the following functions:
+
+- `connect()`: Establish a connection with the server using a 3-way handshake.
+- `send()`: Send data to the server using the Go-Back-N protocol.
+- `close()`: Gracefully close the connection with the server using a FIN sequence.
+
+Upon successful connection and data transfer, inspect the final FIN packet sent by the server.
+
+### Hints
+
+- Try the [Go-Back-N Protocol animation](https://media.pearsoncmg.com/ph/esm/ecs_kurose_compnetwork_8/cw/content/interactiveanimations/go-back-n-protocol/) from the textbook authors.
+- Use print statements extensively to trace the flow of your program and understand the state of your sender.
+- Since we are using Go-Back-N, you only need a single timer that is provided to you. Use it.
+- Sequence numbers start at 0 and increment by 1 for each packet sent. In Go-Back-N, we do not count the number of bytes but just the number of packets.
+
+### Testing
+
+- Run your sender on the WREN. You should see some server responses subject to approximately ~20% packet loss.
+- Use `tshark` to capture and analyze the packets.
+
+```sh
+sudo tshark -i lo -f 'udp port 5050' -x --print -w sabre.pcap
+```
+
+## Part 3: Explain your work
+
+See the questions on Canvas. You must answer these questions in your own words _without any Generative AI assistance_. You may discuss these questions with your instructor and verbally assist others to develop understanding of the material, but you may not share your written responses with anyone else.
