@@ -10,7 +10,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.8.27">
 
-  <title>CY350 – NAT and IPv6</title>
+  <title>CY350 – control-plane</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -122,9 +122,8 @@
       margin-right: 0; 
     }
   </style>
-<meta property="og:title" content="NAT and IPv6 – CY350">
-<meta property="og:description" content="Network Address Translation (NAT) and the transition to Internet Protocol version 6 (IPv6)">
-<meta property="og:image" content="https://usma-eecs.github.io/cy350-2026-2//images/15-ipv6.png">
+<meta property="og:title" content="CY350">
+<meta property="og:image" content="https://usma-eecs.github.io/cy350-2026-2//images/17-control-plane.png">
 <meta property="og:site_name" content="CY350">
 <meta property="og:image:height" content="461">
 <meta property="og:image:width" content="826">
@@ -133,27 +132,42 @@
   <div class="reveal">
     <div class="slides">
 
-<section data-background-image="../images/15-ipv6.png" data-background-opacity="0.3" class="quarto-title-block center">
-  <h1 class="title">NAT and IPv6</h1>
 
-<div class="quarto-title-authors">
-</div>
-
-  <p class="date">Wednesday, March 11, 2026</p>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>Discussion</h2>
+<ul>
+<li><a href="https://www.pcworld.com/article/2948826/these-smart-beds-began-roasting-their-owners-during-aws-outage.html">These smart beds began roasting their owners</a>
+<ul>
+<li>What went wrong?</li>
+<li><em>Works as intended</em> or <em>design flaw</em>?</li>
+<li>What could we, the consumers, do differently?</li>
+</ul></li>
+<li><a href="https://aws.amazon.com/message/101925/">Read more…</a></li>
+</ul>
 </section>
-<section class="slide level2 center" data-background-image="../images/14-ipv4.png" data-background-opacity="0.1">
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
 <h2>Lesson Objectives</h2>
 <ol type="1">
-<li>Understand Network Address Translation (NAT) and the motivation for its use.</li>
-<li>Describe the structure and features of IPv6.</li>
-<li>Explain the different types of IPv6 addresses and their use cases.</li>
-<li>Practice subnetting and address allocation (IPv4).</li>
+<li><em>Autonomous System</em> and its role in network routing; understand boundaries and interior routing</li>
+<li>Intra-AS: OSPF’s use of LSAs for scalable routing</li>
+<li>Inter-AS: BGP as the primary protocol; exchanging routing information between different AS</li>
+<li>Different types of BGP peering relationships, <em>eBGP</em> and <em>iBGP</em>, and their significance in inter-AS communication.</li>
 </ol>
+<h3 data-background-image="/images/18.png" data-background-opacity="0.1">Textbook Readings</h3>
+<ul>
+<li><span class="math inline">\(5.3\)</span> Intra-AS Routing in the Internet: OSPF (Open Shortest Path First)</li>
+<li><span class="math inline">\(5.4\)</span> Routing Among the ISPs: BGP</li>
+</ul>
 <aside class="notes">
 <ul>
-<li>Understand the concept of Network Address Translation (NAT) and its role in allowing multiple devices to share a single public IP address.</li>
-<li>Learn about the structure and features of IPv6, including its larger address space and improved header format.</li>
-<li>Understand the different types of IPv6 addresses (unicast, multicast, anycast) and how they are used.</li>
+<li>Scale + autonomy: billions of endpoints and independent administrations.</li>
+<li>“Shortest path” (OSPF) vs <strong>policy-chosen</strong> path (BGP)</li>
+<li>OSPF <strong>area scope</strong> of LSAs &amp; role of <strong>ABR</strong> vs <strong>ASBR</strong></li>
+<li>eBGP vs iBGP: who peers with whom?</li>
+<li>“Hot potato”: locally optimal ≠ globally optimal</li>
+<li>We’ll use small config/packet snippets to ground concepts 🧩</li>
+<li>OSPF ≈ performance within an admin domain</li>
+<li>BGP ≈ policy across domains</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -166,212 +180,540 @@
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<h3>Preparation</h3>
-<ul>
-<li><span class="math inline">\(4.3.3\)</span> Network Address Translation (NAT)</li>
-<li><span class="math inline">\(4.3.4\)</span> IPv6</li>
-</ul>
 </section>
-<section class="slide level2 center">
-<h2>The Problem</h2>
-<div class="r-stack">
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>Recap</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 data-background-image="/images/18.png" data-background-opacity="0.1">Link State Routing</h3>
 <ul>
-<li>IPv4 addresses are 32-bit long</li>
-<li><span class="math inline">\(2^{32} \approx 4.3\)</span> billion addresses</li>
-<li>How many devices are connected to the Internet today?</li>
+<li>Routers flood LSAs</li>
+<li>Global knowledge of network topology</li>
+<li>Dijkstra’s algorithm to compute shortest paths</li>
 </ul>
-<p><img data-src="https://i.imgflip.com/cma0r.jpg" class="fragment" width="300"></p>
-</div>
+</div><div class="column" style="width:50%;">
+<h3 data-background-image="/images/18.png" data-background-opacity="0.1">Distance Vector</h3>
+<ul>
+<li>Share information with <em>neighbors</em> only</li>
+<li>Iterative updates!</li>
+<li>Loops possible until convergence</li>
+</ul>
+</div></div>
+<aside class="notes">
+<ul>
+<li>Which layer?</li>
+<li>What is the main function of this layer?</li>
+<li>What two planes exist at this layer? How are they different?</li>
+<li>What protocols did we learn so far at this layer?</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section class="slide level2 center">
-<h2>The Temporary Solution</h2>
-<h4>Original Concept</h4>
-<ul>
-<li>Every device needs a unique IP address to communicate on the Internet.</li>
-</ul>
-<h4>New Concept</h4>
-<ul>
-<li>Give every device a unique <strong><em>private</em></strong> IP address.</li>
-<li>Make the entire network share one globally unique <strong><em>public</em></strong> address.</li>
-</ul>
-</section>
-<section class="slide level2 center">
-<h2>The New Problem</h2>
-<ul>
-<li>Devices with private IP addresses still need to communicate with devices outside the network.</li>
-<li>Messages from private network need to reach the correct device on the Internet.</li>
-<li>Messages from outside the network need to enter the private network and reach the correct device.</li>
-</ul>
-<h3>This is familiar… how do messages find their way to the correct application on your computer?</h3>
-</section>
-<section class="slide level2 center">
+<section>
+<section class="title-slide slide level1 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h1>Autonomous Systems (AS)</h1>
 
-<div class="r-fit-text">
-<p>Sockets!</p>
-</div>
 </section>
-<section class="slide level2 center">
-<h2>Network Address Translation (NAT)</h2>
-<ol type="1">
-<li>Laptop on the private network creates a packet destined for Server on the Internet and gives it to the nearest router.</li>
-<li>Router changes the source IP address to the public IP address.</li>
-<li>Router writes down the source port number and the private IP address of Laptop.</li>
-<li>Router sends the packet to Server from another random source port number.</li>
-<li>Server replies to the public IP address and the router’s random source port number.</li>
-<li>Router looks up the random source port number in its table, finds the private IP address and the source port number of Laptop.</li>
-<li>Router changes the destination IP address to the private IP address and the destination port number to the source port number of Laptop.</li>
-<li>Router sends the packet to Laptop.</li>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>Why Autonomous Systems?</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<ul>
+<li>How big is the Internet? 🌍</li>
+<li>What if every router shared full routing state? 🤯</li>
+<li>Could we group certain routers?</li>
+<li>And then share only reachability between groups?</li>
+<li><a href="https://asrank.caida.org/">Autonomous Systems (AS) to the rescue!</a></li>
+</ul>
+</div><div class="column" style="width:40%;">
+<p><img data-src="https://www.caida.org/projects/as-core/pics/2020/ascore-2020-ipv4-standalone.png"></p>
+</div></div>
+<aside class="notes">
+<ul>
+<li>Cities = ASes; local roads (intra-AS); highways (inter-AS)</li>
+<li>Cities: local control, highways: agreed-upon rules.</li>
+<li>Highways: only share which cities are reachable, not every street.</li>
+<li>can’t store all destinations; exchanging full tables would swamp links.</li>
+<li>administrative control: each AS sets its own policies.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>What is an AS?</h2>
+<ul>
+<li>A network (or set) under <strong>single administrative control</strong> 🏢</li>
+<li>Clear borders at edge routers; has an <strong>AS number (ASN)</strong></li>
+<li>Goals: scalability, policy independence, fault containment</li>
+<li>What is your current AS?</li>
+<li>Which AS is the biggest? How many addresses does it cover?</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>If students ask: 32-bit ASNs exist; not needed for this lesson’s depth.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>Intra-AS vs Inter-AS Responsibilities</h2>
+<ul>
+<li><strong>Intra-AS:</strong> pick efficient internal paths; optimize performance/availability</li>
+<li><strong>Inter-AS:</strong> exchange <strong>reachability</strong> &amp; enforce policy/economics 💸</li>
+<li>Different metrics, objectives, and protocols by design</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Plant the seed: intra-AS uses cost-like metrics; inter-AS uses attributes &amp; policy.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section class="title-slide slide level1 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h1>Intra-AS Routing Protocols</h1>
+
+</section>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>Intra-AS Protocols</h2>
+<ul>
+<li><strong>RIP</strong> (Distance Vector), <strong>OSPF</strong> (Link State), <strong>IS-IS</strong> (similar LS)</li>
+<li><strong>EIGRP</strong> (DV-based; historically proprietary)</li>
+<li><strong>OSPF</strong> is highly scalable, feature-rich</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Quick taxonomy; don’t deep-dive RIP/EIGRP—just context.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>OSPF Core Mechanics</h2>
+<ul>
+<li>Flood <strong>link-state</strong> info (LSAs) to build a shared topology map</li>
+<li>Run <strong>Dijkstra</strong> to compute shortest paths → forwarding table</li>
+<li>Supports message <strong>authentication</strong> 🔐</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Stress “same view of the area’s topology” → consistent shortest paths.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>OSPF Hierarchy &amp; Areas</h2>
+<ul>
+<li><strong>Area 0 (backbone)</strong> connects all other areas</li>
+<li><strong>Internal routers</strong>: entirely inside one area</li>
+<li><strong>ABR</strong>: between areas; <strong>summarizes</strong> &amp; advertises to backbone</li>
+<li><strong>ASBR</strong>: connects to other ASes; injects <strong>external</strong> routes</li>
+<li>Flooding stays <strong>within an area</strong>; summaries cross areas</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Key mental model: full knowledge of own area; only “direction/cost” to others.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section class="title-slide slide level1 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h1>Inter-AS Routing Protocols</h1>
+
+</section>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>What protocols exist?</h2>
+<ul>
+<li>EGP (Exterior Gateway Protocol)</li>
+<li>IDRP (Inter-Domain Routing Protocol)</li>
+<li>NIRA (Next Internet Routing Architecture)</li>
+<li>RIFT (Routing in Fat Trees)</li>
+<li>LISP (Locator/ID Separation Protocol)</li>
+<li><strong>BGP (Border Gateway Protocol)</strong></li>
+</ul>
+</section>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>Why BGP?</h2>
+<ul>
+<li><strong>Path-vector</strong>: “Here I am, who I can reach, and how” 🧭</li>
+<li>Prioritizes <strong>policy</strong> &amp; business relationships over pure performance</li>
+<li>The <strong>only</strong> inter-AS routing protocol in practice</li>
+</ul>
+</section>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>BGP Basics</h2>
+<ul>
+<li>Peers exchange reachability info (prefixes) + attributes</li>
+<li>Uses TCP (port 179) for reliable transport</li>
+</ul>
+
+<img data-src="http://gaia.cs.umass.edu/kurose_ross/LMS/images/Chapter_5_KC/ebgp_ibgp.jpg" class="r-stretch quarto-figure-center"><p class="caption">Textbook 5.2</p></section>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>eBGP</h2>
+<ul>
+<li>Peers between different autonomous systems</li>
+<li>Only advertises the single best path per prefix to neighbors</li>
+<li>Path-vector: advertises prefixes (NLRI) with attributes (AS-PATH, NEXT-HOP)</li>
+<li>Loop prevention: reject routes that contain your own ASN in AS-PATH</li>
+<li>Policy-driven: import/export filters decide what to learn/advertise; avoid unintended transit</li>
+<li>Edge learns from neighbors via eBGP, then distributes internally via iBGP</li>
+</ul>
+</section>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>iBGP</h2>
+<ul>
+<li>distribute external routes internally</li>
+<li>spread exits - reachability!</li>
+<li><strong>does not</strong> change AS-PATH</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Policy caution: advertising a route can make you a <strong>transit</strong> path.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>What exactly is being advertised?</h2>
+<ul>
+<li><strong>Prefix (NLRI)</strong>: destination network (CIDR)</li>
+<li><strong>AS-PATH</strong>: sequence of ASNs traversed to reach the prefix</li>
+<li><strong>NEXT-HOP</strong>: IP of the border router to reach the next AS</li>
+</ul>
+
+<img data-src="http://gaia.cs.umass.edu/kurose_ross/LMS/images/Chapter_5_KC/ebgp_ibgp.jpg" class="r-stretch quarto-figure-center"><p class="caption">Textbook 5.2</p><aside class="notes">
+<ul>
+<li>Keep center stage on AS-PATH &amp; NEXT-HOP; mention others as policy levers.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside class="notes">
+<ul>
+<li>Connect to real-world economics: peering vs transit relationships.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>Populating Forwarding Tables: Hot Potato</h2>
+<ul>
+<li>Exit the AS at the <strong>closest</strong> egress router 🥔🔥</li>
+<li>Minimizes internal cost; may increase total path length</li>
+<li>Chosen via attribute ordering + local policy (e.g., LOCAL_PREF, AS-PATH)</li>
+</ul>
+
+<img data-src="http://gaia.cs.umass.edu/kurose_ross/LMS/images/Chapter_5_KC/ebgp_ibgp.jpg" class="r-stretch quarto-figure-center"><p class="caption">Textbook 5.2</p><aside class="notes">
+<ul>
+<li>Contrast with “cold potato” (carry further internally)—policy/business choice.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>Intra-AS vs Inter-AS</h2>
+<ul>
+<li><strong>Policy:</strong> core in inter-AS; limited inside an AS</li>
+<li><strong>Scale:</strong> OSPF hierarchy within AS; BGP summarization between ASes</li>
+<li><strong>Performance:</strong> intra-AS optimizes metrics; inter-AS prioritizes policy</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Summarize all three axes: policy, scale, performance.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section class="title-slide slide level1 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h1>Review</h1>
+
+</section>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>OSPF LSAs always flood across the entire AS (all areas).</h2>
+<ol type="A">
+<li>True</li>
+<li>False</li>
 </ol>
-</section>
-<section class="slide level2 center">
-<h2>Network Address Translation (NAT)</h2>
-
-<img data-src="15-nat.svg" class="r-stretch"></section>
-<section class="slide level2 center">
-
-<div class="r-fit-text">
-<p>The Real Solution = IPv6</p>
-</div>
-</section>
-<section class="slide level2 center">
-<h2>How many addresses?</h2>
+<aside class="notes">
 <ul>
-<li><span class="math inline">\(2^{128} = 340,282,366,920,938,463,463,374,607,431,768,211,456\)</span> addresses</li>
-<li>Each grain of sand on Earth could have its own IP address!</li>
+<li><strong>Answer:</strong> False. Most LSAs are scoped to an <strong>area</strong>; ABRs summarize across areas.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>Which statement about <strong>iBGP</strong> is correct?</h2>
+<ol type="A">
+<li>It carries routes between different ASes</li>
+<li>It modifies AS-PATH to add the local AS</li>
+<li>It distributes external reachability <strong>within</strong> an AS</li>
+<li>It replaces OSPF for intra-AS forwarding</li>
+</ol>
+<aside class="notes">
+<ul>
+<li><strong>Answer:</strong> It distributes external reachability within an AS. iBGP does not change AS-PATH and does not replace OSPF’s role in forwarding.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>The main motivation for “hot potato” routing is to:</h2>
+<ol type="A">
+<li>Minimize end-to-end Internet latency</li>
+<li>Minimize <strong>internal</strong> AS cost to the nearest exit</li>
+<li>Satisfy legal requirements</li>
+<li>Evenly balance load across all links</li>
+</ol>
+<aside class="notes">
+<ul>
+<li><strong>Answer:</strong> Minimize <strong>internal</strong> AS cost to the nearest exit.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>Match the protocol model:</h2>
+<ol type="A">
+<li>OSPF — distance vector; BGP — link state</li>
+<li>OSPF — link state; BGP — path vector</li>
+<li>OSPF — flooding forbidden; BGP — flooding required</li>
+<li>OSPF — policy-based; BGP — performance-based</li>
+</ol>
+<aside class="notes">
+<ul>
+<li><strong>Answer:</strong> OSPF — link state; BGP — path vector.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>Why might an AS choose <strong>not</strong> to advertise a learned route to a neighbor?</h2>
+<ol type="A">
+<li>It breaks the TCP three-way handshake</li>
+<li>Privacy/trust/policy concerns or to avoid becoming transit</li>
+<li>iBGP forbids external advertisement</li>
+<li>OSPF area mismatch</li>
+</ol>
+<aside class="notes">
+<ul>
+<li><strong>Answer:</strong> Privacy/trust/policy concerns or to avoid becoming a transit path.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>Which BGP attribute tells a router where to send packets to reach the next AS?</h2>
+<ol type="A">
+<li>AS-PATH</li>
+<li>NEXT-HOP</li>
+<li>LOCAL_PREF</li>
+<li>MED</li>
+</ol>
+<aside class="notes">
+<ul>
+<li><strong>Answer:</strong> <strong>NEXT-HOP</strong>. AS-PATH lists ASNs; LOCAL_PREF/MED are policy signals.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2>Key Takeaways</h2>
+<ul>
+<li>The Internet scales by grouping routers into <strong>ASes</strong> with local control</li>
+<li><strong>OSPF</strong> (intra-AS): link-state + Dijkstra; LSAs scoped by <strong>area</strong>; ABR/ASBR roles; Area 0 backbone</li>
+<li><strong>BGP</strong> (inter-AS): path-vector + <strong>policy</strong>; eBGP across ASes, iBGP inside an AS</li>
+<li>Key attributes: <strong>AS-PATH</strong> and <strong>NEXT-HOP</strong>; selective advertisement is normal</li>
+<li><strong>Hot potato</strong>: exit at nearest egress to minimize internal cost—even if globally longer</li>
 </ul>
 </section>
-<section class="slide level2 center">
-<h2>Internet Protocol version 6</h2>
-
-<img data-src="15-ipv6.svg" class="r-stretch"><h3>What changed since IPv4?</h3>
+<section class="slide level2 center" data-background-image="../images/18.png" data-background-opacity="0.1">
+<h2><a href="https://www.cloudflare.com/learning/security/glossary/bgp-hijacking/">Can BGP be hijacked?</a></h2>
+<div class="columns">
+<div class="column" style="width:60%;">
 <ul>
-<li>No Checksum -&gt; Much faster processing at routers</li>
-<li>No Fragmentation -&gt; End hosts handle fragmentation and reassembly</li>
-<li>No Options -&gt; Simplified header format with <code>next hdr</code> for extensions</li>
-<li>Every device can have a globally unique address -&gt; No more NAT!</li>
+<li><a href="https://www.ripe.net/about-us/news/youtube-hijacking-a-ripe-ncc-ris-case-study/">Pakistan Telecom (2008)</a></li>
+<li><a href="https://blog.cloudflare.com/bgp-leaks-and-crypto-currencies/">Amazon Route53 (2018)</a></li>
+<li><a href="https://blog.citp.princeton.edu/2022/03/09/attackers-exploit-fundamental-flaw-in-the-webs-security-to-steal-2-million-in-cryptocurrency/">KLAYswap (2022)</a></li>
+<li><a href="https://www.bgpmon.net/popular-destinations-rerouted-to-russia/">Russia (2023)</a></li>
+<li><a href="https://internet2.edu/what-the-research-education-community-learned-from-three-impactful-routing-security-incidents-in-2024/">U.S. research &amp; education regional network (2024)</a></li>
+<li><a href="https://blog.cloudflare.com/cloudflare-1-1-1-1-incident-on-july-14-2025/">Cloudflare (2025)</a></li>
 </ul>
-<h3>Result? Efficiency!</h3>
-<h3>Missing: Fragmentation and Reassembly, Checksum, Options</h3>
-</section>
-<section class="slide level2 center">
-<h2>IPv6 Address Format</h2>
-<p>128 bits, represented in 8 colon-separated 16-bit hex chunks</p>
-<p><span class="math display">\[\text{2001:0db8:85a3:0000:0000:8a2e:0370:7334}\]</span></p>
-<p>Leading zeros can be omitted</p>
-<p><span class="math display">\[\text{2001:db8:85a3:0000:0000:8a2e:370:7334}\]</span></p>
-<p>A chunk of 4 zeros can be represented as a single zero</p>
-<p><span class="math display">\[\text{2001:db8:85a3:0:0:8a2e:370:7334}\]</span></p>
-<p>A run of zero chunks can be condensed into a double colon</p>
-<p><span class="math display">\[\text{2001:db8:85a3::8a2e:370:7334}\]</span></p>
-</section>
-<section class="slide level2 center">
-<h2>IPv6 Address Types</h2>
+</div><div class="column" style="width:40%;">
 <ul>
-<li><span class="math inline">\(\text{::/128}\)</span> = The unspecified address (all zeros). Used for software testing.</li>
-<li><span class="math inline">\(\text{::ffff:0:0/96}\)</span> = IPv4 mapped address</li>
-<li><span class="math inline">\(\text{::1/128}\)</span> = The loopback address (like <span class="math inline">\(\text{127.0.0.1}\)</span>)</li>
-<li><span class="math inline">\(\text{ff00::/8}\)</span> = Multicast address range (dst addr for subset of hosts)</li>
-<li><span class="math inline">\(\text{2001:db8::/32}\)</span> = Documentation address, used for example purposes only</li>
-<li><span class="math inline">\(\text{fec0::/10}\)</span> = Site-local prefix (like private addresses)</li>
-<li><span class="math inline">\(\text{fe80::/10}\)</span> = Link-local prefix (also like private addresses)</li>
+<li>What went wrong?</li>
+<li>Was it accidental or malicious?</li>
+<li>What was the intended effect?</li>
+<li>What was the impact? Who suffered?</li>
+<li>Who benefited?</li>
 </ul>
-</section>
-<section class="slide level2 center">
-<h2>Subnetting Practice</h2>
-<p>Assigned network address space: <code>172.18.0.0/23</code></p>
-<p>Assign an appropriate address to each subnet.</p>
-<div class="cell" data-fig-width="16" data-fig-height="5" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class=""><p></p>
-<div>
-<svg width="1536" height="480" viewbox="0.00 0.00 476.44 98.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none; display: block; margin: auto auto auto auto">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 94)">
-<title>Network</title>
-<!-- R1 -->
-<g id="node1" class="node">
-<title>R1</title>
-<ellipse fill="none" stroke="black" cx="153.96" cy="-45" rx="44.62" ry="44.62"></ellipse>
-<text text-anchor="middle" x="153.96" y="-40.8" font-family="Times,serif" font-size="14.00">Router 1</text>
-</g>
-<!-- R2 -->
-<g id="node2" class="node">
-<title>R2</title>
-<ellipse fill="none" stroke="black" cx="321.48" cy="-45" rx="44.62" ry="44.62"></ellipse>
-<text text-anchor="middle" x="321.48" y="-40.8" font-family="Times,serif" font-size="14.00">Router 2</text>
-</g>
-<!-- R1&#45;&#45;R2 -->
-<g id="edge1" class="edge">
-<title>R1--R2</title>
-<path fill="none" stroke="black" d="M198.88,-45C222.92,-45 252.61,-45 276.64,-45"></path>
-<text text-anchor="middle" x="237.72" y="-49.2" font-family="Times,serif" font-size="14.00">2 Hosts</text>
-</g>
-<!-- H3 -->
-<g id="node5" class="node">
-<title>H3</title>
-<polygon fill="none" stroke="black" points="468.64,-90 406.84,-90 402.84,-86 402.84,-54 464.64,-54 468.64,-58 468.64,-90"></polygon>
-<polyline fill="none" stroke="black" points="464.64,-86 402.84,-86 "></polyline>
-<polyline fill="none" stroke="black" points="464.64,-86 464.64,-54 "></polyline>
-<polyline fill="none" stroke="black" points="464.64,-86 468.64,-90 "></polyline>
-<text text-anchor="middle" x="435.74" y="-67.8" font-family="Times,serif" font-size="14.00">64 Hosts</text>
-</g>
-<!-- R2&#45;&#45;H3 -->
-<g id="edge4" class="edge">
-<title>R2--H3</title>
-<path fill="none" stroke="black" d="M364.92,-55.21C377.46,-58.22 390.98,-61.47 402.74,-64.3"></path>
-</g>
-<!-- H4 -->
-<g id="node6" class="node">
-<title>H4</title>
-<polygon fill="none" stroke="black" points="468.64,-36 406.84,-36 402.84,-32 402.84,0 464.64,0 468.64,-4 468.64,-36"></polygon>
-<polyline fill="none" stroke="black" points="464.64,-32 402.84,-32 "></polyline>
-<polyline fill="none" stroke="black" points="464.64,-32 464.64,0 "></polyline>
-<polyline fill="none" stroke="black" points="464.64,-32 468.64,-36 "></polyline>
-<text text-anchor="middle" x="435.74" y="-13.8" font-family="Times,serif" font-size="14.00">32 Hosts</text>
-</g>
-<!-- R2&#45;&#45;H4 -->
-<g id="edge5" class="edge">
-<title>R2--H4</title>
-<path fill="none" stroke="black" d="M364.92,-34.79C377.46,-31.78 390.98,-28.53 402.74,-25.7"></path>
-</g>
-<!-- H1 -->
-<g id="node3" class="node">
-<title>H1</title>
-<polygon fill="none" stroke="black" points="72.6,-90 3.8,-90 -0.2,-86 -0.2,-54 68.6,-54 72.6,-58 72.6,-90"></polygon>
-<polyline fill="none" stroke="black" points="68.6,-86 -0.2,-86 "></polyline>
-<polyline fill="none" stroke="black" points="68.6,-86 68.6,-54 "></polyline>
-<polyline fill="none" stroke="black" points="68.6,-86 72.6,-90 "></polyline>
-<text text-anchor="middle" x="36.2" y="-67.8" font-family="Times,serif" font-size="14.00">128 Hosts</text>
-</g>
-<!-- H1&#45;&#45;R1 -->
-<g id="edge2" class="edge">
-<title>H1--R1</title>
-<path fill="none" stroke="black" d="M72.56,-63.75C84.53,-60.96 98.02,-57.81 110.48,-54.91"></path>
-</g>
-<!-- H2 -->
-<g id="node4" class="node">
-<title>H2</title>
-<polygon fill="none" stroke="black" points="69.1,-36 7.3,-36 3.3,-32 3.3,0 65.1,0 69.1,-4 69.1,-36"></polygon>
-<polyline fill="none" stroke="black" points="65.1,-32 3.3,-32 "></polyline>
-<polyline fill="none" stroke="black" points="65.1,-32 65.1,0 "></polyline>
-<polyline fill="none" stroke="black" points="65.1,-32 69.1,-36 "></polyline>
-<text text-anchor="middle" x="36.2" y="-13.8" font-family="Times,serif" font-size="14.00">16 Hosts</text>
-</g>
-<!-- H2&#45;&#45;R1 -->
-<g id="edge3" class="edge">
-<title>H2--R1</title>
-<path fill="none" stroke="black" d="M69.14,-25.45C81.85,-28.42 96.67,-31.87 110.29,-35.05"></path>
-</g>
-</g>
-</svg>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
+</div></div>
 
 
-</section>
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <p><img src="https://usma-media.s3.amazonaws.com/inline-images/img/usma_logos/logo/wp_crest_new_only.png" class="slide-logo"></p>
