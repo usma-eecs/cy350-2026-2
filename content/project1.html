@@ -83,6 +83,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/bootstrap/bootstrap-a51cd75731ead900428d0077cd0b71b3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/bootstrap/bootstrap-dark-728baa47fec603cda6ced5985903ab8e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a51cd75731ead900428d0077cd0b71b3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/kbd/kbd.js"></script>
+<link href="../site_libs/quarto-contrib/kbd/kbd.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -346,8 +348,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#part-1-http-server" id="toc-part-1-http-server" class="nav-link" data-scroll-target="#part-1-http-server">Part 1: HTTP Server</a>
   <ul class="collapse">
   <li><a href="#key-tasks" id="toc-key-tasks" class="nav-link" data-scroll-target="#key-tasks">Key Tasks</a></li>
+  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing">Testing</a></li>
   <li><a href="#hints" id="toc-hints" class="nav-link" data-scroll-target="#hints">Hints</a></li>
   </ul></li>
+  <li><a href="#part-2-go-back-n-protocol" id="toc-part-2-go-back-n-protocol" class="nav-link" data-scroll-target="#part-2-go-back-n-protocol">Part 2: Go-Back-N Protocol</a>
+  <ul class="collapse">
+  <li><a href="#sabre-protocol-packet-structure" id="toc-sabre-protocol-packet-structure" class="nav-link" data-scroll-target="#sabre-protocol-packet-structure">SABRE Protocol Packet Structure</a></li>
+  <li><a href="#key-features" id="toc-key-features" class="nav-link" data-scroll-target="#key-features">Key Features</a></li>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">Getting Started</a></li>
+  <li><a href="#key-tasks-1" id="toc-key-tasks-1" class="nav-link" data-scroll-target="#key-tasks-1">Key Tasks</a></li>
+  <li><a href="#hints-1" id="toc-hints-1" class="nav-link" data-scroll-target="#hints-1">Hints</a></li>
+  <li><a href="#testing-1" id="toc-testing-1" class="nav-link" data-scroll-target="#testing-1">Testing</a></li>
+  </ul></li>
+  <li><a href="#part-3-explain-your-work" id="toc-part-3-explain-your-work" class="nav-link" data-scroll-target="#part-3-explain-your-work">Part 3: Explain your work</a></li>
   </ul>
 <div class="quarto-other-links"><h2>Other Links</h2><ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Messages"><i class="bi bi-globe"></i>HTTP Messages</a></li></ul></div><div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://westpoint.instructure.com/courses/11172/files/3917337/download"><i class="bi bi-server"></i>Part 1 Starter Files</a></li></ul></div></nav>
     </div>
@@ -389,7 +402,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
 <p>In this project, you will tackle two layers of the network stack-</p>
 <ul>
-<li>At the application layer, you will implement a basic HTTP server.</li>
+<li>At the application layer, you will implement a simple HTTP server.</li>
 <li>At the transport layer, you will implement a reliable data transfer protocol over UDP using the Go-Back-N protocols.</li>
 </ul>
 <section id="generative-ai-use-policy" class="level3">
@@ -423,6 +436,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Implement a functioning HTTP server that can parse HTTP requests, generate appropriate responses, and handle conditional GET requests.</li>
 <li>Explain why UDP is unreliable and describe strategies to achieve reliable data transfer over UDP.</li>
 <li>Design and implement a custom transport header with TCP-like flags and fields.</li>
+<li>Implement 3-way handshake over UDP and a graceful connection teardown.</li>
 <li>Implement sliding window protocols such as Go-Back-N.
 <ul>
 <li>Use a single base timer, cumulative ACKs, and bulk retransmissions.</li>
@@ -458,7 +472,7 @@ Tip
 <li>Part 2: Go-Back-N Protocol - 30 points</li>
 <li>Part 3: Explanation of your work - 40 points</li>
 </ul>
-<p>Bonus Points: <strong>5 extra points</strong> if you submit the project in its entirety one week before the deadline.</p>
+<p>Bonus Points: <strong>5 extra points</strong> if you submit the project in its entirety 5 days before the deadline.</p>
 </section>
 </section>
 <section id="part-1-http-server" class="level2">
@@ -482,20 +496,112 @@ Tip
 <li>Generate appropriate HTTP responses with correct status codes, headers, and body content.</li>
 </ul>
 </section>
+<section id="testing" class="level3">
+<h3 class="anchored" data-anchor-id="testing">Testing</h3>
+<p>Gradescope will give you a score with minimal feedback. You must develop your own testing strategy. Here are some ideas:</p>
+<section id="curl" class="level4">
+<h4 class="anchored" data-anchor-id="curl">curl</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-v</span> localhost:8090</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-v</span> localhost:8090/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="firefox-or-any-web-browser" class="level4">
+<h4 class="anchored" data-anchor-id="firefox-or-any-web-browser">firefox (or any web browser)</h4>
+<ul>
+<li>Open Developer Tools and go to the <a href="https://firefox-source-docs.mozilla.org/devtools-user/network_monitor/">Network Monitor</a>. Use <kbd title="Ctrl-Shift-E" aria-hidden="true">Ctrl-Shift-E</kbd><span class="visually-hidden">Ctrl-Shift-E</span> to bring it up.</li>
+<li>Navigate to <code>http://localhost:8090</code></li>
+<li>Observe the request and response details
+<ul>
+<li>request method, URL, headers</li>
+<li>response status code, headers, body</li>
+</ul></li>
+</ul>
+</section>
+</section>
 <section id="hints" class="level3">
 <h3 class="anchored" data-anchor-id="hints">Hints</h3>
 <ul>
 <li>Most autograder test results are hidden. Come up with your own test cases and test your code locally.</li>
 <li>Test your work incrementally. Don’t try to implement everything at once. Test each piece as you go.</li>
-<li>Use small <code>frame_size</code> values to force segmentation and reassembly of messages. This will help you test your implementation more thoroughly.</li>
 <li>Use Wireshark to analyze the packets being sent and received by your server.</li>
-<li>Add lots of print statements to your code to understand the flow of execution and produce useful debug information. You can remove these print statements once you have a working implementation.</li>
+<li>Add lots of print statements to your code to understand the flow of execution and produce useful debug information. You can comment out these print statements as you progress.</li>
 <li>Check CRLF termination <code>\r\n\r\n</code> carefully.</li>
 <li>Ensure <code>Content-Length</code> matches body length.</li>
+<li>Use your browser’s Network Monitor to analyze <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/If-None-Match">If-None-Match</a> header and expected <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/304">304 Not Modified</a> response.</li>
 </ul>
-
-
 </section>
+</section>
+<section id="part-2-go-back-n-protocol" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-go-back-n-protocol">Part 2: Go-Back-N Protocol</h2>
+<p>Army needs robust communication protocols that works over unreliable networks especially in contested environments. You propose a new protocol called SABRE (Simple And Basic Reliable Exchange) that provides reliable data transfer over UDP. USMA’s CIO is very interested in your protocol and wants you to implement it as a proof of concept. You are very excited to show off your recently acquired CY3350 knowledge and skills, and cannot wait to demonstrate the power of your protocol. You will implement the client side of the SABRE protocol, and I will host the server side for you to test against.</p>
+<p>Objective: Implement Go-Back-N protocol for reliable data transfer over UDP.</p>
+<section id="sabre-protocol-packet-structure" class="level3">
+<h3 class="anchored" data-anchor-id="sabre-protocol-packet-structure">SABRE Protocol Packet Structure</h3>
+<!-- ```{mermaid}
+packet
+title SABRE Packet
++8: "PACKET TYPE"
++4: "PADDING"
++1: "RST"
++1: "FIN"
++1: "SYN"
++1: "ACK"
++16: "LENGTH"
++16: "SEQUENCE NUMBER"
++16: "ACKNOWLEDGEMENT"
++32: "CADET ID"
+``` -->
+<p><img src="https://mermaid.ink/svg/pako:eNpNjtFugjAUQH-F3NcRAi0F6ZtC58y0c4JZXHhppEOjgOlKss3477a6TR_PuT339gjrrpJA4SDWO6nLVm_1Xjr5cLRgzvzXPQyoU8J8mD6zwilWc1aCkeFVZtmEjy8isGKRFzd4nPAb5Ks7MLuuEFmaMj4unu5Ezl6XjKfM4cvZiC3uJibkL29Tlo3ZjPHrLYzsJB1m5nuTzCpwoVbbCqhWvXShkaoRFuFYto55qzeykSXYrBJqZ5OTaQ6ife-65i9TXV9vgH6I_aeh_lAJLbOtqJVo_q2SbSVV2vWtBoqCwWUJ0CN8AY2IF8UIhQEK_ATHxIVvoJgkXkASjBGKCU786OTCz-Wo7yVhGPpRFCCEEYlJcjoDrQ92qg" alt="SABRE Packet Structure"></p>
+</section>
+<section id="key-features" class="level3">
+<h3 class="anchored" data-anchor-id="key-features">Key Features</h3>
+<ul>
+<li>Establish a connection with the receiver using a 3-way handshake with the SYN flag.</li>
+<li>Use a sliding window mechanism to manage the flow of packets.</li>
+<li>Implement a single timer for the base of the window to detect timeouts.</li>
+<li>Implement cumulative acknowledgements to acknowledge all packets up to a certain sequence number.</li>
+<li>Implement bulk retransmissions of all unacknowledged packets when a timeout occurs.</li>
+<li>Handle connection teardown using a FIN sequence.</li>
+<li>Read the payload in the final FIN packet from the server.</li>
+</ul>
+</section>
+<section id="getting-started" class="level3">
+<h3 class="anchored" data-anchor-id="getting-started">Getting Started</h3>
+<p>Grab the starter code from the <a href="https://github.com/usma-eecs/cy350-project1-starter">github repository</a> or <a href="https://github.com/usma-eecs/cy350-project1-starter/archive/refs/heads/main.zip">download the ZIP file directly</a> and then implement <code>sender.py</code>. You will be sending packets to a server that I have hosted on the WREN. The server runs the same SABRE protocol. Once you successfully capture a flag from the server, your instructor will be notified.</p>
+<p>Type <code>python main.py --help</code> to get started.</p>
+</section>
+<section id="key-tasks-1" class="level3">
+<h3 class="anchored" data-anchor-id="key-tasks-1">Key Tasks</h3>
+<p>In <code>sender.py</code>, implement the following functions:</p>
+<ul>
+<li><code>connect()</code>: Establish a connection with the server using a 3-way handshake.</li>
+<li><code>send()</code>: Send data to the server using the Go-Back-N protocol.</li>
+<li><code>close()</code>: Gracefully close the connection with the server using a FIN sequence.</li>
+</ul>
+<p>Upon successful connection and data transfer, inspect the final FIN packet sent by the server.</p>
+</section>
+<section id="hints-1" class="level3">
+<h3 class="anchored" data-anchor-id="hints-1">Hints</h3>
+<ul>
+<li>Try the <a href="https://media.pearsoncmg.com/ph/esm/ecs_kurose_compnetwork_8/cw/content/interactiveanimations/go-back-n-protocol/">Go-Back-N Protocol animation</a> from the textbook authors.</li>
+<li>Use print statements extensively to trace the flow of your program and understand the state of your sender.</li>
+<li>Since we are using Go-Back-N, you only need a single timer that is provided to you. Use it.</li>
+<li>Sequence numbers start at 0 and increment by 1 for each packet sent. In Go-Back-N, we do not count the number of bytes but just the number of packets.</li>
+</ul>
+</section>
+<section id="testing-1" class="level3">
+<h3 class="anchored" data-anchor-id="testing-1">Testing</h3>
+<ul>
+<li>Run your sender on the WREN. You should see some server responses subject to approximately ~20% packet loss.</li>
+<li>Use <code>tshark</code> to capture and analyze the packets.</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> tshark <span class="at">-i</span> lo <span class="at">-f</span> <span class="st">'udp port 5050'</span> <span class="at">-x</span> <span class="at">--print</span> <span class="at">-w</span> sabre.pcap</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="part-3-explain-your-work" class="level2">
+<h2 class="anchored" data-anchor-id="part-3-explain-your-work">Part 3: Explain your work</h2>
+<p>See the questions on Canvas. You must answer these questions in your own words <em>without any Generative AI assistance</em>. You may discuss these questions with your instructor and verbally assist others to develop understanding of the material, but you may not share your written responses with anyone else.</p>
+
+
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></section></div></main> <!-- /main -->
