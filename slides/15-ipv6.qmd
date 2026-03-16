@@ -92,6 +92,15 @@ The Real Solution = IPv6
 
 ![](15-ipv6.svg)
 
+### What changed since IPv4?
+
+- No Checksum -> Much faster processing at routers
+- No Fragmentation -> End hosts handle fragmentation and reassembly
+- No Options -> Simplified header format with `next hdr` for extensions
+- Every device can have a globally unique address -> No more NAT!
+
+### Result? Efficiency!
+
 ### Missing: Fragmentation and Reassembly, Checksum, Options
 
 ## IPv6 Address Format
