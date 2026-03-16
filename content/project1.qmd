@@ -4,7 +4,7 @@ format:
         code-links:
             - text: Part 1 Starter Files
               icon: server
-              href: https://westpoint.instructure.com/courses/11172/files/3917337/download
+              href: https://github.com/usma-eecs/cy350-project1-starter/archive/refs/heads/main.zip
         other-links:
             - text: HTTP Messages
               icon: globe
