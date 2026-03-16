@@ -1,0 +1,321 @@
+---
+format: revealjs
+date: 2026-03-18
+image: /images/17-control-plane.png
+title-slide-attributes:
+    data-background-image: /images/17-control-plane.png
+    data-background-opacity: "0.3"
+---
+
+## Discussion {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+- [These smart beds began roasting their owners](https://www.pcworld.com/article/2948826/these-smart-beds-began-roasting-their-owners-during-aws-outage.html)
+    - What went wrong?
+    - _Works as intended_ or _design flaw_?
+    - What could we, the consumers, do differently?
+- [Read more...](https://aws.amazon.com/message/101925/)
+
+## Lesson Objectives {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+1.	_Autonomous System_ and its role in network routing; understand boundaries and interior routing
+2. Intra-AS: OSPF's use of LSAs for scalable routing
+3. Inter-AS:  BGP as the primary protocol; exchanging routing information between different AS
+4. Different types of BGP peering relationships, _eBGP_ and _iBGP_, and their significance in inter-AS communication.
+
+### Textbook Readings {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+- $5.3$ Intra-AS Routing in the Internet: OSPF (Open Shortest Path First)
+- $5.4$ Routing Among the ISPs: BGP
+
+::: {.notes}
+- Scale + autonomy: billions of endpoints and independent administrations.
+- “Shortest path” (OSPF) vs **policy-chosen** path (BGP)
+- OSPF **area scope** of LSAs & role of **ABR** vs **ASBR**
+- eBGP vs iBGP: who peers with whom?
+- “Hot potato”: locally optimal ≠ globally optimal
+- We’ll use small config/packet snippets to ground concepts 🧩
+- OSPF ≈ performance within an admin domain
+- BGP ≈ policy across domains
+:::
+
+## Recap {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+:::: {.columns}
+::: {.column width="50%"}
+### Link State Routing {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+- Routers flood LSAs
+- Global knowledge of network topology
+- Dijkstra's algorithm to compute shortest paths
+:::
+::: {.column width="50%"}
+### Distance Vector {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+- Share information with _neighbors_ only
+- Iterative updates!
+- Loops possible until convergence
+:::
+::::
+
+::: {.notes}
+- Which layer?
+- What is the main function of this layer?
+- What two planes exist at this layer? How are they different?
+- What protocols did we learn so far at this layer?
+:::
+
+# Autonomous Systems (AS) {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+## Why Autonomous Systems? {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+:::: {.columns}
+::: {.column width="60%"}
+- How big is the Internet? 🌍
+- What if every router shared full routing state? 🤯
+- Could we group certain routers?
+- And then share only reachability between groups?
+- [Autonomous Systems (AS) to the rescue!](https://asrank.caida.org/)
+:::
+::: {.column width="40%"}
+![](https://www.caida.org/projects/as-core/pics/2020/ascore-2020-ipv4-standalone.png)
+:::
+::::
+
+::: {.notes}
+- Cities = ASes; local roads (intra-AS); highways (inter-AS)
+- Cities: local control, highways: agreed-upon rules.
+- Highways: only share which cities are reachable, not every street.
+- can’t store all destinations; exchanging full tables would swamp links.
+- administrative control: each AS sets its own policies.
+:::
+
+## What is an AS? {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+- A network (or set) under **single administrative control** 🏢
+- Clear borders at edge routers; has an **AS number (ASN)**
+- Goals: scalability, policy independence, fault containment
+- What is your current AS?
+- Which AS is the biggest? How many addresses does it cover?
+
+::: {.notes}
+* If students ask: 32-bit ASNs exist; not needed for this lesson’s depth.
+:::
+
+## Intra-AS vs Inter-AS Responsibilities {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+* **Intra-AS:** pick efficient internal paths; optimize performance/availability
+* **Inter-AS:** exchange **reachability** & enforce policy/economics 💸
+* Different metrics, objectives, and protocols by design
+
+::: {.notes}
+* Plant the seed: intra-AS uses cost-like metrics; inter-AS uses attributes & policy.
+:::
+
+# Intra-AS Routing Protocols {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+## Intra-AS Protocols {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+* **RIP** (Distance Vector), **OSPF** (Link State), **IS-IS** (similar LS)
+* **EIGRP** (DV-based; historically proprietary)
+* **OSPF** is highly scalable, feature-rich
+
+::: {.notes}
+* Quick taxonomy; don’t deep-dive RIP/EIGRP—just context.
+:::
+
+## OSPF Core Mechanics {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+* Flood **link-state** info (LSAs) to build a shared topology map
+* Run **Dijkstra** to compute shortest paths → forwarding table
+* Supports message **authentication** 🔐
+
+::: {.notes}
+* Stress “same view of the area’s topology” → consistent shortest paths.
+:::
+
+## OSPF Hierarchy & Areas {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+* **Area 0 (backbone)** connects all other areas
+* **Internal routers**: entirely inside one area
+* **ABR**: between areas; **summarizes** & advertises to backbone
+* **ASBR**: connects to other ASes; injects **external** routes
+* Flooding stays **within an area**; summaries cross areas
+
+::: {.notes}
+* Key mental model: full knowledge of own area; only “direction/cost” to others.
+:::
+
+# Inter-AS Routing Protocols {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+## What protocols exist? {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+- EGP (Exterior Gateway Protocol)
+- IDRP (Inter-Domain Routing Protocol)
+- NIRA (Next Internet Routing Architecture)
+- RIFT (Routing in Fat Trees)
+- LISP (Locator/ID Separation Protocol)
+- __BGP (Border Gateway Protocol)__
+
+## Why BGP? {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+* **Path-vector**: “Here I am, who I can reach, and how” 🧭
+* Prioritizes **policy** & business relationships over pure performance
+* The **only** inter-AS routing protocol in practice
+
+## BGP Basics {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+- Peers exchange reachability info (prefixes) + attributes
+- Uses TCP (port 179) for reliable transport
+
+![Textbook 5.2](http://gaia.cs.umass.edu/kurose_ross/LMS/images/Chapter_5_KC/ebgp_ibgp.jpg)
+
+## eBGP {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+- Peers between different autonomous systems
+- Only advertises the single best path per prefix to neighbors
+- Path-vector: advertises prefixes (NLRI) with attributes (AS-PATH, NEXT-HOP)
+- Loop prevention: reject routes that contain your own ASN in AS-PATH
+- Policy-driven: import/export filters decide what to learn/advertise; avoid unintended transit
+- Edge learns from neighbors via eBGP, then distributes internally via iBGP
+
+## iBGP {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+- distribute external routes internally
+- spread exits - reachability!
+- **does not** change AS-PATH
+
+::: {.notes}
+* Policy caution: advertising a route can make you a **transit** path.
+:::
+
+## What exactly is being advertised? {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+* __Prefix (NLRI)__: destination network (CIDR)
+* __AS-PATH__: sequence of ASNs traversed to reach the prefix
+* __NEXT-HOP__: IP of the border router to reach the next AS
+
+![Textbook 5.2](http://gaia.cs.umass.edu/kurose_ross/LMS/images/Chapter_5_KC/ebgp_ibgp.jpg)
+
+::: {.notes}
+* Keep center stage on AS-PATH & NEXT-HOP; mention others as policy levers.
+:::
+
+::: {.notes}
+* Connect to real-world economics: peering vs transit relationships.
+:::
+
+## Populating Forwarding Tables: Hot Potato {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+* Exit the AS at the **closest** egress router 🥔🔥
+* Minimizes internal cost; may increase total path length
+* Chosen via attribute ordering + local policy (e.g., LOCAL_PREF, AS-PATH)
+
+![Textbook 5.2](http://gaia.cs.umass.edu/kurose_ross/LMS/images/Chapter_5_KC/ebgp_ibgp.jpg)
+
+::: {.notes}
+* Contrast with “cold potato” (carry further internally)—policy/business choice.
+:::
+
+## Intra-AS vs Inter-AS {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+* **Policy:** core in inter-AS; limited inside an AS
+* **Scale:** OSPF hierarchy within AS; BGP summarization between ASes
+* **Performance:** intra-AS optimizes metrics; inter-AS prioritizes policy
+
+::: {.notes}
+* Summarize all three axes: policy, scale, performance.
+:::
+
+# Review {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+## OSPF LSAs always flood across the entire AS (all areas). {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+A) True
+A) False
+
+::: {.notes}
+* **Answer:** False. Most LSAs are scoped to an **area**; ABRs summarize across areas.
+:::
+
+## Which statement about **iBGP** is correct? {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+A) It carries routes between different ASes
+A) It modifies AS-PATH to add the local AS
+A) It distributes external reachability **within** an AS
+A) It replaces OSPF for intra-AS forwarding
+
+::: {.notes}
+* **Answer:** It distributes external reachability within an AS. iBGP does not change AS-PATH and does not replace OSPF’s role in forwarding.
+:::
+
+## The main motivation for “hot potato” routing is to: {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+A) Minimize end-to-end Internet latency
+A) Minimize **internal** AS cost to the nearest exit
+A) Satisfy legal requirements
+A) Evenly balance load across all links
+
+::: {.notes}
+* **Answer:** Minimize **internal** AS cost to the nearest exit.
+:::
+
+## Match the protocol model: {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+A) OSPF — distance vector; BGP — link state
+A) OSPF — link state; BGP — path vector
+A) OSPF — flooding forbidden; BGP — flooding required
+A) OSPF — policy-based; BGP — performance-based
+
+::: {.notes}
+* **Answer:** OSPF — link state; BGP — path vector.
+:::
+
+## Why might an AS choose **not** to advertise a learned route to a neighbor? {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+A) It breaks the TCP three-way handshake
+A) Privacy/trust/policy concerns or to avoid becoming transit
+A) iBGP forbids external advertisement
+A) OSPF area mismatch
+
+::: {.notes}
+* **Answer:** Privacy/trust/policy concerns or to avoid becoming a transit path.
+:::
+
+## Which BGP attribute tells a router where to send packets to reach the next AS? {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+A) AS-PATH
+A) NEXT-HOP
+A) LOCAL_PREF
+A) MED
+
+::: {.notes}
+* **Answer:** **NEXT-HOP**. AS-PATH lists ASNs; LOCAL_PREF/MED are policy signals.
+:::
+
+## Key Takeaways {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+* The Internet scales by grouping routers into **ASes** with local control
+* **OSPF** (intra-AS): link-state + Dijkstra; LSAs scoped by **area**; ABR/ASBR roles; Area 0 backbone
+* **BGP** (inter-AS): path-vector + **policy**; eBGP across ASes, iBGP inside an AS
+* Key attributes: **AS-PATH** and **NEXT-HOP**; selective advertisement is normal
+* **Hot potato**: exit at nearest egress to minimize internal cost—even if globally longer
+
+## [Can BGP be hijacked?](https://www.cloudflare.com/learning/security/glossary/bgp-hijacking/) {data-background-image="/images/18.png" data-background-opacity="0.1"}
+
+:::: {.columns}
+::: {.column width="60%"}
+- [Pakistan Telecom (2008)](https://www.ripe.net/about-us/news/youtube-hijacking-a-ripe-ncc-ris-case-study/)
+- [Amazon Route53 (2018)](https://blog.cloudflare.com/bgp-leaks-and-crypto-currencies/)
+- [KLAYswap (2022)](https://blog.citp.princeton.edu/2022/03/09/attackers-exploit-fundamental-flaw-in-the-webs-security-to-steal-2-million-in-cryptocurrency/)
+- [Russia (2023)](https://www.bgpmon.net/popular-destinations-rerouted-to-russia/)
+- [U.S. research & education regional network (2024)](https://internet2.edu/what-the-research-education-community-learned-from-three-impactful-routing-security-incidents-in-2024/)
+- [Cloudflare (2025)](https://blog.cloudflare.com/cloudflare-1-1-1-1-incident-on-july-14-2025/)
+:::
+::: {.column width="40%"}
+- What went wrong?
+- Was it accidental or malicious?
+- What was the intended effect?
+- What was the impact? Who suffered?
+- Who benefited?
+:::
+::::
