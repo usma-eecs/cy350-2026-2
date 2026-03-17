@@ -1,5 +1,8 @@
 ---
 format: revealjs
+title: Network Control Plane
+subtitle: Routing Across the Internet
+description: Autonomous Systems, OSPF, BGP
 date: 2026-03-18
 image: /images/17-control-plane.png
 title-slide-attributes:
