@@ -128,7 +128,7 @@ curl -v localhost:8090/
 
 Army needs robust communication protocols that works over unreliable networks especially in contested environments. You propose a new protocol called SABRE (Simple And Basic Reliable Exchange) that provides reliable data transfer over UDP. USMA's CIO is very interested in your protocol and wants you to implement it as a proof of concept. You are very excited to show off your recently acquired CY3350 knowledge and skills, and cannot wait to demonstrate the power of your protocol. You will implement the client side of the SABRE protocol, and I will host the server side for you to test against.
 
-Objective: Implement Go-Back-N protocol for reliable data transfer over UDP.
+Objective: Implement Go-Back-N protocol for reliable data transfer over UDP to transfer a file from the client (sender) to the server (receiver).
 
 ### SABRE Protocol Packet Structure
 
@@ -165,6 +165,15 @@ Grab the starter code from the [github repository](https://github.com/usma-eecs/
 
 Type `python main.py --help` to get started.
 
+#### Project Files
+
+- `main.py`: Main entry point for your sender. You will run this to start your sender and connect to the server.
+- `sender.py`: This is where you will implement the SABRE protocol.
+- `packet.py`: This file contains the `Packet` class that defines the structure of a SABRE packet and provides methods for serialization and deserialization.
+- `simpletimer.py`: This file contains a simple timer class that you can use for implementing timeouts in your Go-Back-N protocol.
+- `corpus.py`: This file downloads the sample text files that you will send to the server as payload. It downloads severals e-books from [Project Gutenberg](https://www.gutenberg.org/) to `gutenberg.zip` file and extracts them to the `gutenberg` directory.
+
+
 ### Key Tasks
 
 In `sender.py`, implement the following functions:
@@ -181,6 +190,7 @@ Upon successful connection and data transfer, inspect the final FIN packet sent 
 - Use print statements extensively to trace the flow of your program and understand the state of your sender.
 - Since we are using Go-Back-N, you only need a single timer that is provided to you. Use it.
 - Sequence numbers start at 0 and increment by 1 for each packet sent. In Go-Back-N, we do not count the number of bytes but just the number of packets.
+- The ACK number on outgoing packets will remain zero since the sender does not receive any data from the server. The ACK number on incoming packets from the server will be used to determine which packets have been acknowledged.
 
 ### Testing
 
