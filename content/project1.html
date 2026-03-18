@@ -533,7 +533,7 @@ Tip
 <section id="part-2-go-back-n-protocol" class="level2">
 <h2 class="anchored" data-anchor-id="part-2-go-back-n-protocol">Part 2: Go-Back-N Protocol</h2>
 <p>Army needs robust communication protocols that works over unreliable networks especially in contested environments. You propose a new protocol called SABRE (Simple And Basic Reliable Exchange) that provides reliable data transfer over UDP. USMA’s CIO is very interested in your protocol and wants you to implement it as a proof of concept. You are very excited to show off your recently acquired CY3350 knowledge and skills, and cannot wait to demonstrate the power of your protocol. You will implement the client side of the SABRE protocol, and I will host the server side for you to test against.</p>
-<p>Objective: Implement Go-Back-N protocol for reliable data transfer over UDP.</p>
+<p>Objective: Implement Go-Back-N protocol for reliable data transfer over UDP to transfer a file from the client (sender) to the server (receiver).</p>
 <section id="sabre-protocol-packet-structure" class="level3">
 <h3 class="anchored" data-anchor-id="sabre-protocol-packet-structure">SABRE Protocol Packet Structure</h3>
 <!-- ```{mermaid}
@@ -568,6 +568,16 @@ title SABRE Packet
 <h3 class="anchored" data-anchor-id="getting-started">Getting Started</h3>
 <p>Grab the starter code from the <a href="https://github.com/usma-eecs/cy350-project1-starter">github repository</a> or <a href="https://github.com/usma-eecs/cy350-project1-starter/archive/refs/heads/main.zip">download the ZIP file directly</a> and then implement <code>sender.py</code>. You will be sending packets to a server that I have hosted on the WREN. The server runs the same SABRE protocol. Once you successfully capture a flag from the server, your instructor will be notified.</p>
 <p>Type <code>python main.py --help</code> to get started.</p>
+<section id="project-files" class="level4">
+<h4 class="anchored" data-anchor-id="project-files">Project Files</h4>
+<ul>
+<li><code>main.py</code>: Main entry point for your sender. You will run this to start your sender and connect to the server.</li>
+<li><code>sender.py</code>: This is where you will implement the SABRE protocol.</li>
+<li><code>packet.py</code>: This file contains the <code>Packet</code> class that defines the structure of a SABRE packet and provides methods for serialization and deserialization.</li>
+<li><code>simpletimer.py</code>: This file contains a simple timer class that you can use for implementing timeouts in your Go-Back-N protocol.</li>
+<li><code>corpus.py</code>: This file downloads the sample text files that you will send to the server as payload. It downloads severals e-books from <a href="https://www.gutenberg.org/">Project Gutenberg</a> to <code>gutenberg.zip</code> file and extracts them to the <code>gutenberg</code> directory.</li>
+</ul>
+</section>
 </section>
 <section id="key-tasks-1" class="level3">
 <h3 class="anchored" data-anchor-id="key-tasks-1">Key Tasks</h3>
@@ -586,6 +596,7 @@ title SABRE Packet
 <li>Use print statements extensively to trace the flow of your program and understand the state of your sender.</li>
 <li>Since we are using Go-Back-N, you only need a single timer that is provided to you. Use it.</li>
 <li>Sequence numbers start at 0 and increment by 1 for each packet sent. In Go-Back-N, we do not count the number of bytes but just the number of packets.</li>
+<li>The ACK number on outgoing packets will remain zero since the sender does not receive any data from the server. The ACK number on incoming packets from the server will be used to determine which packets have been acknowledged.</li>
 </ul>
 </section>
 <section id="testing-1" class="level3">
