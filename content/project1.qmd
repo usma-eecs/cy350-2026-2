@@ -60,9 +60,11 @@ _Failure to follow any of the above restrictions will be considered unauthorized
 
 ### Submission Instructions
 
-1. You will submit your code to Gradescope. Autograder will give you feedback on the correctness of your implementation.
+1. Part 1 (HTTP Server): [Submit your code to Gradescope](https://www.gradescope.com/courses/1207810/assignments/7869290). Autograder will give you feedback on the correctness of your implementation.
 
-1. Once you have a working implementation, you will answer several questions on Canvas that explain your thought process. Majority of your grade will be based on your understanding and explanation of your implementation, which requires you to have a working implementation. These must be answered in your own words without any assistance from generative AI tools. You may discuss these questions with your instructor and verbally assist others to develop understanding of the material, but you may not share your written responses with anyone else.
+2. Part 2 (Go-Back-N Protocol): Run your code on the WREN. Your sender program (client) will reach out to the receiver (server) and attempt to transmit data. The server logs your activity and will track successful transmissions. When completed, [submit your code to Gradescope](https://www.gradescope.com/courses/1207810/assignments/7869862). Autograder will ensure that your code is free of compilation errors but will not attempt to run it for you.
+
+3. Part 3: Once you have completed the programming portion, you will answer several questions on Canvas that explain your thought process. Majority of your grade will be based on your understanding and explanation of your implementation, which requires you to have a working implementation. These must be answered in your own words _without any assistance from generative AI tools_. You may discuss these questions with your instructor and verbally assist others to develop understanding of the material, but you may not share your written responses with anyone else.
 
 ::: {.callout-tip}
 If you are unable to get your code working, explain your testing strategy, what you did to debug your code, and what your steps would have been to get it working. Consider what prevented you from actually taking those steps.
@@ -72,6 +74,10 @@ If you are unable to get your code working, explain your testing strategy, what 
 
 - Part 1: Basic HTTP Server - 30 points
 - Part 2: Go-Back-N Protocol - 30 points
+    - Submit a working implementation free of compilation errors - 5 points
+    - `connect()` - 10 points
+    - `send()` - 10 points
+    - `close()` - 5 points
 - Part 3: Explanation of your work - 40 points
 
 Bonus Points: __5 extra points__ if you submit the project in its entirety 5 days before the deadline.
