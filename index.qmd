@@ -90,9 +90,9 @@ All the resources listed below are considered common knowledge and do not need t
 | 14- Internet Protocol v4                            | 09 Mar | 10 Mar | Problem Set 7   | 20 Mar   |
 | 15- Internet Protocol v6                            | 11 Mar | 12 Mar |                 |          |
 | 16- Routing Protocols- Link State, Distance Vector  | 16 Mar | 17 Mar | Problem Set 8   | 29 Mar   |
-| 17- Control Plane                                   | 18 Mar | 19 Mar | Project 2       | 12 Apr   |
-| 18- Link Layer                                      | 23 Mar | 24 Mar | Problem Set 9   | 06 Apr   |
-| 19- Multiple Access Protocols & Switched LANs       | 25 Mar | 26 Mar |                 |          |
+| 17- Control Plane                                   | 18 Mar | 19 Mar |                 |          |
+| 18- Link Layer                                      | 23 Mar | 24 Mar | Problem Set 9   | 12 Apr   |
+| 19- Multiple Access Protocols & Switched LANs       | 25 Mar | 26 Mar | Project 2       | 19 Apr   |
 | 20- Wireless Networks                               | 07 Apr | 08 Apr |                 |          |
 | 21- Bluetooth & Cellular Networks                   | 09 Apr | 10 Apr |                 |          |
 | 22- Network Security Basics                         | 13 Apr | 14 Apr | Project 3       | 10 May   |
