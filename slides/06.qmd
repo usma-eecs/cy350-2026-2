@@ -91,7 +91,7 @@ S: 354 Start mail input; end with <CRLF>.<CRLF>
 ::: {.column width=50%}
 #### SMTP Message Content
 
-```{style="max-height: 800px;"}
+```
 From: Commandant <bg.garcia@example.edu>
 To: Cadet Smith <cadet@westpoint.edu>
 Subject: Update your password now!
