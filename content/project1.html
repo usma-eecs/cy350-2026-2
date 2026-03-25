@@ -115,6 +115,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <meta property="og:title" content="Project 1 - Web Server and Reliable Data Transfer – CY350">
@@ -364,7 +367,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#part-3-explain-your-work" id="toc-part-3-explain-your-work" class="nav-link" data-scroll-target="#part-3-explain-your-work">Part 3: Explain your work</a></li>
   </ul>
-<div class="quarto-other-links"><h2>Other Links</h2><ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Messages"><i class="bi bi-globe"></i>HTTP Messages</a></li></ul></div><div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/usma-eecs/cy350-project1-starter/archive/refs/heads/main.zip"><i class="bi bi-server"></i>Part 1 Starter Files</a></li></ul></div></nav>
+<div class="quarto-other-links"><h2>Other Links</h2><ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Messages"><i class="bi bi-globe"></i>HTTP Messages</a></li><li><a href="https://www.gradescope.com/courses/1207810/"><i class="bi bi-bar-chart-fill"></i>Gradescope</a></li></ul></div><div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/usma-eecs/cy350-project1-starter/archive/refs/heads/main.zip"><i class="bi bi-server"></i>Starter Files ZIP</a></li><li><a href="https://github.com/usma-eecs/cy350-project1-starter"><i class="bi bi-github"></i>Starter Files GitHub</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
@@ -545,8 +548,12 @@ Tip
 <p>Objective: Implement Go-Back-N protocol for reliable data transfer over UDP to transfer a file from the client (sender) to the server (receiver).</p>
 <section id="sabre-protocol-packet-structure" class="level3">
 <h3 class="anchored" data-anchor-id="sabre-protocol-packet-structure">SABRE Protocol Packet Structure</h3>
-<!-- ```{mermaid}
-packet
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">packet
 title SABRE Packet
 +8: "PACKET TYPE"
 +4: "PADDING"
@@ -558,8 +565,13 @@ title SABRE Packet
 +16: "SEQUENCE NUMBER"
 +16: "ACKNOWLEDGEMENT"
 +32: "CADET ID"
-``` -->
-<p><img src="https://mermaid.ink/svg/pako:eNpNjtFugjAUQH-F3NcRAi0F6ZtC58y0c4JZXHhppEOjgOlKss3477a6TR_PuT339gjrrpJA4SDWO6nLVm_1Xjr5cLRgzvzXPQyoU8J8mD6zwilWc1aCkeFVZtmEjy8isGKRFzd4nPAb5Ks7MLuuEFmaMj4unu5Ezl6XjKfM4cvZiC3uJibkL29Tlo3ZjPHrLYzsJB1m5nuTzCpwoVbbCqhWvXShkaoRFuFYto55qzeykSXYrBJqZ5OTaQ6ife-65i9TXV9vgH6I_aeh_lAJLbOtqJVo_q2SbSVV2vWtBoqCwWUJ0CN8AY2IF8UIhQEK_ATHxIVvoJgkXkASjBGKCU786OTCz-Wo7yVhGPpRFCCEEYlJcjoDrQ92qg" alt="SABRE Packet Structure"></p>
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<!-- <img src="https://mermaid.ink/svg/pako:eNpNjtFugjAUQH-F3NcRAi0F6ZtC58y0c4JZXHhppEOjgOlKss3477a6TR_PuT339gjrrpJA4SDWO6nLVm_1Xjr5cLRgzvzXPQyoU8J8mD6zwilWc1aCkeFVZtmEjy8isGKRFzd4nPAb5Ks7MLuuEFmaMj4unu5Ezl6XjKfM4cvZiC3uJibkL29Tlo3ZjPHrLYzsJB1m5nuTzCpwoVbbCqhWvXShkaoRFuFYto55qzeykSXYrBJqZ5OTaQ6ife-65i9TXV9vgH6I_aeh_lAJLbOtqJVo_q2SbSVV2vWtBoqCwWUJ0CN8AY2IF8UIhQEK_ATHxIVvoJgkXkASjBGKCU786OTCz-Wo7yVhGPpRFCCEEYlJcjoDrQ92qg" alt="SABRE Packet Structure" /> -->
 </section>
 <section id="key-features" class="level3">
 <h3 class="anchored" data-anchor-id="key-features">Key Features</h3>
@@ -607,14 +619,29 @@ title SABRE Packet
 <li>Sequence numbers start at 0 and increment by 1 for each packet sent. In Go-Back-N, we do not count the number of bytes but just the number of packets.</li>
 <li>The ACK number on outgoing packets will remain zero since the sender does not receive any data from the server. The ACK number on incoming packets from the server will be used to determine which packets have been acknowledged.</li>
 </ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>⚠ Each time you send out multiple packets in a window, you should expect multiple ACK packets back. Make sure to receive multiple packets for each iteration until you receive <code>None</code> implying no more packets to receive. Otherwise your receive buffer will fill up and your sender will not function correctly.</p>
+<p>To receive multiple packets, you can use a loop <code>while True</code> with a <code>break</code> or <code>for _ in range(self.WINDOW_SIZE)</code>.</p>
+</div>
+</div>
 </section>
 <section id="testing-1" class="level3">
 <h3 class="anchored" data-anchor-id="testing-1">Testing</h3>
 <ul>
 <li>Run your sender on the WREN. You should see some server responses subject to approximately ~20% packet loss.</li>
-<li>Use <code>tshark</code> to capture and analyze the packets.</li>
+<li>Use <code>tcpdump</code> or <code>tshark</code> to capture and analyze the packets.</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> tshark <span class="at">-i</span> lo <span class="at">-f</span> <span class="st">'udp port 5050'</span> <span class="at">-x</span> <span class="at">--print</span> <span class="at">-w</span> sabre.pcap</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> tshark <span class="at">-i</span> any <span class="at">-f</span> <span class="st">'udp port 5050'</span> <span class="at">-x</span> <span class="at">--print</span> <span class="at">-w</span> sabre.pcap <span class="co"># writing to file fails on WSL 🤷</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> tcpdump <span class="at">-i</span> any udp port 5050</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="part-3-explain-your-work" class="level2">
