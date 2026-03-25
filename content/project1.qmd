@@ -2,13 +2,19 @@
 format:
     html:
         code-links:
-            - text: Part 1 Starter Files
+            - text: Starter Files ZIP
               icon: server
               href: https://github.com/usma-eecs/cy350-project1-starter/archive/refs/heads/main.zip
+            - text: Starter Files GitHub
+              icon: github
+              href: https://github.com/usma-eecs/cy350-project1-starter
         other-links:
             - text: HTTP Messages
               icon: globe
               href: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Messages
+            - text: Gradescope
+              icon: bar-chart-fill
+              href: https://www.gradescope.com/courses/1207810/
 title: Project 1 - Web Server and Reliable Data Transfer
 description: Implement a basic Web Server and Go-Back-N protocols over UDP
 date: 2026-03-04
@@ -138,7 +144,7 @@ Objective: Implement Go-Back-N protocol for reliable data transfer over UDP to t
 
 ### SABRE Protocol Packet Structure
 
-<!-- ```{mermaid}
+```{mermaid}
 packet
 title SABRE Packet
 +8: "PACKET TYPE"
@@ -151,9 +157,9 @@ title SABRE Packet
 +16: "SEQUENCE NUMBER"
 +16: "ACKNOWLEDGEMENT"
 +32: "CADET ID"
-``` -->
+```
 
-<img src="https://mermaid.ink/svg/pako:eNpNjtFugjAUQH-F3NcRAi0F6ZtC58y0c4JZXHhppEOjgOlKss3477a6TR_PuT339gjrrpJA4SDWO6nLVm_1Xjr5cLRgzvzXPQyoU8J8mD6zwilWc1aCkeFVZtmEjy8isGKRFzd4nPAb5Ks7MLuuEFmaMj4unu5Ezl6XjKfM4cvZiC3uJibkL29Tlo3ZjPHrLYzsJB1m5nuTzCpwoVbbCqhWvXShkaoRFuFYto55qzeykSXYrBJqZ5OTaQ6ife-65i9TXV9vgH6I_aeh_lAJLbOtqJVo_q2SbSVV2vWtBoqCwWUJ0CN8AY2IF8UIhQEK_ATHxIVvoJgkXkASjBGKCU786OTCz-Wo7yVhGPpRFCCEEYlJcjoDrQ92qg" alt="SABRE Packet Structure" />
+<!-- <img src="https://mermaid.ink/svg/pako:eNpNjtFugjAUQH-F3NcRAi0F6ZtC58y0c4JZXHhppEOjgOlKss3477a6TR_PuT339gjrrpJA4SDWO6nLVm_1Xjr5cLRgzvzXPQyoU8J8mD6zwilWc1aCkeFVZtmEjy8isGKRFzd4nPAb5Ks7MLuuEFmaMj4unu5Ezl6XjKfM4cvZiC3uJibkL29Tlo3ZjPHrLYzsJB1m5nuTzCpwoVbbCqhWvXShkaoRFuFYto55qzeykSXYrBJqZ5OTaQ6ife-65i9TXV9vgH6I_aeh_lAJLbOtqJVo_q2SbSVV2vWtBoqCwWUJ0CN8AY2IF8UIhQEK_ATHxIVvoJgkXkASjBGKCU786OTCz-Wo7yVhGPpRFCCEEYlJcjoDrQ92qg" alt="SABRE Packet Structure" /> -->
 
 ### Key Features
 
@@ -198,13 +204,20 @@ Upon successful connection and data transfer, inspect the final FIN packet sent 
 - Sequence numbers start at 0 and increment by 1 for each packet sent. In Go-Back-N, we do not count the number of bytes but just the number of packets.
 - The ACK number on outgoing packets will remain zero since the sender does not receive any data from the server. The ACK number on incoming packets from the server will be used to determine which packets have been acknowledged.
 
+::: {.callout-warning}
+⚠ Each time you send out multiple packets in a window, you should expect multiple ACK packets back. Make sure to receive multiple packets for each iteration until you receive `None` implying no more packets to receive. Otherwise your receive buffer will fill up and your sender will not function correctly.
+
+To receive multiple packets, you can use a loop `while True` with a `break` or `for _ in range(self.WINDOW_SIZE)`.
+:::
+
 ### Testing
 
 - Run your sender on the WREN. You should see some server responses subject to approximately ~20% packet loss.
-- Use `tshark` to capture and analyze the packets.
+- Use `tcpdump` or `tshark` to capture and analyze the packets.
 
 ```sh
-sudo tshark -i lo -f 'udp port 5050' -x --print -w sabre.pcap
+sudo tshark -i any -f 'udp port 5050' -x --print -w sabre.pcap # writing to file fails on WSL 🤷
+sudo tcpdump -i any udp port 5050
 ```
 
 ## Part 3: Explain your work
