@@ -1,0 +1,285 @@
+---
+format: html
+title: Lesson Plans
+description: Objectives, Preparation, and Exercise
+date: 2026-01-05
+image: /images/01-intro.png
+---
+
+## Introduction to Computer Networks
+
+#### Lesson Objectives
+
+- Describe the organization of the Internet.
+- Understand the unique challenges of network operations
+- Internet as a *best-effort* system
+- Why cybersecurity depends on networking
+
+#### Preparation
+
+- $1.1$ What is the Internet?
+- $1.3.3$ A Network of Networks
+- $1.2$ The Network Edge (skim)
+- $1.3$ The Network Core (skim)
+- $1.7$ History of Computer Networking and the Internet (skim)
+
+#### Exercise
+
+1. Verify virtual machines, SSH, WSL, vscode setup.
+2. Linux refresher
+    - `ls`, `cd`, `pwd`, `mkdir`, `rm`, `cp`, `mv`
+    - `cat`, `less`, `head`, `tail`, `grep`, `find`
+    - `sudo`, `pip`, `apt`
+3. Try basic commands and programs
+    - `ping`, `traceroute`, `dig`
+    - `netcat`, `curl`
+    - `wireshark`, `wireview`
+4. Run Python "hello world" program.
+
+## Protocols, Layers, and Abstraction
+
+#### Lesson Objectives
+
+- Explain the role of each layer in the TCP/IP model
+- Define network protocol
+- Explain how protocol design principles enable networks
+- Why abstraction fails under attack or congestion
+- Identify network traffic using Wireshark / Wireview
+
+#### Preparation
+
+- $1.1$ What is the Internet?
+- $1.5$ Protocol Layers and Their Service Models
+- $1.6$ Networks Under Attack
+- $1.2$ The Network Edge (skim)
+- $1.3$ The Network Core (skim)
+- $1.7$ History of Computer Networking and the Internet (skim)
+
+#### Exercise
+
+- Use Wireview to identify layers and protocols in captured traffic.
+- Map observed protocols to TCP/IP layers.
+- Draw the path of a Signal or Whatsapp message — what must go right?
+
+## Network Evolution and Measuring Performance
+
+#### Preparation
+
+- $1.3$ The Network Core
+- $1.4$ Delay, Loss, and Throughput in Packet-Switched Networks
+
+#### Lesson Objectives
+
+- Explain the evolution from circuit switching to packet switching
+- Describe how frequency division multiplexing (FDM) and time division multiplexing (TDM) enable shared use of circuits
+- Define bandwidth, throughput, and delay (including its components)
+- Calculate throughput and delay
+
+#### Exercise
+
+- Use a speed test (e.g. fast.com) to measure network performance; turn on "all metrics"; contrast wired vs wireless.
+- Given a network scenario, calculate end-to-end delay and throughput.
+- Contention exercise: given multiple users sharing a link, calculate individual throughput and maximum number of users.
+
+## Application Layer
+
+#### Preparation
+
+- $2.1$ Principles of Network Applications
+
+#### Lesson Objectives
+
+- Explain the role of the application layer and how it interfaces with the transport layer via sockets
+- Differentiate network-application architectures and analyze tradeoffs
+- Describe what constitutes an application-layer protocol
+- Explain basic security considerations at the application layer
+
+#### Discussion Plan
+
+- Explain the role of the application layer in the Internet protocol stack and how it interfaces with the transport layer via sockets.
+- Differentiate network-application architectures - client–server vs peer-to-peer vs hybrid - and analyze tradeoffs (scalability, fault tolerance, management complexity, performance).
+- Define "process" and "socket" and trace how processes use sockets to send/receive messages across the network.
+- Map common application requirements (e.g., web browsing, file transfer, streaming, gaming, VoIP) to transport services (reliability, throughput, latency, jitter, security).
+- Describe what constitutes an application-layer protocol—message types, message syntax, semantics, and rules of exchange—and interpret a minimal protocol transcript (e.g., request/response).
+- Explain basic security considerations at the application layer (confidentiality, integrity, authentication)
+
+#### Exercise
+
+- Use `curl -i` or `netcat` to manually craft HTTP requests and interpret responses.
+- Design a tactical chat application: who initiates? who remembers state?
+
+## HTTP and the Web
+
+#### Preparation
+
+- $2.2$ The Web and HTTP
+
+#### Lesson Objectives
+
+- Explain HTTP as an implementation of the four protocol components
+- Analyze HTTP request and response messages structure and interpret common headers
+- Differentiate core HTTP methods and status codes
+- Distinguish between persistent and non-persistent HTTP connections
+- Understand HTTP cookies and their security implications
+- Describe web caching and conditional GET mechanisms
+
+#### Discussion Plan
+
+- Describe the HTTP client–server model and why HTTP is stateless; identify where HTTP sits relative to TCP/UDP and typical ports (80/443).
+- Explain HTTP request and response message structure (start lines, header fields, body) and interpret common headers (e.g., Host, User-Agent, Accept, Content-Type, Content-Length, Connection).
+- Differentiate core HTTP methods—GET, HEAD, POST (and recognize PUT, DELETE at a high level)—and select an appropriate method for a given use case.
+- Interpret HTTP status codes (1xx–5xx), with emphasis on common codes (200, 301/302, 304, 400, 401/403, 404, 500).
+- Compare non-persistent vs persistent connections in HTTP/1.1 (Keep-Alive) and reason about their latency/RTT implications for page load.
+- Contrast HTTP/1.1, HTTP/2, and HTTP/3 (QUIC) at a high level—multiplexing, header compression (HPACK/QPACK), binary framing, connection migration—and predict performance impacts.
+- Explain how cookies provide state over a stateless protocol (via Set-Cookie/Cookie) and discuss basic privacy/security implications.
+- Describe web caching and conditional GET mechanisms (e.g., ETag, If-None-Match, Last-Modified, If-Modified-Since) and evaluate their effect on bandwidth and latency.
+- Outline the role of CDNs and proxy caches in HTTP delivery and assess trade-offs for content freshness vs performance.
+- Summarize how HTTPS (HTTP over TLS) changes observability and intermediaries’ behavior (e.g., caching, header visibility), while keeping the application semantics intact.
+
+#### Exercise
+
+- Use `curl -i` or `netcat` to manually craft HTTP requests and interpret responses.
+- Use Wireshark to inspect HTTP traffic and identify cookies.
+
+## SMTP and DNS
+
+#### Preparation
+
+- $2.3$ Electronic Mail
+- $2.4$ DNS - The Internet's Directory Service
+
+#### Lesson Objectives
+
+- Explain the SMTP protocol structure and message flow
+- Understand the essential role of the Domain Name System (DNS) in Internet functionality
+- Trace the DNS resolution process
+- Identify and explain the purpose of common DNS record types (A, NS, CNAME, MX)
+- Understand how DNS and SMTP vulnerabilities can be exploited and identify common mitigation techniques
+
+#### Exercise
+
+- Trace DNS resolution step-by-step
+- Use `dig` to query different DNS record types
+- Use `telnet` or `netcat` to manually send an email via SMTP commands
+- Identify DNS traffic in Wireshark and interpret SMTP exchanges
+
+## Socket Programming
+
+#### Preparation
+
+- $2.7$ Socket Programming: Creating Network Applications
+
+#### Lesson Objectives
+
+- Define a socket as the programming interface between application and transport layer
+- Explain why network data must be encoded as bytes rather than transmitted as string
+- Identify the differences between TCP and UDP sockets
+- Implement a basic HTTP server using Python socket library
+
+#### Exercise
+
+- Use `netcat` to listen on a port and send messages
+- Write an HTTP server that responds to basic GET requests
+- Use `curl` to test your server
+
+## Transport Layer
+
+#### Preparation
+
+- $3.1$ Introduction and Transport-Layer Services
+- $3.2$ Multiplexing and Demultiplexing
+- $3.3$ Connectionless Transport: UDP
+
+#### Lesson Objectives
+
+- Differentiate network vs. transport layer responsibilities (Understand/Analyze)
+- Enumerate transport-layer services (Remember/Understand)
+- Explain sockets and port numbers (Understand)
+- Describe multiplexing and demultiplexing (Understand)
+- Contrast with reliable transports (Analyze)
+- Parse the UDP segment format (Remember/Apply)
+- Map application traffic to sockets and ports (Apply)
+- Recognize common UDP operational/security considerations (Understand)
+
+#### Discussion Plan
+
+- Describe the transport layer’s role in providing logical communication between processes, and contrast it with the network layer’s host-to-host delivery. Emphasize that the transport layer does not guarantee reliability, ordering, or congestion control by default (e.g., UDP).
+- List and describe core transport services (multiplexing/demultiplexing, integrity via checksum, optional reliability/ordering provided by some protocols, congestion control support in reliable transports) and map each service to applications that need them.
+- Define socket and port; distinguish well-known, registered, and dynamic/ephemeral ports; and explain how operating systems allocate ephemeral ports for client-side communications.
+- Diagram how the transport layer uses port numbers to multiplex outgoing segments and demultiplex incoming segments to the right process, and contrast typical demux keys for UDP (usually dest IP + dest port) versus TCP (4‑tuple).
+- Given an application scenario (e.g., DNS query, streaming/VoIP, telemetry, QUIC-based protocols), justify when UDP is preferable over a reliable transport, citing latency, application-controlled reliability, and message semantics.
+- Identify and label UDP header fields (source port, destination port, length, checksum) and payload, and explain the purpose of each field.
+- Describe how the UDP checksum provides error detection using one’s complement arithmetic, what kinds of errors it helps detect, and limitations (e.g., not cryptographically secure). Note that many implementations include a pseudo-header in checksum computation to protect key IP-layer fields; IPv6 requires the UDP checksum.
+- Contrast UDP’s connectionless, no-handshake, no retransmission, no ordering, no congestion control behavior with the concept of a reliable, connection-oriented transport (foreshadowing TCP), including implications for fairness and network stability.
+- Describe how UDP’s statelessness and spoofability can be abused (e.g., amplification/reflection), and identify why middleboxes/NAT/firewalls often treat UDP differently—framing later modules on security and NAT.
+
+## Reliable Data Transfer
+
+#### Preparation
+
+- $3.4$ Principles of Reliable Data Transfer
+
+#### Lesson Objectives
+
+- Explain the need for reliable data transfer (Understand/Analyze)
+- Describe the basic RDT problem (Understand)
+- Differentiate between RDT 1.0, 2.0, and 2.1 (Understand/Analyze)
+- Explain how RDT 2.x handles errors (Understand/Apply)
+- Differentiate between RDT 2.x and 3.0 (Understand/Analyze)
+- Explain how RDT 3.0 handles loss (Understand/Apply)
+- Compare and contrast RDT protocols (Analyze/Evaluate)
+
+#### Discussion Plan
+
+- Describe the challenges of reliable data transfer over an unreliable channel, including bit errors and packet loss. Emphasize that the sender cannot assume that the receiver will receive the message correctly or at all.
+- Introduce the concept of an RDT protocol as a set of rules for the sender and receiver to follow to achieve reliable data transfer. Explain that the sender must have a way to detect errors and losses, and the receiver must have a way to acknowledge correct receipt of messages.
+- Describe RDT 1.0 as a naive protocol that simply sends messages without any error detection or acknowledgment. Explain that this protocol is not reliable because it cannot detect or recover from errors or losses.
+- Describe RDT 2.0 as an improvement that adds error detection using checksums and acknowledgments (ACKs). Explain that the sender waits for an ACK from the receiver before sending the next message. However, this protocol still has issues with duplicate messages and ACKs.
+- Describe RDT 2.1 as a further improvement that adds sequence numbers to messages and ACKs to handle duplicates. Explain that the sender alternates between two sequence numbers (0 and 1) for each message, and the receiver uses the sequence number to determine if a message is new or a duplicate.
+- Describe RDT 3.0 as an extension of RDT 2.1 that also handles packet loss by introducing timeouts and retransmissions. Explain that if the sender does not receive an ACK within a certain time, it assumes the message was lost and retransmits it. The receiver can still use sequence numbers to handle duplicates.
+- Compare and contrast the RDT protocols, highlighting their strengths and weaknesses. Discuss the trade-offs between simplicity and reliability, and how real-world protocols like TCP build on these principles to achieve reliable data transfer over the Internet.
+
+## Transmission Control Protocol (TCP)
+
+#### Preparation
+
+- $3.5.1$ The TCP Connection
+- $3.5.2$ TCP Segment Structure
+- $3.5.3$ RTT Estimation and Timeout
+- $3.5.4$ Reliable Data Transfer
+
+## Flow and Congestion Control
+
+#### Preparation
+
+- $3.4$ Principles of Reliable Data Transfer
+- $3.5.5$ Flow Control
+- $3.6$ Principles of Congestion Control
+- $3.7$ TCP Congestion Control
+
+## Internet Protocol v4 (IPv4)
+
+#### Preparation
+
+- $4.3.1$ IPv4 Datagram Format
+- $4.3.2$ IPv4 Addressing
+
+#### Lesson Objectives
+
+- Understand the structure of an IPv4 datagram, including its header fields and their purposes.
+- Learn about IPv4 addressing, including the concept of classes, subnetting, and CIDR notation.
+- Understand how Dynamic Host Configuration Protocol (DHCP) works to assign IP addresses dynamically to hosts in a network.
+- Calculate subnet masks, determine the number of hosts in a subnet, and identify the network and broadcast addresses for a given IPv4 address and subnet mask.
+
+## NAT and IPv6
+
+#### Preparation
+
+- $4.3.3$ Network Address Translation (NAT)
+- $4.3.4$ IPv6
+
+#### Lesson Objectives
+
+- Understand the concept of Network Address Translation (NAT) and its role in allowing multiple devices to share a single public IP address.
+- Learn about the structure and features of IPv6, including its larger address space and improved header format.
+- Understand the different types of IPv6 addresses (unicast, multicast, anycast) and how they are used.
