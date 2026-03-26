@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-02-19">
-<meta name="description" content="Understanding how to manage data flow and prevent congestion in networks">
+<meta name="dcterms.date" content="2026-01-05">
+<meta name="description" content="Objectives, Preparation, and Exercise">
 
-<title>Flow and Congestion Control – CY350</title>
+<title>Lesson Plans – CY350</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -109,13 +109,13 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Flow and Congestion Control – CY350">
-<meta property="og:description" content="Understanding how to manage data flow and prevent congestion in networks">
-<meta property="og:image" content="https://usma-eecs.github.io/cy350-2026-2//images/11-flow-congestion-control.png">
+<meta property="og:title" content="Lesson Plans – CY350">
+<meta property="og:description" content="Objectives, Preparation, and Exercise">
+<meta property="og:image" content="https://usma-eecs.github.io/cy350-2026-2//images/01-intro.png">
 <meta property="og:site_name" content="CY350">
 <meta property="og:image:height" content="461">
 <meta property="og:image:width" content="826">
-<link rel="canonical" href="https://usma-eecs.github.io/cy350-2026-2/content/11-flow-congestion-control.html">
+<link rel="canonical" href="https://usma-eecs.github.io/cy350-2026-2/content/lesson-plan.html">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -327,32 +327,50 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction-to-computer-networks" id="toc-introduction-to-computer-networks" class="nav-link active" data-scroll-target="#introduction-to-computer-networks">Introduction to Computer Networks</a></li>
+  <li><a href="#protocols-layers-and-abstraction" id="toc-protocols-layers-and-abstraction" class="nav-link" data-scroll-target="#protocols-layers-and-abstraction">Protocols, Layers, and Abstraction</a></li>
+  <li><a href="#network-evolution-and-measuring-performance" id="toc-network-evolution-and-measuring-performance" class="nav-link" data-scroll-target="#network-evolution-and-measuring-performance">Network Evolution and Measuring Performance</a></li>
+  <li><a href="#application-layer" id="toc-application-layer" class="nav-link" data-scroll-target="#application-layer">Application Layer</a></li>
+  <li><a href="#http-and-the-web" id="toc-http-and-the-web" class="nav-link" data-scroll-target="#http-and-the-web">HTTP and the Web</a></li>
+  <li><a href="#smtp-and-dns" id="toc-smtp-and-dns" class="nav-link" data-scroll-target="#smtp-and-dns">SMTP and DNS</a></li>
+  <li><a href="#socket-programming" id="toc-socket-programming" class="nav-link" data-scroll-target="#socket-programming">Socket Programming</a></li>
+  <li><a href="#transport-layer" id="toc-transport-layer" class="nav-link" data-scroll-target="#transport-layer">Transport Layer</a></li>
+  <li><a href="#reliable-data-transfer" id="toc-reliable-data-transfer" class="nav-link" data-scroll-target="#reliable-data-transfer">Reliable Data Transfer</a></li>
+  <li><a href="#transmission-control-protocol-tcp" id="toc-transmission-control-protocol-tcp" class="nav-link" data-scroll-target="#transmission-control-protocol-tcp">Transmission Control Protocol (TCP)</a></li>
+  <li><a href="#flow-and-congestion-control" id="toc-flow-and-congestion-control" class="nav-link" data-scroll-target="#flow-and-congestion-control">Flow and Congestion Control</a></li>
+  <li><a href="#internet-protocol-v4-ipv4" id="toc-internet-protocol-v4-ipv4" class="nav-link" data-scroll-target="#internet-protocol-v4-ipv4">Internet Protocol v4 (IPv4)</a></li>
+  <li><a href="#nat-and-ipv6" id="toc-nat-and-ipv6" class="nav-link" data-scroll-target="#nat-and-ipv6">NAT and IPv6</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content column-page-left" id="quarto-document-content">
 
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Flow and Congestion Control</h1>
+<h1 class="title">Lesson Plans</h1>
 </div>
 
 <div>
   <div class="description">
-    Understanding how to manage data flow and prevent congestion in networks
+    Objectives, Preparation, and Exercise
   </div>
 </div>
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 19, 2026</p>
+      <p class="date">January 5, 2026</p>
     </div>
   </div>
   
@@ -364,17 +382,372 @@ window.Quarto = {
 </header>
 
 
+<section id="introduction-to-computer-networks" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-computer-networks">Introduction to Computer Networks</h2>
+<section id="lesson-objectives" class="level4">
+<h4 class="anchored" data-anchor-id="lesson-objectives">Lesson Objectives</h4>
+<ul>
+<li>Describe the organization of the Internet.</li>
+<li>Understand the unique challenges of network operations</li>
+<li>Internet as a <em>best-effort</em> system</li>
+<li>Why cybersecurity depends on networking</li>
+</ul>
+</section>
 <section id="preparation" class="level4">
 <h4 class="anchored" data-anchor-id="preparation">Preparation</h4>
+<ul>
+<li><span class="math inline">\(1.1\)</span> What is the Internet?</li>
+<li><span class="math inline">\(1.3.3\)</span> A Network of Networks</li>
+<li><span class="math inline">\(1.2\)</span> The Network Edge (skim)</li>
+<li><span class="math inline">\(1.3\)</span> The Network Core (skim)</li>
+<li><span class="math inline">\(1.7\)</span> History of Computer Networking and the Internet (skim)</li>
+</ul>
+</section>
+<section id="exercise" class="level4">
+<h4 class="anchored" data-anchor-id="exercise">Exercise</h4>
+<ol type="1">
+<li>Verify virtual machines, SSH, WSL, vscode setup.</li>
+<li>Linux refresher
+<ul>
+<li><code>ls</code>, <code>cd</code>, <code>pwd</code>, <code>mkdir</code>, <code>rm</code>, <code>cp</code>, <code>mv</code></li>
+<li><code>cat</code>, <code>less</code>, <code>head</code>, <code>tail</code>, <code>grep</code>, <code>find</code></li>
+<li><code>sudo</code>, <code>pip</code>, <code>apt</code></li>
+</ul></li>
+<li>Try basic commands and programs
+<ul>
+<li><code>ping</code>, <code>traceroute</code>, <code>dig</code></li>
+<li><code>netcat</code>, <code>curl</code></li>
+<li><code>wireshark</code>, <code>wireview</code></li>
+</ul></li>
+<li>Run Python “hello world” program.</li>
+</ol>
+</section>
+</section>
+<section id="protocols-layers-and-abstraction" class="level2">
+<h2 class="anchored" data-anchor-id="protocols-layers-and-abstraction">Protocols, Layers, and Abstraction</h2>
+<section id="lesson-objectives-1" class="level4">
+<h4 class="anchored" data-anchor-id="lesson-objectives-1">Lesson Objectives</h4>
+<ul>
+<li>Explain the role of each layer in the TCP/IP model</li>
+<li>Define network protocol</li>
+<li>Explain how protocol design principles enable networks</li>
+<li>Why abstraction fails under attack or congestion</li>
+<li>Identify network traffic using Wireshark / Wireview</li>
+</ul>
+</section>
+<section id="preparation-1" class="level4">
+<h4 class="anchored" data-anchor-id="preparation-1">Preparation</h4>
+<ul>
+<li><span class="math inline">\(1.1\)</span> What is the Internet?</li>
+<li><span class="math inline">\(1.5\)</span> Protocol Layers and Their Service Models</li>
+<li><span class="math inline">\(1.6\)</span> Networks Under Attack</li>
+<li><span class="math inline">\(1.2\)</span> The Network Edge (skim)</li>
+<li><span class="math inline">\(1.3\)</span> The Network Core (skim)</li>
+<li><span class="math inline">\(1.7\)</span> History of Computer Networking and the Internet (skim)</li>
+</ul>
+</section>
+<section id="exercise-1" class="level4">
+<h4 class="anchored" data-anchor-id="exercise-1">Exercise</h4>
+<ul>
+<li>Use Wireview to identify layers and protocols in captured traffic.</li>
+<li>Map observed protocols to TCP/IP layers.</li>
+<li>Draw the path of a Signal or Whatsapp message — what must go right?</li>
+</ul>
+</section>
+</section>
+<section id="network-evolution-and-measuring-performance" class="level2">
+<h2 class="anchored" data-anchor-id="network-evolution-and-measuring-performance">Network Evolution and Measuring Performance</h2>
+<section id="preparation-2" class="level4">
+<h4 class="anchored" data-anchor-id="preparation-2">Preparation</h4>
+<ul>
+<li><span class="math inline">\(1.3\)</span> The Network Core</li>
+<li><span class="math inline">\(1.4\)</span> Delay, Loss, and Throughput in Packet-Switched Networks</li>
+</ul>
+</section>
+<section id="lesson-objectives-2" class="level4">
+<h4 class="anchored" data-anchor-id="lesson-objectives-2">Lesson Objectives</h4>
+<ul>
+<li>Explain the evolution from circuit switching to packet switching</li>
+<li>Describe how frequency division multiplexing (FDM) and time division multiplexing (TDM) enable shared use of circuits</li>
+<li>Define bandwidth, throughput, and delay (including its components)</li>
+<li>Calculate throughput and delay</li>
+</ul>
+</section>
+<section id="exercise-2" class="level4">
+<h4 class="anchored" data-anchor-id="exercise-2">Exercise</h4>
+<ul>
+<li>Use a speed test (e.g.&nbsp;fast.com) to measure network performance; turn on “all metrics”; contrast wired vs wireless.</li>
+<li>Given a network scenario, calculate end-to-end delay and throughput.</li>
+<li>Contention exercise: given multiple users sharing a link, calculate individual throughput and maximum number of users.</li>
+</ul>
+</section>
+</section>
+<section id="application-layer" class="level2">
+<h2 class="anchored" data-anchor-id="application-layer">Application Layer</h2>
+<section id="preparation-3" class="level4">
+<h4 class="anchored" data-anchor-id="preparation-3">Preparation</h4>
+<ul>
+<li><span class="math inline">\(2.1\)</span> Principles of Network Applications</li>
+</ul>
+</section>
+<section id="lesson-objectives-3" class="level4">
+<h4 class="anchored" data-anchor-id="lesson-objectives-3">Lesson Objectives</h4>
+<ul>
+<li>Explain the role of the application layer and how it interfaces with the transport layer via sockets</li>
+<li>Differentiate network-application architectures and analyze tradeoffs</li>
+<li>Describe what constitutes an application-layer protocol</li>
+<li>Explain basic security considerations at the application layer</li>
+</ul>
+</section>
+<section id="discussion-plan" class="level4">
+<h4 class="anchored" data-anchor-id="discussion-plan">Discussion Plan</h4>
+<ul>
+<li>Explain the role of the application layer in the Internet protocol stack and how it interfaces with the transport layer via sockets.</li>
+<li>Differentiate network-application architectures - client–server vs peer-to-peer vs hybrid - and analyze tradeoffs (scalability, fault tolerance, management complexity, performance).</li>
+<li>Define “process” and “socket” and trace how processes use sockets to send/receive messages across the network.</li>
+<li>Map common application requirements (e.g., web browsing, file transfer, streaming, gaming, VoIP) to transport services (reliability, throughput, latency, jitter, security).</li>
+<li>Describe what constitutes an application-layer protocol—message types, message syntax, semantics, and rules of exchange—and interpret a minimal protocol transcript (e.g., request/response).</li>
+<li>Explain basic security considerations at the application layer (confidentiality, integrity, authentication)</li>
+</ul>
+</section>
+<section id="exercise-3" class="level4">
+<h4 class="anchored" data-anchor-id="exercise-3">Exercise</h4>
+<ul>
+<li>Use <code>curl -i</code> or <code>netcat</code> to manually craft HTTP requests and interpret responses.</li>
+<li>Design a tactical chat application: who initiates? who remembers state?</li>
+</ul>
+</section>
+</section>
+<section id="http-and-the-web" class="level2">
+<h2 class="anchored" data-anchor-id="http-and-the-web">HTTP and the Web</h2>
+<section id="preparation-4" class="level4">
+<h4 class="anchored" data-anchor-id="preparation-4">Preparation</h4>
+<ul>
+<li><span class="math inline">\(2.2\)</span> The Web and HTTP</li>
+</ul>
+</section>
+<section id="lesson-objectives-4" class="level4">
+<h4 class="anchored" data-anchor-id="lesson-objectives-4">Lesson Objectives</h4>
+<ul>
+<li>Explain HTTP as an implementation of the four protocol components</li>
+<li>Analyze HTTP request and response messages structure and interpret common headers</li>
+<li>Differentiate core HTTP methods and status codes</li>
+<li>Distinguish between persistent and non-persistent HTTP connections</li>
+<li>Understand HTTP cookies and their security implications</li>
+<li>Describe web caching and conditional GET mechanisms</li>
+</ul>
+</section>
+<section id="discussion-plan-1" class="level4">
+<h4 class="anchored" data-anchor-id="discussion-plan-1">Discussion Plan</h4>
+<ul>
+<li>Describe the HTTP client–server model and why HTTP is stateless; identify where HTTP sits relative to TCP/UDP and typical ports (80/443).</li>
+<li>Explain HTTP request and response message structure (start lines, header fields, body) and interpret common headers (e.g., Host, User-Agent, Accept, Content-Type, Content-Length, Connection).</li>
+<li>Differentiate core HTTP methods—GET, HEAD, POST (and recognize PUT, DELETE at a high level)—and select an appropriate method for a given use case.</li>
+<li>Interpret HTTP status codes (1xx–5xx), with emphasis on common codes (200, 301/302, 304, 400, 401/403, 404, 500).</li>
+<li>Compare non-persistent vs persistent connections in HTTP/1.1 (Keep-Alive) and reason about their latency/RTT implications for page load.</li>
+<li>Contrast HTTP/1.1, HTTP/2, and HTTP/3 (QUIC) at a high level—multiplexing, header compression (HPACK/QPACK), binary framing, connection migration—and predict performance impacts.</li>
+<li>Explain how cookies provide state over a stateless protocol (via Set-Cookie/Cookie) and discuss basic privacy/security implications.</li>
+<li>Describe web caching and conditional GET mechanisms (e.g., ETag, If-None-Match, Last-Modified, If-Modified-Since) and evaluate their effect on bandwidth and latency.</li>
+<li>Outline the role of CDNs and proxy caches in HTTP delivery and assess trade-offs for content freshness vs performance.</li>
+<li>Summarize how HTTPS (HTTP over TLS) changes observability and intermediaries’ behavior (e.g., caching, header visibility), while keeping the application semantics intact.</li>
+</ul>
+</section>
+<section id="exercise-4" class="level4">
+<h4 class="anchored" data-anchor-id="exercise-4">Exercise</h4>
+<ul>
+<li>Use <code>curl -i</code> or <code>netcat</code> to manually craft HTTP requests and interpret responses.</li>
+<li>Use Wireshark to inspect HTTP traffic and identify cookies.</li>
+</ul>
+</section>
+</section>
+<section id="smtp-and-dns" class="level2">
+<h2 class="anchored" data-anchor-id="smtp-and-dns">SMTP and DNS</h2>
+<section id="preparation-5" class="level4">
+<h4 class="anchored" data-anchor-id="preparation-5">Preparation</h4>
+<ul>
+<li><span class="math inline">\(2.3\)</span> Electronic Mail</li>
+<li><span class="math inline">\(2.4\)</span> DNS - The Internet’s Directory Service</li>
+</ul>
+</section>
+<section id="lesson-objectives-5" class="level4">
+<h4 class="anchored" data-anchor-id="lesson-objectives-5">Lesson Objectives</h4>
+<ul>
+<li>Explain the SMTP protocol structure and message flow</li>
+<li>Understand the essential role of the Domain Name System (DNS) in Internet functionality</li>
+<li>Trace the DNS resolution process</li>
+<li>Identify and explain the purpose of common DNS record types (A, NS, CNAME, MX)</li>
+<li>Understand how DNS and SMTP vulnerabilities can be exploited and identify common mitigation techniques</li>
+</ul>
+</section>
+<section id="exercise-5" class="level4">
+<h4 class="anchored" data-anchor-id="exercise-5">Exercise</h4>
+<ul>
+<li>Trace DNS resolution step-by-step</li>
+<li>Use <code>dig</code> to query different DNS record types</li>
+<li>Use <code>telnet</code> or <code>netcat</code> to manually send an email via SMTP commands</li>
+<li>Identify DNS traffic in Wireshark and interpret SMTP exchanges</li>
+</ul>
+</section>
+</section>
+<section id="socket-programming" class="level2">
+<h2 class="anchored" data-anchor-id="socket-programming">Socket Programming</h2>
+<section id="preparation-6" class="level4">
+<h4 class="anchored" data-anchor-id="preparation-6">Preparation</h4>
+<ul>
+<li><span class="math inline">\(2.7\)</span> Socket Programming: Creating Network Applications</li>
+</ul>
+</section>
+<section id="lesson-objectives-6" class="level4">
+<h4 class="anchored" data-anchor-id="lesson-objectives-6">Lesson Objectives</h4>
+<ul>
+<li>Define a socket as the programming interface between application and transport layer</li>
+<li>Explain why network data must be encoded as bytes rather than transmitted as string</li>
+<li>Identify the differences between TCP and UDP sockets</li>
+<li>Implement a basic HTTP server using Python socket library</li>
+</ul>
+</section>
+<section id="exercise-6" class="level4">
+<h4 class="anchored" data-anchor-id="exercise-6">Exercise</h4>
+<ul>
+<li>Use <code>netcat</code> to listen on a port and send messages</li>
+<li>Write an HTTP server that responds to basic GET requests</li>
+<li>Use <code>curl</code> to test your server</li>
+</ul>
+</section>
+</section>
+<section id="transport-layer" class="level2">
+<h2 class="anchored" data-anchor-id="transport-layer">Transport Layer</h2>
+<section id="preparation-7" class="level4">
+<h4 class="anchored" data-anchor-id="preparation-7">Preparation</h4>
+<ul>
+<li><span class="math inline">\(3.1\)</span> Introduction and Transport-Layer Services</li>
+<li><span class="math inline">\(3.2\)</span> Multiplexing and Demultiplexing</li>
+<li><span class="math inline">\(3.3\)</span> Connectionless Transport: UDP</li>
+</ul>
+</section>
+<section id="lesson-objectives-7" class="level4">
+<h4 class="anchored" data-anchor-id="lesson-objectives-7">Lesson Objectives</h4>
+<ul>
+<li>Differentiate network vs.&nbsp;transport layer responsibilities (Understand/Analyze)</li>
+<li>Enumerate transport-layer services (Remember/Understand)</li>
+<li>Explain sockets and port numbers (Understand)</li>
+<li>Describe multiplexing and demultiplexing (Understand)</li>
+<li>Contrast with reliable transports (Analyze)</li>
+<li>Parse the UDP segment format (Remember/Apply)</li>
+<li>Map application traffic to sockets and ports (Apply)</li>
+<li>Recognize common UDP operational/security considerations (Understand)</li>
+</ul>
+</section>
+<section id="discussion-plan-2" class="level4">
+<h4 class="anchored" data-anchor-id="discussion-plan-2">Discussion Plan</h4>
+<ul>
+<li>Describe the transport layer’s role in providing logical communication between processes, and contrast it with the network layer’s host-to-host delivery. Emphasize that the transport layer does not guarantee reliability, ordering, or congestion control by default (e.g., UDP).</li>
+<li>List and describe core transport services (multiplexing/demultiplexing, integrity via checksum, optional reliability/ordering provided by some protocols, congestion control support in reliable transports) and map each service to applications that need them.</li>
+<li>Define socket and port; distinguish well-known, registered, and dynamic/ephemeral ports; and explain how operating systems allocate ephemeral ports for client-side communications.</li>
+<li>Diagram how the transport layer uses port numbers to multiplex outgoing segments and demultiplex incoming segments to the right process, and contrast typical demux keys for UDP (usually dest IP + dest port) versus TCP (4‑tuple).</li>
+<li>Given an application scenario (e.g., DNS query, streaming/VoIP, telemetry, QUIC-based protocols), justify when UDP is preferable over a reliable transport, citing latency, application-controlled reliability, and message semantics.</li>
+<li>Identify and label UDP header fields (source port, destination port, length, checksum) and payload, and explain the purpose of each field.</li>
+<li>Describe how the UDP checksum provides error detection using one’s complement arithmetic, what kinds of errors it helps detect, and limitations (e.g., not cryptographically secure). Note that many implementations include a pseudo-header in checksum computation to protect key IP-layer fields; IPv6 requires the UDP checksum.</li>
+<li>Contrast UDP’s connectionless, no-handshake, no retransmission, no ordering, no congestion control behavior with the concept of a reliable, connection-oriented transport (foreshadowing TCP), including implications for fairness and network stability.</li>
+<li>Describe how UDP’s statelessness and spoofability can be abused (e.g., amplification/reflection), and identify why middleboxes/NAT/firewalls often treat UDP differently—framing later modules on security and NAT.</li>
+</ul>
+</section>
+</section>
+<section id="reliable-data-transfer" class="level2">
+<h2 class="anchored" data-anchor-id="reliable-data-transfer">Reliable Data Transfer</h2>
+<section id="preparation-8" class="level4">
+<h4 class="anchored" data-anchor-id="preparation-8">Preparation</h4>
+<ul>
+<li><span class="math inline">\(3.4\)</span> Principles of Reliable Data Transfer</li>
+</ul>
+</section>
+<section id="lesson-objectives-8" class="level4">
+<h4 class="anchored" data-anchor-id="lesson-objectives-8">Lesson Objectives</h4>
+<ul>
+<li>Explain the need for reliable data transfer (Understand/Analyze)</li>
+<li>Describe the basic RDT problem (Understand)</li>
+<li>Differentiate between RDT 1.0, 2.0, and 2.1 (Understand/Analyze)</li>
+<li>Explain how RDT 2.x handles errors (Understand/Apply)</li>
+<li>Differentiate between RDT 2.x and 3.0 (Understand/Analyze)</li>
+<li>Explain how RDT 3.0 handles loss (Understand/Apply)</li>
+<li>Compare and contrast RDT protocols (Analyze/Evaluate)</li>
+</ul>
+</section>
+<section id="discussion-plan-3" class="level4">
+<h4 class="anchored" data-anchor-id="discussion-plan-3">Discussion Plan</h4>
+<ul>
+<li>Describe the challenges of reliable data transfer over an unreliable channel, including bit errors and packet loss. Emphasize that the sender cannot assume that the receiver will receive the message correctly or at all.</li>
+<li>Introduce the concept of an RDT protocol as a set of rules for the sender and receiver to follow to achieve reliable data transfer. Explain that the sender must have a way to detect errors and losses, and the receiver must have a way to acknowledge correct receipt of messages.</li>
+<li>Describe RDT 1.0 as a naive protocol that simply sends messages without any error detection or acknowledgment. Explain that this protocol is not reliable because it cannot detect or recover from errors or losses.</li>
+<li>Describe RDT 2.0 as an improvement that adds error detection using checksums and acknowledgments (ACKs). Explain that the sender waits for an ACK from the receiver before sending the next message. However, this protocol still has issues with duplicate messages and ACKs.</li>
+<li>Describe RDT 2.1 as a further improvement that adds sequence numbers to messages and ACKs to handle duplicates. Explain that the sender alternates between two sequence numbers (0 and 1) for each message, and the receiver uses the sequence number to determine if a message is new or a duplicate.</li>
+<li>Describe RDT 3.0 as an extension of RDT 2.1 that also handles packet loss by introducing timeouts and retransmissions. Explain that if the sender does not receive an ACK within a certain time, it assumes the message was lost and retransmits it. The receiver can still use sequence numbers to handle duplicates.</li>
+<li>Compare and contrast the RDT protocols, highlighting their strengths and weaknesses. Discuss the trade-offs between simplicity and reliability, and how real-world protocols like TCP build on these principles to achieve reliable data transfer over the Internet.</li>
+</ul>
+</section>
+</section>
+<section id="transmission-control-protocol-tcp" class="level2">
+<h2 class="anchored" data-anchor-id="transmission-control-protocol-tcp">Transmission Control Protocol (TCP)</h2>
+<section id="preparation-9" class="level4">
+<h4 class="anchored" data-anchor-id="preparation-9">Preparation</h4>
+<ul>
+<li><span class="math inline">\(3.5.1\)</span> The TCP Connection</li>
+<li><span class="math inline">\(3.5.2\)</span> TCP Segment Structure</li>
+<li><span class="math inline">\(3.5.3\)</span> RTT Estimation and Timeout</li>
+<li><span class="math inline">\(3.5.4\)</span> Reliable Data Transfer</li>
+</ul>
+</section>
+</section>
+<section id="flow-and-congestion-control" class="level2">
+<h2 class="anchored" data-anchor-id="flow-and-congestion-control">Flow and Congestion Control</h2>
+<section id="preparation-10" class="level4">
+<h4 class="anchored" data-anchor-id="preparation-10">Preparation</h4>
 <ul>
 <li><span class="math inline">\(3.4\)</span> Principles of Reliable Data Transfer</li>
 <li><span class="math inline">\(3.5.5\)</span> Flow Control</li>
 <li><span class="math inline">\(3.6\)</span> Principles of Congestion Control</li>
 <li><span class="math inline">\(3.7\)</span> TCP Congestion Control</li>
 </ul>
-<!-- #### Lesson Objectives -->
+</section>
+</section>
+<section id="internet-protocol-v4-ipv4" class="level2">
+<h2 class="anchored" data-anchor-id="internet-protocol-v4-ipv4">Internet Protocol v4 (IPv4)</h2>
+<section id="preparation-11" class="level4">
+<h4 class="anchored" data-anchor-id="preparation-11">Preparation</h4>
+<ul>
+<li><span class="math inline">\(4.3.1\)</span> IPv4 Datagram Format</li>
+<li><span class="math inline">\(4.3.2\)</span> IPv4 Addressing</li>
+</ul>
+</section>
+<section id="lesson-objectives-9" class="level4">
+<h4 class="anchored" data-anchor-id="lesson-objectives-9">Lesson Objectives</h4>
+<ul>
+<li>Understand the structure of an IPv4 datagram, including its header fields and their purposes.</li>
+<li>Learn about IPv4 addressing, including the concept of classes, subnetting, and CIDR notation.</li>
+<li>Understand how Dynamic Host Configuration Protocol (DHCP) works to assign IP addresses dynamically to hosts in a network.</li>
+<li>Calculate subnet masks, determine the number of hosts in a subnet, and identify the network and broadcast addresses for a given IPv4 address and subnet mask.</li>
+</ul>
+</section>
+</section>
+<section id="nat-and-ipv6" class="level2">
+<h2 class="anchored" data-anchor-id="nat-and-ipv6">NAT and IPv6</h2>
+<section id="preparation-12" class="level4">
+<h4 class="anchored" data-anchor-id="preparation-12">Preparation</h4>
+<ul>
+<li><span class="math inline">\(4.3.3\)</span> Network Address Translation (NAT)</li>
+<li><span class="math inline">\(4.3.4\)</span> IPv6</li>
+</ul>
+</section>
+<section id="lesson-objectives-10" class="level4">
+<h4 class="anchored" data-anchor-id="lesson-objectives-10">Lesson Objectives</h4>
+<ul>
+<li>Understand the concept of Network Address Translation (NAT) and its role in allowing multiple devices to share a single public IP address.</li>
+<li>Learn about the structure and features of IPv6, including its larger address space and improved header format.</li>
+<li>Understand the different types of IPv6 addresses (unicast, multicast, anycast) and how they are used.</li>
+</ul>
 
 
+</section>
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></section></div></main> <!-- /main -->
