@@ -2,66 +2,70 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://usma-eecs.github.io/cy350-2026-2/slides/17-control-plane.html</loc>
-    <lastmod>2026-03-26T15:22:51.847Z</lastmod>
+    <lastmod>2026-04-07T05:49:58.303Z</lastmod>
   </url>
   <url>
     <loc>https://usma-eecs.github.io/cy350-2026-2/slides/14-ipv4.html</loc>
-    <lastmod>2026-03-26T15:22:51.847Z</lastmod>
+    <lastmod>2026-04-07T05:49:58.303Z</lastmod>
   </url>
   <url>
     <loc>https://usma-eecs.github.io/cy350-2026-2/slides/06.html</loc>
-    <lastmod>2026-03-26T15:22:51.847Z</lastmod>
+    <lastmod>2026-04-07T05:49:58.303Z</lastmod>
   </url>
   <url>
     <loc>https://usma-eecs.github.io/cy350-2026-2/slides/02.html</loc>
-    <lastmod>2026-03-26T15:22:51.847Z</lastmod>
+    <lastmod>2026-04-07T05:49:58.303Z</lastmod>
   </url>
   <url>
     <loc>https://usma-eecs.github.io/cy350-2026-2/content/syllabus.html</loc>
-    <lastmod>2026-03-26T15:22:51.775Z</lastmod>
-  </url>
-  <url>
-    <loc>https://usma-eecs.github.io/cy350-2026-2/content/lesson-plan.html</loc>
-    <lastmod>2026-03-26T15:22:51.775Z</lastmod>
-  </url>
-  <url>
-    <loc>https://usma-eecs.github.io/cy350-2026-2/labs/03.html</loc>
-    <lastmod>2026-03-26T15:22:51.846Z</lastmod>
-  </url>
-  <url>
-    <loc>https://usma-eecs.github.io/cy350-2026-2/labs/01.html</loc>
-    <lastmod>2026-03-26T15:22:51.845Z</lastmod>
-  </url>
-  <url>
-    <loc>https://usma-eecs.github.io/cy350-2026-2/index.html</loc>
-    <lastmod>2026-03-26T15:22:51.845Z</lastmod>
-  </url>
-  <url>
-    <loc>https://usma-eecs.github.io/cy350-2026-2/labs/02.html</loc>
-    <lastmod>2026-03-26T15:22:51.846Z</lastmod>
-  </url>
-  <url>
-    <loc>https://usma-eecs.github.io/cy350-2026-2/labs/04.html</loc>
-    <lastmod>2026-03-26T15:22:51.846Z</lastmod>
+    <lastmod>2026-04-07T05:49:58.233Z</lastmod>
   </url>
   <url>
     <loc>https://usma-eecs.github.io/cy350-2026-2/content/project1.html</loc>
-    <lastmod>2026-03-26T15:22:51.775Z</lastmod>
+    <lastmod>2026-04-07T05:49:58.233Z</lastmod>
+  </url>
+  <url>
+    <loc>https://usma-eecs.github.io/cy350-2026-2/labs/04.html</loc>
+    <lastmod>2026-04-07T05:49:58.302Z</lastmod>
+  </url>
+  <url>
+    <loc>https://usma-eecs.github.io/cy350-2026-2/labs/02.html</loc>
+    <lastmod>2026-04-07T05:49:58.302Z</lastmod>
+  </url>
+  <url>
+    <loc>https://usma-eecs.github.io/cy350-2026-2/index.html</loc>
+    <lastmod>2026-04-07T05:49:58.301Z</lastmod>
+  </url>
+  <url>
+    <loc>https://usma-eecs.github.io/cy350-2026-2/labs/01.html</loc>
+    <lastmod>2026-04-07T05:49:58.301Z</lastmod>
+  </url>
+  <url>
+    <loc>https://usma-eecs.github.io/cy350-2026-2/labs/03.html</loc>
+    <lastmod>2026-04-07T05:49:58.302Z</lastmod>
+  </url>
+  <url>
+    <loc>https://usma-eecs.github.io/cy350-2026-2/content/lesson-plan.html</loc>
+    <lastmod>2026-04-07T05:49:58.232Z</lastmod>
+  </url>
+  <url>
+    <loc>https://usma-eecs.github.io/cy350-2026-2/content/project2.html</loc>
+    <lastmod>2026-04-07T05:49:58.233Z</lastmod>
   </url>
   <url>
     <loc>https://usma-eecs.github.io/cy350-2026-2/slides/01.html</loc>
-    <lastmod>2026-03-26T15:22:51.846Z</lastmod>
+    <lastmod>2026-04-07T05:49:58.302Z</lastmod>
   </url>
   <url>
     <loc>https://usma-eecs.github.io/cy350-2026-2/slides/04.html</loc>
-    <lastmod>2026-03-26T15:22:51.847Z</lastmod>
+    <lastmod>2026-04-07T05:49:58.303Z</lastmod>
   </url>
   <url>
     <loc>https://usma-eecs.github.io/cy350-2026-2/slides/13.html</loc>
-    <lastmod>2026-03-26T15:22:51.847Z</lastmod>
+    <lastmod>2026-04-07T05:49:58.303Z</lastmod>
   </url>
   <url>
     <loc>https://usma-eecs.github.io/cy350-2026-2/slides/15-ipv6.html</loc>
-    <lastmod>2026-03-26T15:22:51.847Z</lastmod>
+    <lastmod>2026-04-07T05:49:58.303Z</lastmod>
   </url>
 </urlset>

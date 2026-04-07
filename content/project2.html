@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-03-04">
-<meta name="description" content="Implement a basic Web Server and Go-Back-N protocols over UDP">
+<meta name="dcterms.date" content="2026-04-07">
+<meta name="description" content="Implement a basic routing protocol and forwarding plane">
 
-<title>Project 1 - Web Server and Reliable Data Transfer – CY350</title>
+<title>Project 2 - Routing and Forwarding – CY350</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -85,8 +85,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/bootstrap/bootstrap-711d535594db48b165d9de14dc075038.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/bootstrap/bootstrap-dark-6675a40f0ea1b29509540635f0979f51.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-711d535594db48b165d9de14dc075038.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<script src="../site_libs/quarto-contrib/kbd/kbd.js"></script>
-<link href="../site_libs/quarto-contrib/kbd/kbd.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -115,18 +113,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
-<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
-<meta property="og:title" content="Project 1 - Web Server and Reliable Data Transfer – CY350">
-<meta property="og:description" content="Implement a basic Web Server and Go-Back-N protocols over UDP">
-<meta property="og:image" content="https://usma-eecs.github.io/cy350-2026-2//images/project1.png">
+<meta property="og:title" content="Project 2 - Routing and Forwarding – CY350">
+<meta property="og:description" content="Implement a basic routing protocol and forwarding plane">
+<meta property="og:image" content="https://usma-eecs.github.io/cy350-2026-2//images/17-control-plane.png">
 <meta property="og:site_name" content="CY350">
 <meta property="og:image:height" content="461">
 <meta property="og:image:width" content="826">
-<link rel="canonical" href="https://usma-eecs.github.io/cy350-2026-2/content/project1.html">
+<link rel="canonical" href="https://usma-eecs.github.io/cy350-2026-2/content/project2.html">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -350,24 +345,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#submission-instructions" id="toc-submission-instructions" class="nav-link" data-scroll-target="#submission-instructions">Submission Instructions</a></li>
   <li><a href="#points-breakdown" id="toc-points-breakdown" class="nav-link" data-scroll-target="#points-breakdown">Points Breakdown</a></li>
   </ul></li>
-  <li><a href="#part-1-http-server" id="toc-part-1-http-server" class="nav-link" data-scroll-target="#part-1-http-server">Part 1: HTTP Server</a>
+  <li><a href="#project-starter-code-walkthrough" id="toc-project-starter-code-walkthrough" class="nav-link" data-scroll-target="#project-starter-code-walkthrough">Project Starter Code Walkthrough</a></li>
+  <li><a href="#module-responsibilities" id="toc-module-responsibilities" class="nav-link" data-scroll-target="#module-responsibilities">Module Responsibilities</a>
   <ul class="collapse">
-  <li><a href="#key-tasks" id="toc-key-tasks" class="nav-link" data-scroll-target="#key-tasks">Key Tasks</a></li>
-  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing">Testing</a></li>
-  <li><a href="#hints" id="toc-hints" class="nav-link" data-scroll-target="#hints">Hints</a></li>
+  <li><a href="#network.py" id="toc-network.py" class="nav-link" data-scroll-target="#network.py">network.py</a></li>
+  <li><a href="#protocol.py" id="toc-protocol.py" class="nav-link" data-scroll-target="#protocol.py">protocol.py</a></li>
+  <li><a href="#application.py" id="toc-application.py" class="nav-link" data-scroll-target="#application.py">application.py</a></li>
+  <li><a href="#main.py" id="toc-main.py" class="nav-link" data-scroll-target="#main.py">main.py</a></li>
   </ul></li>
-  <li><a href="#part-2-go-back-n-protocol" id="toc-part-2-go-back-n-protocol" class="nav-link" data-scroll-target="#part-2-go-back-n-protocol">Part 2: Go-Back-N Protocol</a>
-  <ul class="collapse">
-  <li><a href="#sabre-protocol-packet-structure" id="toc-sabre-protocol-packet-structure" class="nav-link" data-scroll-target="#sabre-protocol-packet-structure">SABRE Protocol Packet Structure</a></li>
-  <li><a href="#key-features" id="toc-key-features" class="nav-link" data-scroll-target="#key-features">Key Features</a></li>
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">Getting Started</a></li>
-  <li><a href="#key-tasks-1" id="toc-key-tasks-1" class="nav-link" data-scroll-target="#key-tasks-1">Key Tasks</a></li>
-  <li><a href="#hints-1" id="toc-hints-1" class="nav-link" data-scroll-target="#hints-1">Hints</a></li>
-  <li><a href="#testing-1" id="toc-testing-1" class="nav-link" data-scroll-target="#testing-1">Testing</a></li>
-  </ul></li>
-  <li><a href="#part-3-explain-your-work" id="toc-part-3-explain-your-work" class="nav-link" data-scroll-target="#part-3-explain-your-work">Part 3: Explain your work</a></li>
+  <li><a href="#building-the-router" id="toc-building-the-router" class="nav-link" data-scroll-target="#building-the-router">Building the Router</a></li>
+  <li><a href="#data-structures-for-the-router-class" id="toc-data-structures-for-the-router-class" class="nav-link" data-scroll-target="#data-structures-for-the-router-class">Data Structures for the Router class</a></li>
+  <li><a href="#wireshark-packet-capture-and-analysis" id="toc-wireshark-packet-capture-and-analysis" class="nav-link" data-scroll-target="#wireshark-packet-capture-and-analysis">Wireshark Packet Capture and Analysis</a></li>
+  <li><a href="#running-the-simulation" id="toc-running-the-simulation" class="nav-link" data-scroll-target="#running-the-simulation">Running The Simulation</a></li>
   </ul>
-<div class="quarto-other-links"><h2>Other Links</h2><ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Messages"><i class="bi bi-globe"></i>HTTP Messages</a></li><li><a href="https://www.gradescope.com/courses/1207810/"><i class="bi bi-bar-chart-fill"></i>Gradescope</a></li></ul></div><div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/usma-eecs/cy350-project1-starter/archive/refs/heads/main.zip"><i class="bi bi-server"></i>Starter Files ZIP</a></li><li><a href="https://github.com/usma-eecs/cy350-project1-starter"><i class="bi bi-github"></i>Starter Files GitHub</a></li></ul></div></nav>
+<div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/usma-eecs/cy350-project2-starter/archive/refs/heads/main.zip"><i class="bi bi-server"></i>Starter Files ZIP</a></li><li><a href="https://github.com/usma-eecs/cy350-project2-starter"><i class="bi bi-github"></i>Starter Files GitHub</a></li><li><a href="https://www.gradescope.com/courses/1207810/"><i class="bi bi-bar-chart-fill"></i>Gradescope</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
@@ -375,12 +366,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Project 1 - Web Server and Reliable Data Transfer</h1>
+<h1 class="title">Project 2 - Routing and Forwarding</h1>
 </div>
 
 <div>
   <div class="description">
-    Implement a basic Web Server and Go-Back-N protocols over UDP
+    Implement a basic routing protocol and forwarding plane
   </div>
 </div>
 
@@ -391,7 +382,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 4, 2026</p>
+      <p class="date">April 7, 2026</p>
     </div>
   </div>
   
@@ -405,14 +396,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>In this project, you will tackle two layers of the network stack-</p>
-<ul>
-<li>At the application layer, you will implement a simple HTTP server.</li>
-<li>At the transport layer, you will implement a reliable data transfer protocol over UDP using the Go-Back-N protocols.</li>
-</ul>
+<p>In this project, you will implement the control plane of routers in a simulated network. You will implement link-state routing in a scenario where multiple routers exchange link-state advertisements (LSAs) to build a global view of the network topology. Each router will then compute shortest paths to all other routers using Dijkstra’s algorithm and populate a forwarding table for packet routing.</p>
 <section id="generative-ai-use-policy" class="level3">
 <h3 class="anchored" data-anchor-id="generative-ai-use-policy">Generative AI Use Policy</h3>
-<p>The use of generative AI tools is <strong>prohibited for the written portion</strong> of this assignment.</p>
+<p>The use of generative AI tools is <strong>prohibited for the Canvas portion</strong> of this assignment.</p>
 <p>The use of generative AI tools such as ChatGPT or Claude is <em>authorized</em> for the programming portion of this assignment subject to the following restrictions:</p>
 <ul>
 <li>You may only use a generative AI tool that has **study mode*- or the equivelant concept enabled.
@@ -438,24 +425,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="learning-objectives" class="level3">
 <h3 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h3>
 <ul>
-<li>Implement a functioning HTTP server that can parse HTTP requests, generate appropriate responses, and handle conditional GET requests.</li>
-<li>Explain why UDP is unreliable and describe strategies to achieve reliable data transfer over UDP.</li>
-<li>Design and implement a custom transport header with TCP-like flags and fields.</li>
-<li>Implement 3-way handshake over UDP and a graceful connection teardown.</li>
-<li>Implement sliding window protocols such as Go-Back-N.
-<ul>
-<li>Use a single base timer, cumulative ACKs, and bulk retransmissions.</li>
-</ul></li>
-<li>Analyze and understand protocol behavior using Wireshark.</li>
-<li>Reflect on trade-offs between protocol complexity and performance.</li>
+<li>Implement a link-state routing protocol with LSA flooding.</li>
+<li>Implement Dijkstra’s algorithm for shortest path computation.</li>
+<li>Capture network traffic and analyze routing behavior.</li>
+<li>Reflect on the design and implementation of a control plane for link-state routing.</li>
 </ul>
 </section>
 <section id="submission-instructions" class="level3">
 <h3 class="anchored" data-anchor-id="submission-instructions">Submission Instructions</h3>
 <ol type="1">
-<li><p>Part 1 (HTTP Server): <a href="https://www.gradescope.com/courses/1207810/assignments/7869290">Submit your code to Gradescope</a>. Autograder will give you feedback on the correctness of your implementation.</p></li>
-<li><p>Part 2 (Go-Back-N Protocol): Run your code on the WREN. Your sender program (client) will reach out to the receiver (server) and attempt to transmit data. The server logs your activity and will track successful transmissions. When completed, <a href="https://www.gradescope.com/courses/1207810/assignments/7869862">submit your code to Gradescope</a>. Autograder will ensure that your code is free of compilation errors but will not attempt to run it for you.</p></li>
-<li><p>Part 3: Once you have completed the programming portion, you will answer several questions on Canvas that explain your thought process. Majority of your grade will be based on your understanding and explanation of your implementation, which requires you to have a working implementation. These must be answered in your own words <em>without any assistance from generative AI tools</em>. You may discuss these questions with your instructor and verbally assist others to develop understanding of the material, but you may not share your written responses with anyone else.</p></li>
+<li><p>You will submit your code to Gradescope. Autograder will give you feedback on the correctness of your implementation.</p></li>
+<li><p>Once you have a working implementation, you will answer several questions on Canvas that check your knowledge and understanding of the project. These must be answered in your own words without any assistance from generative AI tools or another source. You may discuss these questions with your instructor and verbally assist others to develop understanding of the material, but you may not share your responses with anyone else.</p></li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -474,151 +454,147 @@ Tip
 <section id="points-breakdown" class="level3">
 <h3 class="anchored" data-anchor-id="points-breakdown">Points Breakdown</h3>
 <ul>
-<li>Part 1: Basic HTTP Server - 30 points</li>
-<li>Part 2: Go-Back-N Protocol - 30 points
+<li>Code Structure Questions in Canvas: 25 points</li>
+<li>Router implementation (<code>network.py</code>): 60 points</li>
+<li>WireShark packet capture and analysis: 15 points</li>
+</ul>
+</section>
+</section>
+<section id="project-starter-code-walkthrough" class="level2">
+<h2 class="anchored" data-anchor-id="project-starter-code-walkthrough">Project Starter Code Walkthrough</h2>
+<p>The project starter code is organized into the following modules:</p>
 <ul>
-<li>Submit a working implementation free of compilation errors - 5 points</li>
-<li><code>connect()</code> - 10 points</li>
-<li><code>send()</code> - 10 points</li>
-<li><code>close()</code> - 5 points</li>
+<li><code>network.py</code>: graph construction, router state, LSA processing, Dijkstra-based route computation, and forwarding decisions.</li>
+<li><code>transport.py</code>: IP header, LSA, and HTTP datagram serialization and parsing using a custom TCP-like transport serialization format.</li>
+<li><code>application.py</code>: HTTP client and server behavior, handshake logic, request segmentation, and response handling.</li>
+<li><code>main.py</code>: simulation startup, thread management, router bootstrapping, and launch flow.</li>
+</ul>
+</section>
+<section id="module-responsibilities" class="level2">
+<h2 class="anchored" data-anchor-id="module-responsibilities">Module Responsibilities</h2>
+<section id="network.py" class="level3">
+<h3 class="anchored" data-anchor-id="network.py">network.py</h3>
+<p>This module owns network-layer behavior.</p>
+<ul>
+<li><code>Graph</code> class is used for directed weighted graph representation of the network topology used for network routing algorithms. It consists of nodes (routers or hosts) and edges (connections) between them with associated costs (e.g., latency, distance) and network interfaces.</li>
+<li><code>Router</code> class is designed to simulate the basic functionality of a network router, including processing Link-State Advertisements (LSAs), running a routing algorithm, forwarding packets based on a forwarding table, and managing network interfaces.</li>
+</ul>
+<p>This is the main place to work if you are changing router behavior or shortest-path logic.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You are required to implement the portions of the Router class as described in the project instructions. The rest of the class is provided as a starting point and should not be modified.</p>
+</div>
+</div>
+</section>
+<section id="protocol.py" class="level3">
+<h3 class="anchored" data-anchor-id="protocol.py">protocol.py</h3>
+<p>This module contains network-layer serialization logic for the custom IP header and datagram formats.</p>
+<ul>
+<li><code>IPHeader</code> class handles the basic functionality of an IP header</li>
+<li><code>LSADatagram</code> class inherits from <code>IPHeader</code> and adds attributes and methods for handling Link-State Advertisements (LSAs).</li>
+<li><code>HTTPDatagram</code> class inherits from <code>IPHeader</code> and adds TCP-like attributes for handling HTTP-like packets in custom datagram formats.</li>
+</ul>
+</section>
+<section id="application.py" class="level3">
+<h3 class="anchored" data-anchor-id="application.py">application.py</h3>
+<p>This module contains HTTP transfer behavior built on top of the custom transport format:</p>
+<ul>
+<li><p><code>Client</code> class simulates a custom HTTP-like client that uses raw sockets to communicate with a server, mimicking TCP/IP stack behavior for connection establishment, data transmission, and response handling. It operates using the Go-Back-N protocol for reliable data transmission.</p></li>
+<li><p><code>Server</code> class simulates a basic server using raw sockets and demonstrates core concepts such as connection establishment (three-way handshake), reliable data transmission (Go-Back-N protocol), and HTTP request/response processing.</p></li>
+</ul>
+</section>
+<section id="main.py" class="level3">
+<h3 class="anchored" data-anchor-id="main.py">main.py</h3>
+<p>This is the runtime entry point for the simulation. It provides:</p>
+<ul>
+<li>the default router topology</li>
+<li>the <code>NetworkSimulation</code> orchestration class</li>
+<li>thread startup for routers and the server</li>
+<li>client launch and resource request flow</li>
+</ul>
+</section>
+</section>
+<section id="building-the-router" class="level2">
+<h2 class="anchored" data-anchor-id="building-the-router">Building the Router</h2>
+<p>For this project, you will complete the implementation of a Router class that forwards packets between the client and the server. You will need to simulate a routing protocol, ensuring that packets are forwarded based on the destination IP address and the appropriate next hop. Upon completion, the Router will be capable of:</p>
+<ul>
+<li>Initializing the Link-State Database (LSDB) of the router based on the direct connections.</li>
+</ul>
+<p>Hint: Review the code documentation to understand the data structure for storing the LSDB on the router.</p>
+<ul>
+<li>Processing a Link-State Advertisement (LSA) to either:
+<ul>
+<li>Update the LSDB with the information provided and forward the LSA to all other interfaces except the one on which it was received.</li>
+<li>Or, discard the LSA since it has already been seen and processed by the router.</li>
 </ul></li>
-<li>Part 3: Explanation of your work - 40 points</li>
 </ul>
-<p>Bonus Points: <strong>5 extra points</strong> if you submit the project in its entirety 5 days before the deadline.</p>
-</section>
-</section>
-<section id="part-1-http-server" class="level2">
-<h2 class="anchored" data-anchor-id="part-1-http-server">Part 1: HTTP Server</h2>
-<p>This part introduces you to the client-server programming paradigm and the basics of HTTP. Using your code from <a href="../labs/03.html">Lab 3</a>, implement a HTTP server that supports GET method of the HTTP/1.1 protocol. You are only expected to handle one request per connection.</p>
+<p>Hints: - The LSA has a sequence number that can be stored locally and compared with that of future LSAs. - Review the code documentation to understand the format for LSA data in packet.</p>
 <ul>
-<li>Correctly initialize a TCP listening socket.</li>
-<li>Accept incoming connections from clients.</li>
-<li>Receive and reassemble a segmented GET or POST request from a client.</li>
-<li>Handle <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods/GET">GET</a> request and parse the method, resource, and headers.</li>
-<li>Look up the requested resource, check the cache, and determine the correct response.</li>
-<li>Generate the HTTP response, properly segment it, and send it back to the client.</li>
-<li>Close the TCP connection after each response and start over.</li>
+<li>Running a link-state routing protocol using Djikstra’s algorithm once the LSDB is complete.</li>
 </ul>
-<section id="key-tasks" class="level3">
-<h3 class="anchored" data-anchor-id="key-tasks">Key Tasks</h3>
+<p>Hints: - Refer to Lesson 17 to review Djikstra’s algorithm. - Review the code documentation to understand the data structure for storing the forwarding table on the router.</p>
 <ul>
-<li>Implement segmentation and reassembly of messages. This means you will need to handle cases where a single HTTP request or response is split across multiple TCP segments.</li>
-<li>Parse HTTP requests to extract the method, resource, and headers. See <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Messages">HTTP Message Format</a> for exactly how HTTP messages are structured.</li>
-<li>Handle GET requests. Parse the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/If-None-Match">If-None-Match</a> header and conditionally return <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/304">304 Not Modified</a> if the content cache entry is valid.</li>
-<li>Generate appropriate HTTP responses with correct status codes, headers, and body content.</li>
+<li>Forwarding TCP segments at each router between the client and server.</li>
 </ul>
+<p>Hint: Use the provided helper function for longest prefix matching between the destination IP address and networks in the forwarding table.</p>
 </section>
-<section id="testing" class="level3">
-<h3 class="anchored" data-anchor-id="testing">Testing</h3>
-<p>Gradescope will give you a score with minimal feedback. You must develop your own testing strategy. Here are some ideas:</p>
-<section id="curl" class="level4">
-<h4 class="anchored" data-anchor-id="curl">curl</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-v</span> localhost:8090</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-v</span> localhost:8090/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="data-structures-for-the-router-class" class="level2">
+<h2 class="anchored" data-anchor-id="data-structures-for-the-router-class">Data Structures for the Router class</h2>
+<p>The Router class is provided information about the interfaces and direct connections at initialization, akin to configuring a router when it is installed.</p>
+<p>Example router interfaces (R1):</p>
+<pre><code>{
+&nbsp; &nbsp; &nbsp; &nbsp; 'Gi0/1': ('127.0.0.254', '127.0.0.1'),
+&nbsp; &nbsp; &nbsp; &nbsp; 'Gi0/2': ('127.248.0.1', '127.248.0.2'),
+&nbsp; &nbsp; &nbsp; &nbsp; 'Gi0/3': ('127.248.4.1', '127.248.4.2')
+}</code></pre>
+<p>Example router direct connections (R1):</p>
+<pre><code>{
+&nbsp; &nbsp; &nbsp; &nbsp; ‘127.0.0.0/24’: (0, ‘Gi0/1’),
+&nbsp; &nbsp; &nbsp; &nbsp; ‘2.2.2.2’: (3, ‘Gi0/2’),
+&nbsp; &nbsp; &nbsp; &nbsp; ‘3.3.3.3’: (9, ‘Gi0/3’)
+}</code></pre>
+<p>The LSDB is a dictionary of the link-states known to the router in the form <code>{advertising_router: [(network/router_id, cost, interface), ...]}</code>.</p>
+<p>Example LSDB for R1:</p>
+<pre><code>{
+    '1.1.1.1': [('127.0.0.0/24', 0, 'Gi0/1'), ('2.2.2.2', 3, 'Gi0/2'), ('3.3.3.3', 9, 'Gi0/3')],
+    '2.2.2.2': [('127.30.0.0/24', 0, 'Gi0/2'), ('1.1.1.1', 3, 'Gi0/1'), ('3.3.3.3', 5, 'Gi0/4'), ('4.4.4.4', 12, 'Gi0/3')],
+    '3.3.3.3': [('127.10.0.0/24', 0, 'Gi0/4'), ('1.1.1.1', 9, 'Gi0/1'), ('2.2.2.2', 5, 'Gi0/2'), ('5.5.5.5', 10, 'Gi0/3')],
+    '4.4.4.4': [('127.40.0.0/24', 0, 'Gi0/2'), ('2.2.2.2', 12, 'Gi0/1'), ('5.5.5.5', 4, 'Gi0/4'), ('6.6.6.6', 10, 'Gi0/3')],
+    '5.5.5.5': [('127.20.0.0/24', 0, 'Gi0/4'), ('3.3.3.3', 10, 'Gi0/1'), ('4.4.4.4', 4, 'Gi0/2'), ('6.6.6.6', 5, 'Gi0/3')],
+    '6.6.6.6': [('127.128.0.0/24', 0, 'Gi0/3'), ('4.4.4.4', 10, 'Gi0/1'), ('5.5.5.5', 5, 'Gi0/2')]
+}</code></pre>
+<p>The forwarding table is a dictionary of the best paths to all known nodes (networks or routers) in the form <code>{network/router_id: (interface, cost)}</code>.</p>
+<p>Example Forwarding Table for R1:</p>
+<pre><code>{
+    '1.1.1.1': (None, 0),
+    '127.0.0.0/24': ('Gi0/1', 0),
+    '2.2.2.2': ('Gi0/2', 3),
+    '3.3.3.3': ('Gi0/2', 8),
+    '127.30.0.0/24': ('Gi0/2', 3),
+    '4.4.4.4': ('Gi0/2', 15),
+    '127.10.0.0/24': ('Gi0/2', 8),
+    '5.5.5.5': ('Gi0/2', 18),
+    '127.40.0.0/24': ('Gi0/2', 15),
+    '6.6.6.6': ('Gi0/2', 23),
+    '127.20.0.0/24': ('Gi0/2', 18),
+    '127.128.0.0/24': ('Gi0/2', 23)
+}</code></pre>
 </section>
-<section id="firefox-or-any-web-browser" class="level4">
-<h4 class="anchored" data-anchor-id="firefox-or-any-web-browser">firefox (or any web browser)</h4>
-<ul>
-<li>Open Developer Tools and go to the <a href="https://firefox-source-docs.mozilla.org/devtools-user/network_monitor/">Network Monitor</a>. Use <kbd title="Ctrl-Shift-E" aria-hidden="true">Ctrl-Shift-E</kbd><span class="visually-hidden">Ctrl-Shift-E</span> to bring it up.</li>
-<li>Navigate to <code>http://localhost:8090</code></li>
-<li>Observe the request and response details
-<ul>
-<li>request method, URL, headers</li>
-<li>response status code, headers, body</li>
-</ul></li>
-</ul>
-</section>
-</section>
-<section id="hints" class="level3">
-<h3 class="anchored" data-anchor-id="hints">Hints</h3>
-<ul>
-<li>Most autograder test results are hidden. Come up with your own test cases and test your code locally.</li>
-<li>Test your work incrementally. Don’t try to implement everything at once. Test each piece as you go.</li>
-<li>Use Wireshark to analyze the packets being sent and received by your server.</li>
-<li>Add lots of print statements to your code to understand the flow of execution and produce useful debug information. You can comment out these print statements as you progress.</li>
-<li>Check CRLF termination <code>\r\n\r\n</code> carefully.</li>
-<li>Ensure <code>Content-Length</code> matches body length.</li>
-<li>Use your browser’s Network Monitor to analyze <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/If-None-Match">If-None-Match</a> header and expected <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/304">304 Not Modified</a> response.</li>
-</ul>
-</section>
-</section>
-<section id="part-2-go-back-n-protocol" class="level2">
-<h2 class="anchored" data-anchor-id="part-2-go-back-n-protocol">Part 2: Go-Back-N Protocol</h2>
-<p>Army needs robust communication protocols that works over unreliable networks especially in contested environments. You propose a new protocol called SABRE (Simple And Basic Reliable Exchange) that provides reliable data transfer over UDP. USMA’s CIO is very interested in your protocol and wants you to implement it as a proof of concept. You are very excited to show off your recently acquired CY3350 knowledge and skills, and cannot wait to demonstrate the power of your protocol. You will implement the client side of the SABRE protocol, and I will host the server side for you to test against.</p>
-<p>Objective: Implement Go-Back-N protocol for reliable data transfer over UDP to transfer a file from the client (sender) to the server (receiver).</p>
-<section id="sabre-protocol-packet-structure" class="level3">
-<h3 class="anchored" data-anchor-id="sabre-protocol-packet-structure">SABRE Protocol Packet Structure</h3>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">packet
-title SABRE Packet
-+8: "PACKET TYPE"
-+4: "PADDING"
-+1: "RST"
-+1: "FIN"
-+1: "SYN"
-+1: "ACK"
-+16: "LENGTH"
-+16: "SEQUENCE NUMBER"
-+16: "ACKNOWLEDGEMENT"
-+32: "CADET ID"
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-<!-- <img src="https://mermaid.ink/svg/pako:eNpNjtFugjAUQH-F3NcRAi0F6ZtC58y0c4JZXHhppEOjgOlKss3477a6TR_PuT339gjrrpJA4SDWO6nLVm_1Xjr5cLRgzvzXPQyoU8J8mD6zwilWc1aCkeFVZtmEjy8isGKRFzd4nPAb5Ks7MLuuEFmaMj4unu5Ezl6XjKfM4cvZiC3uJibkL29Tlo3ZjPHrLYzsJB1m5nuTzCpwoVbbCqhWvXShkaoRFuFYto55qzeykSXYrBJqZ5OTaQ6ife-65i9TXV9vgH6I_aeh_lAJLbOtqJVo_q2SbSVV2vWtBoqCwWUJ0CN8AY2IF8UIhQEK_ATHxIVvoJgkXkASjBGKCU786OTCz-Wo7yVhGPpRFCCEEYlJcjoDrQ92qg" alt="SABRE Packet Structure" /> -->
-</section>
-<section id="key-features" class="level3">
-<h3 class="anchored" data-anchor-id="key-features">Key Features</h3>
-<ul>
-<li>Establish a connection with the receiver using a 3-way handshake with the SYN flag.</li>
-<li>Use a sliding window mechanism to manage the flow of packets.</li>
-<li>Implement a single timer for the base of the window to detect timeouts.</li>
-<li>Implement cumulative acknowledgements to acknowledge all packets up to a certain sequence number.</li>
-<li>Implement bulk retransmissions of all unacknowledged packets when a timeout occurs.</li>
-<li>Handle connection teardown using a FIN sequence.</li>
-<li>Read the payload in the final FIN packet from the server.</li>
-</ul>
-</section>
-<section id="getting-started" class="level3">
-<h3 class="anchored" data-anchor-id="getting-started">Getting Started</h3>
-<p>Grab the starter code from the <a href="https://github.com/usma-eecs/cy350-project1-starter">github repository</a> or <a href="https://github.com/usma-eecs/cy350-project1-starter/archive/refs/heads/main.zip">download the ZIP file directly</a> and then implement <code>sender.py</code>. You will be sending packets to a server that I have hosted on the WREN. The server runs the same SABRE protocol. Once you successfully capture a flag from the server, your instructor will be notified.</p>
-<p>Type <code>python main.py --help</code> to get started.</p>
-<section id="project-files" class="level4">
-<h4 class="anchored" data-anchor-id="project-files">Project Files</h4>
-<ul>
-<li><code>main.py</code>: Main entry point for your sender. You will run this to start your sender and connect to the server.</li>
-<li><code>sender.py</code>: This is where you will implement the SABRE protocol.</li>
-<li><code>packet.py</code>: This file contains the <code>Packet</code> class that defines the structure of a SABRE packet and provides methods for serialization and deserialization.</li>
-<li><code>simpletimer.py</code>: This file contains a simple timer class that you can use for implementing timeouts in your Go-Back-N protocol.</li>
-<li><code>corpus.py</code>: This file downloads the sample text files that you will send to the server as payload. It downloads severals e-books from <a href="https://www.gutenberg.org/">Project Gutenberg</a> to <code>gutenberg.zip</code> file and extracts them to the <code>gutenberg</code> directory.</li>
-</ul>
-</section>
-</section>
-<section id="key-tasks-1" class="level3">
-<h3 class="anchored" data-anchor-id="key-tasks-1">Key Tasks</h3>
-<p>In <code>sender.py</code>, implement the following functions:</p>
-<ul>
-<li><code>connect()</code>: Establish a connection with the server using a 3-way handshake.</li>
-<li><code>send()</code>: Send data to the server using the Go-Back-N protocol.</li>
-<li><code>close()</code>: Gracefully close the connection with the server using a FIN sequence.</li>
-</ul>
-<p>Upon successful connection and data transfer, inspect the final FIN packet sent by the server.</p>
-</section>
-<section id="hints-1" class="level3">
-<h3 class="anchored" data-anchor-id="hints-1">Hints</h3>
-<ul>
-<li>Try the <a href="https://media.pearsoncmg.com/ph/esm/ecs_kurose_compnetwork_8/cw/content/interactiveanimations/go-back-n-protocol/">Go-Back-N Protocol animation</a> from the textbook authors.</li>
-<li>Use print statements extensively to trace the flow of your program and understand the state of your sender.</li>
-<li>Since we are using Go-Back-N, you only need a single timer that is provided to you. Use it.</li>
-<li>Sequence numbers start at 0 and increment by 1 for each packet sent. In Go-Back-N, we do not count the number of bytes but just the number of packets.</li>
-<li>The ACK number on outgoing packets will remain zero since the sender does not receive any data from the server. The ACK number on incoming packets from the server will be used to determine which packets have been acknowledged.</li>
-</ul>
+<section id="wireshark-packet-capture-and-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="wireshark-packet-capture-and-analysis">Wireshark Packet Capture and Analysis</h2>
+<p>In addition to the coding aspect of this project, you will also need to demonstrate that you have your code working locally and can capture traffic sent across the loopback. In Canvas, you need to submit two screenshots of your Wireshark capture:</p>
+<ol type="1">
+<li>One that contains the exchange of LSAs between routers.</li>
+<li>One that contains the HTTP GET request and HTTP response as they traverse the network between the client and server.</li>
+</ol>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -629,24 +605,13 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>⚠ Each time you send out multiple packets in a window, you should expect multiple ACK packets back. Make sure to receive multiple packets for each iteration until you receive <code>None</code> implying no more packets to receive. Otherwise your receive buffer will fill up and your sender will not function correctly.</p>
-<p>To receive multiple packets, you can use a loop <code>while True</code> with a <code>break</code> or <code>for _ in range(self.WINDOW_SIZE)</code>.</p>
+<p>In this project, packets captured in Wireshark will not look like valid TCP packets. This is due to the addition of the <code>next_hop</code> field which is used in place of crafting Layer 2 packets. You can think of the <code>next_hop</code> field as a custom header that is added to the IP header for the purposes of this simulation. The <code>next_hop</code> field is used by the routers to determine where to forward the packet next, and it is not part of any standard protocol. Therefore, when you capture packets in Wireshark, you will see some unusual behavior such as several lines highlighted in red. Ignore these warning indicators and proceed with your analysis of the packet contents.</p>
 </div>
 </div>
 </section>
-<section id="testing-1" class="level3">
-<h3 class="anchored" data-anchor-id="testing-1">Testing</h3>
-<ul>
-<li>Run your sender on the WREN. You should see some server responses subject to approximately ~20% packet loss.</li>
-<li>Use <code>tcpdump</code> or <code>tshark</code> to capture and analyze the packets.</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> tshark <span class="at">-i</span> any <span class="at">-f</span> <span class="st">'udp port 5050'</span> <span class="at">-x</span> <span class="at">--print</span> <span class="at">-w</span> sabre.pcap <span class="co"># writing to file fails on WSL 🤷</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> tcpdump <span class="at">-i</span> any udp port 5050</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-</section>
-<section id="part-3-explain-your-work" class="level2">
-<h2 class="anchored" data-anchor-id="part-3-explain-your-work">Part 3: Explain your work</h2>
-<p>See the questions on Canvas. You must answer these questions in your own words <em>without any Generative AI assistance</em>. You may discuss these questions with your instructor and verbally assist others to develop understanding of the material, but you may not share your written responses with anyone else.</p>
+<section id="running-the-simulation" class="level2">
+<h2 class="anchored" data-anchor-id="running-the-simulation">Running The Simulation</h2>
+<p>Run <code>python main.py</code> to start the simulation. Some output will be printed to the console showing the flow of the simulation, but the routers write their detailed logs to <code>trace.log</code> for analysis. Recommend using <code>tail -f trace.log</code> in a separate terminal to watch the router logs in real time.</p>
 
 
 </section>
