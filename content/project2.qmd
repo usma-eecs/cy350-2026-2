@@ -1,0 +1,223 @@
+---
+format:
+    html:
+        code-links:
+            - text: Starter Files ZIP
+              icon: server
+              href: https://github.com/usma-eecs/cy350-project2-starter/archive/refs/heads/main.zip
+            - text: Starter Files GitHub
+              icon: github
+              href: https://github.com/usma-eecs/cy350-project2-starter
+            - text: Gradescope
+              icon: bar-chart-fill
+              href: https://www.gradescope.com/courses/1207810/
+title: Project 2 - Routing and Forwarding
+description: Implement a basic routing protocol and forwarding plane
+date: 2026-04-07
+image: /images/17-control-plane.png
+---
+
+## Overview
+
+In this project, you will implement the control plane of routers in a simulated network. You will implement link-state routing in a scenario where multiple routers exchange link-state advertisements (LSAs) to build a global view of the network topology. Each router will then compute shortest paths to all other routers using Dijkstra's algorithm and populate a forwarding table for packet routing.
+
+### Generative AI Use Policy
+
+The use of generative AI tools is __prohibited for the Canvas portion__ of this assignment.
+
+The use of generative AI tools such as ChatGPT or Claude is _authorized_ for the programming portion of this assignment subject to the following restrictions:
+
+- You may only use a generative AI tool that has **study mode*- or the equivelant concept enabled.
+    - ChatGPT calls it `Study and learn` mode.
+    - Gemini calls it `Guided Learning` mode.
+    - VS Code Copilot does not meet this requirement and must be disabled within VSCode before you start writing any code for this project. [Features > Chat > Disable AI Features](vscode://settings/chat.disableAIFeatures)
+- You must provide a link to your chat in your DAAW and properly inline cite provided assistance.
+    - Recommend that you open your link in an incognito window to verify that it is publicly accessible. If you cannot reach it from an incognito window, your instructor will not be able to access it either.
+- You must copy and paste the following prompt as the very first message in any chat on any tool you use:
+
+```txt
+Following are the authorized Human-AI teaming (HAT) levels
+
+- HAT Level 1: Support learning of concepts - Focus on explaining concepts, theories, or background knowledge without giving direct solutions.
+- HAT Level 2: Collaborate in thinking/reasoning/design - Brainstorm, evaluate, or suggest ideas and options, but do not provide a fully formed solution.
+
+This conversation is for an assignment where you serve as a tutor for me and all responses should be limited to HAT level 1 and HAT level 2.
+```
+
+_Failure to follow any of the above restrictions will be considered unauthorized collaboration will result in a significant deduction of points._
+
+### Learning Objectives
+
+- Implement a link-state routing protocol with LSA flooding.
+- Implement Dijkstra's algorithm for shortest path computation.
+- Capture network traffic and analyze routing behavior.
+- Reflect on the design and implementation of a control plane for link-state routing.
+
+### Submission Instructions
+
+1. You will submit your code to Gradescope. Autograder will give you feedback on the correctness of your implementation.
+
+1. Once you have a working implementation, you will answer several questions on Canvas that check your knowledge and understanding of the project. These must be answered in your own words without any assistance from generative AI tools or another source. You may discuss these questions with your instructor and verbally assist others to develop understanding of the material, but you may not share your responses with anyone else.
+
+::: {.callout-tip}
+If you are unable to get your code working, explain your testing strategy, what you did to debug your code, and what your steps would have been to get it working. Consider what prevented you from actually taking those steps.
+:::
+
+### Points Breakdown
+
+- Code Structure Questions in Canvas: 25 points
+- Router implementation (`network.py`): 60 points
+- WireShark packet capture and analysis: 15 points
+
+
+## Project Starter Code Walkthrough
+
+The project starter code is organized into the following modules:
+
+- `network.py`: graph construction, router state, LSA processing, Dijkstra-based route computation, and forwarding decisions.
+- `transport.py`: IP header, LSA, and HTTP datagram serialization and parsing using a custom TCP-like transport serialization format.
+- `application.py`: HTTP client and server behavior, handshake logic, request segmentation, and response handling.
+- `main.py`: simulation startup, thread management, router bootstrapping, and launch flow.
+
+## Module Responsibilities
+
+### network.py
+
+This module owns network-layer behavior.
+
+- `Graph` class is used for directed weighted graph representation of the network topology used for network routing algorithms. It consists of nodes (routers or hosts) and edges (connections) between them with associated costs (e.g., latency, distance) and network interfaces.
+- `Router` class is designed to simulate the basic functionality of a network router, including processing Link-State Advertisements (LSAs), running a routing algorithm, forwarding packets based on a forwarding table, and managing network interfaces.
+
+This is the main place to work if you are changing router behavior or shortest-path logic.
+
+::: {.callout-tip}
+You are required to implement the portions of the Router class as described in the project instructions. The rest of the class is provided as a starting point and should not be modified.
+:::
+
+### protocol.py
+
+This module contains network-layer serialization logic for the custom IP header and datagram formats.
+
+- `IPHeader` class handles the basic functionality of an IP header
+- `LSADatagram` class inherits from `IPHeader` and adds attributes and methods for handling Link-State Advertisements (LSAs).
+- `HTTPDatagram` class inherits from `IPHeader` and adds TCP-like attributes for handling HTTP-like packets in custom datagram formats.
+
+### application.py
+
+This module contains HTTP transfer behavior built on top of the custom transport format:
+
+- `Client` class simulates a custom HTTP-like client that uses raw sockets to communicate with a server, mimicking TCP/IP stack behavior for connection establishment, data transmission, and response handling. It operates using the Go-Back-N protocol for reliable data transmission.
+
+- `Server` class simulates a basic server using raw sockets and demonstrates core concepts such as connection establishment (three-way handshake), reliable data transmission (Go-Back-N protocol), and HTTP request/response processing.
+
+### main.py
+
+This is the runtime entry point for the simulation. It provides:
+
+- the default router topology
+- the `NetworkSimulation` orchestration class
+- thread startup for routers and the server
+- client launch and resource request flow
+
+## Building the Router
+
+For this project, you will complete the implementation of a Router class that forwards packets between the client and the server. You will need to simulate a routing protocol, ensuring that packets are forwarded based on the destination IP address and the appropriate next hop. Upon completion, the Router will be capable of:
+
+- Initializing the Link-State Database (LSDB) of the router based on the direct connections.
+
+Hint: Review the code documentation to understand the data structure for storing the LSDB on the router.
+
+- Processing a Link-State Advertisement (LSA) to either:
+    - Update the LSDB with the information provided and forward the LSA to all other interfaces except the one on which it was received.
+    - Or, discard the LSA since it has already been seen and processed by the router.
+
+Hints:
+    - The LSA has a sequence number that can be stored locally and compared with that of future LSAs.
+    - Review the code documentation to understand the format for LSA data in packet.
+
+- Running a link-state routing protocol using Djikstra’s algorithm once the LSDB is complete.
+
+Hints:
+    - Refer to Lesson 17 to review Djikstra's algorithm.
+    - Review the code documentation to understand the data structure for storing the forwarding table on the router.
+
+- Forwarding TCP segments at each router between the client and server.
+
+Hint: Use the provided helper function for longest prefix matching between the destination IP address and networks in the forwarding table.
+
+## Data Structures for the Router class
+
+The Router class is provided information about the interfaces and direct connections at initialization, akin to configuring a router when it is installed.
+
+Example router interfaces (R1):
+
+```
+{
+        'Gi0/1': ('127.0.0.254', '127.0.0.1'),
+        'Gi0/2': ('127.248.0.1', '127.248.0.2'),
+        'Gi0/3': ('127.248.4.1', '127.248.4.2')
+}
+```
+
+Example router direct connections (R1):
+
+```
+{
+        ‘127.0.0.0/24’: (0, ‘Gi0/1’),
+        ‘2.2.2.2’: (3, ‘Gi0/2’),
+        ‘3.3.3.3’: (9, ‘Gi0/3’)
+}
+```
+
+The LSDB is a dictionary of the link-states known to the router in the form `{advertising_router: [(network/router_id, cost, interface), ...]}`.
+
+Example LSDB for R1:
+
+```
+{
+    '1.1.1.1': [('127.0.0.0/24', 0, 'Gi0/1'), ('2.2.2.2', 3, 'Gi0/2'), ('3.3.3.3', 9, 'Gi0/3')],
+    '2.2.2.2': [('127.30.0.0/24', 0, 'Gi0/2'), ('1.1.1.1', 3, 'Gi0/1'), ('3.3.3.3', 5, 'Gi0/4'), ('4.4.4.4', 12, 'Gi0/3')],
+    '3.3.3.3': [('127.10.0.0/24', 0, 'Gi0/4'), ('1.1.1.1', 9, 'Gi0/1'), ('2.2.2.2', 5, 'Gi0/2'), ('5.5.5.5', 10, 'Gi0/3')],
+    '4.4.4.4': [('127.40.0.0/24', 0, 'Gi0/2'), ('2.2.2.2', 12, 'Gi0/1'), ('5.5.5.5', 4, 'Gi0/4'), ('6.6.6.6', 10, 'Gi0/3')],
+    '5.5.5.5': [('127.20.0.0/24', 0, 'Gi0/4'), ('3.3.3.3', 10, 'Gi0/1'), ('4.4.4.4', 4, 'Gi0/2'), ('6.6.6.6', 5, 'Gi0/3')],
+    '6.6.6.6': [('127.128.0.0/24', 0, 'Gi0/3'), ('4.4.4.4', 10, 'Gi0/1'), ('5.5.5.5', 5, 'Gi0/2')]
+}
+```
+
+The forwarding table is a dictionary of the best paths to all known nodes (networks or routers) in the form `{network/router_id: (interface, cost)}`.
+
+Example Forwarding Table for R1:
+
+```
+{
+    '1.1.1.1': (None, 0),
+    '127.0.0.0/24': ('Gi0/1', 0),
+    '2.2.2.2': ('Gi0/2', 3),
+    '3.3.3.3': ('Gi0/2', 8),
+    '127.30.0.0/24': ('Gi0/2', 3),
+    '4.4.4.4': ('Gi0/2', 15),
+    '127.10.0.0/24': ('Gi0/2', 8),
+    '5.5.5.5': ('Gi0/2', 18),
+    '127.40.0.0/24': ('Gi0/2', 15),
+    '6.6.6.6': ('Gi0/2', 23),
+    '127.20.0.0/24': ('Gi0/2', 18),
+    '127.128.0.0/24': ('Gi0/2', 23)
+}
+```
+
+
+## Wireshark Packet Capture and Analysis
+
+In addition to the coding aspect of this project, you will also need to demonstrate that you have your code working locally and can capture traffic sent across the loopback. In Canvas, you need to submit two screenshots of your Wireshark capture:
+
+1. One that contains the exchange of LSAs between routers.
+2. One that contains the HTTP GET request and HTTP response as they traverse the network between the client and server.
+
+::: {.callout-warning}
+In this project, packets captured in Wireshark will not look like valid TCP packets. This is due to the addition of the `next_hop` field which is used in place of crafting Layer 2 packets. You can think of the `next_hop` field as a custom header that is added to the IP header for the purposes of this simulation. The `next_hop` field is used by the routers to determine where to forward the packet next, and it is not part of any standard protocol. Therefore, when you capture packets in Wireshark, you will see some unusual behavior such as several lines highlighted in red. Ignore these warning indicators and proceed with your analysis of the packet contents.
+:::
+
+
+## Running The Simulation
+
+Run `python main.py` to start the simulation. Some output will be printed to the console showing the flow of the simulation, but the routers write their detailed logs to `trace.log` for analysis. Recommend using `tail -f trace.log` in a separate terminal to watch the router logs in real time.
