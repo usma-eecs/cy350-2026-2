@@ -1,0 +1,79 @@
+---
+format: html
+title: In-Class Lab 5
+description: Make a Website
+subtitle: Create and publish a simple website using Quarto
+date: 2026-04-20
+image: /images/05-http-web.png
+---
+
+In this lab, you will publish a simple website to demonstrate your ability to create a web page and host it online. Share the URL of your published website with your instructor for full credit.
+
+## Install Quarto
+
+Use the following commands to install Quarto directly or download the installer from [Quarto website](https://quarto.org/)
+
+```sh
+# Windows
+winget install Posit.Quarto
+
+# Linux, using uv
+uv tool install quarto-cli
+```
+
+Note: To use the `uv` command, you need to [install `uv` first](https://docs.astral.sh/uv/getting-started/installation/).
+
+## Create a New Quarto Project
+
+Type `quarto create` in your terminal and follow the prompts to create a project of type "website". This will generate a basic website structure with some example content.
+
+
+## Preview
+
+Move into the project directory that you created above and type `quarto preview` to start a local development server. Open the provided URL in your web browser to see your website. You can edit the content files (e.g., `index.qmd`) and see the changes _live_ in your browser as soon as you save the files. As you edit the content, the preview will automatically refresh and update to show your changes.
+
+## Publish
+
+You can publish your website to GitHub Pages or Netlify for free. GitHub Pages requires more manual setup but scales really well. Netlify is far easier to set up but has some limitations on bandwidth and automation. Pick either option and follow the instructions below.
+
+### GitHub Pages
+
+1. Initialize a Git repository in your project directory.
+
+    ```sh
+    cd MY_FIRST_WEBSITE
+    git init
+    git add .
+    git commit -m "Initial commit"
+    ```
+
+1. Create a new repository on GitHub and push your local work to GitHub. This implies that you have a GitHub account. Once you have created the repository, you can push your local repository to GitHub using the following commands:
+
+    ```sh
+    git remote add origin https://github.com/USERNAME/REPOSITORYNAME.git
+    git push -u origin main
+    ```
+
+1. Type `quarto publish` and select "GitHub Pages" as the hosting provider.
+
+1. Optionally, add the [Github Actions for Quarto](https://github.com/quarto-dev/quarto-actions) to your repository to automate the deployment process. This will ensure that your website is automatically updated whenever you push changes to the source files on GitHub. To do so, you have to create a workflow file named `quarto.yml` or anything along those lines in the `.github/workflows` directory. Copy it [from here](https://github.com/aadityabhatia/bhatia.dev/tree/main/.github/workflows).
+
+### Netlify
+
+Type `quarto publish`, select "Netlify" as the hosting provider, and follow the prompts to connect your GitHub repository and deploy your site.
+
+## Optional: Use a Custom Domain Name
+
+1. Optionally, purchase a domain name from [Cloudflare](https://www.cloudflare.com/products/registrar/) or any domain registrar of your choice. This step is not required to get points for this lab, but it will make your website look more professional and easier to share. Totally up to you.
+
+1. Follow the specific instructions for [GitHub Pages](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site) or [Netlify](https://docs.netlify.com/manage/domains/get-started-with-domains/) to set up your custom domain.
+
+1. `quarto publish`
+
+## Example
+
+See [this website hosted on GitHub](https://github.com/aadityabhatia/bhatia.dev). Feel free to clone, modify, and publish your own version.
+
+## Complete the Lab
+
+Share the URL of your published website with your instructor for full credit. The content of the website can be anything you like, but it should demonstrate that you have successfully created and published a website using Quarto or any other tool of your choice.
