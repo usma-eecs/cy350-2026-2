@@ -126,6 +126,13 @@
     "text": "In this lab, you will publish a simple website to demonstrate your ability to create a web page and host it online. Share the URL of your published website with your instructor for full credit."
   },
   {
+    "objectID": "labs/05.html#why-markdown",
+    "href": "labs/05.html#why-markdown",
+    "title": "In-Class Lab 5",
+    "section": "Why Markdown?",
+    "text": "Why Markdown?\nMarkdown is a lightweight, really simple markup language that lets you focus on authoring content in a plain-text editor while handling the formatting. Markdown is easy to learn and use, making it an ideal choice for creating simple websites without needing to write HTML or CSS. And of course, you can add HTML to your Markdown if you still need the extra control."
+  },
+  {
     "objectID": "labs/05.html#install-quarto",
     "href": "labs/05.html#install-quarto",
     "title": "In-Class Lab 5",
@@ -151,7 +158,7 @@
     "href": "labs/05.html#publish",
     "title": "In-Class Lab 5",
     "section": "Publish",
-    "text": "Publish\nYou can publish your website to GitHub Pages or Netlify for free. GitHub Pages requires more manual setup but scales really well. Netlify is far easier to set up but has some limitations on bandwidth and automation. Pick either option and follow the instructions below.\n\nGitHub Pages\n\nInitialize a Git repository in your project directory.\ncd MY_FIRST_WEBSITE\ngit init\ngit add .\ngit commit -m \"Initial commit\"\nCreate a new repository on GitHub and push your local work to GitHub. This implies that you have a GitHub account. Once you have created the repository, you can push your local repository to GitHub using the following commands:\ngit remote add origin https://github.com/USERNAME/REPOSITORYNAME.git\ngit push -u origin main\nType quarto publish and select “GitHub Pages” as the hosting provider.\nOptionally, add the Github Actions for Quarto to your repository to automate the deployment process. This will ensure that your website is automatically updated whenever you push changes to the source files on GitHub. To do so, you have to create a workflow file named quarto.yml or anything along those lines in the .github/workflows directory. Copy it from here.\n\n\n\nNetlify\nType quarto publish, select “Netlify” as the hosting provider, and follow the prompts to connect your GitHub repository and deploy your site."
+    "text": "Publish\nYou can publish your website to GitHub Pages or Netlify for free. GitHub Pages requires more manual setup but scales really well. Netlify is far easier to set up but has some limitations on bandwidth and automation. Pick either option and follow the instructions below.\n\nNetlify\nType quarto publish, select “Netlify” as the hosting provider, and follow the prompts to connect your GitHub repository and deploy your site.\n\n\nGitHub Pages\n\nInitialize a Git repository in your project directory.\ncd MY_FIRST_WEBSITE\ngit init\ngit add .\ngit commit -m \"Initial commit\"\nCreate a new repository on GitHub and push your local work to GitHub. This implies that you have a GitHub account. Once you have created the repository, you can push your local repository to GitHub using the following commands:\ngit remote add origin https://github.com/USERNAME/REPOSITORYNAME.git\ngit push -u origin main\nType quarto publish and select “GitHub Pages” as the hosting provider.\nOptionally, add the Github Actions for Quarto to your repository to automate the deployment process. This will ensure that your website is automatically updated whenever you push changes to the source files on GitHub. To do so, you have to create a workflow file named quarto.yml or anything along those lines in the .github/workflows directory. Copy it from here."
   },
   {
     "objectID": "labs/05.html#optional-use-a-custom-domain-name",
