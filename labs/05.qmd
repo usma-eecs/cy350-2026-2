@@ -1,5 +1,17 @@
 ---
-format: html
+format:
+    html:
+        code-links:
+            - text: Example Website
+              icon: github
+              href: https://github.com/aadityabhatia/bhatia.dev
+        other-links:
+            - text: Quarto Gallery
+              icon: globe
+              href: https://quarto.org/docs/gallery/
+            - text: Markdown Basics
+              icon: markdown
+              href: https://quarto.org/docs/authoring/markdown-basics.html
 title: In-Class Lab 5
 description: Make a Website
 subtitle: Create and publish a simple website using Quarto
@@ -8,6 +20,10 @@ image: /images/05-http-web.png
 ---
 
 In this lab, you will publish a simple website to demonstrate your ability to create a web page and host it online. Share the URL of your published website with your instructor for full credit.
+
+## Why Markdown?
+
+Markdown is a lightweight, really simple markup language that lets you focus on authoring content in a plain-text editor while handling the formatting. Markdown is easy to learn and use, making it an ideal choice for creating simple websites without needing to write HTML or CSS. And of course, you can add HTML to your Markdown if you still need the extra control.
 
 ## Install Quarto
 
@@ -36,6 +52,10 @@ Move into the project directory that you created above and type `quarto preview`
 
 You can publish your website to GitHub Pages or Netlify for free. GitHub Pages requires more manual setup but scales really well. Netlify is far easier to set up but has some limitations on bandwidth and automation. Pick either option and follow the instructions below.
 
+### Netlify
+
+Type `quarto publish`, select "Netlify" as the hosting provider, and follow the prompts to connect your GitHub repository and deploy your site.
+
 ### GitHub Pages
 
 1. Initialize a Git repository in your project directory.
@@ -57,10 +77,6 @@ You can publish your website to GitHub Pages or Netlify for free. GitHub Pages r
 1. Type `quarto publish` and select "GitHub Pages" as the hosting provider.
 
 1. Optionally, add the [Github Actions for Quarto](https://github.com/quarto-dev/quarto-actions) to your repository to automate the deployment process. This will ensure that your website is automatically updated whenever you push changes to the source files on GitHub. To do so, you have to create a workflow file named `quarto.yml` or anything along those lines in the `.github/workflows` directory. Copy it [from here](https://github.com/aadityabhatia/bhatia.dev/tree/main/.github/workflows).
-
-### Netlify
-
-Type `quarto publish`, select "Netlify" as the hosting provider, and follow the prompts to connect your GitHub repository and deploy your site.
 
 ## Optional: Use a Custom Domain Name
 
