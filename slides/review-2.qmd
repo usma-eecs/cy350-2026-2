@@ -1,0 +1,214 @@
+---
+format: revealjs
+title: Review
+description: Lesson 13-25
+date: 2026-04-27
+image: /images/00.png
+title-slide-attributes:
+    data-background-image: /images/00.png
+    data-background-opacity: "0.3"
+---
+
+## Topics {.smaller data-background-image="/images/00.png" data-background-opacity="0.1"}
+
+:::: {.columns}
+::: {.column width="50%"}
+- 13.1 Primary responsibilities of network layer: logical addressing, routing, and packet forwarding
+- 13.3 Roles and functions of the control and data planes
+- 14.4 Creation and purpose of IP subnets
+- 14.5 Network Address Translation (NAT)
+- 15.2 Internet Protocol version 6 (IPv6)
+- 16.4 Compare Link-State and Distance-Vector Routing
+- 17.1 Discuss OSPF and BGP protocols
+- 19.1 Primary responsibilities of link layer: framing, addressing, error detection, and media access control (MAC)
+- 19.2 Error detection techniques used by the link layer, such as cyclic redundancy check (CRC), to detect transmission errors and ensure data integrity
+- 20.2 Link access protocols: TDMA, FDMA, and CDMA
+:::
+::: {.column width="50%"}
+- 20.4 Purpose and function of Address Resolution Protocol (ARP)
+- 21.3 Hidden terminal problem in WiFi networks; describe its impact on network performance; evaluate techniques to mitigate this issue
+- 23.2 Common network security threats: malware, spoofing, phishing, denial-of-service (DoS) attacks, and man-in-the-middle attacks
+- 24.2 Purpose of TLS in securing communications over a network, including its role in providing confidentiality, integrity, and authentication
+- 25.1 Purpose and components of IPsec (Internet Protocol Security), including its role in providing authentication, confidentiality, and integrity for IP packets
+- 25.3 Identify common security threats associated with wireless networks (e.g., eavesdropping, rogue access points, man-in-the-middle attacks)
+:::
+::::
+
+## Link Layer
+
+- What does it do?
+- What kind of addresses?
+- How does it detect errors?
+- How does it correct errors?
+- Can reliable data transfer be achieved at the link layer?
+
+::: {.notes}
+- Framing, addressing, error detection, and media access control (MAC)
+- MAC addresses: 48 bits, unique to each network interface card (NIC)
+- Error detection: cyclic redundancy check (CRC)
+- Error correction: possible with forward error correction (FEC) techniques, but not commonly used in practice
+- WiFi uses ACKs and retransmissions;
+:::
+
+## Network Layer
+
+- What does it do?
+- What kind of addresses?
+- How does it detect errors?
+- How does it correct errors?
+
+::: {.notes}
+- Addressing, routing, and forwarding
+- IPv4 errors: checksum only covers header, not payload; no error correction
+- IPv6 errors: no checksum at all; relies on upper layers for error detection and correction
+:::
+
+## IPv6
+
+- Why was it created?
+- How large are the addresses?
+- Is it more efficient than IPv4?
+- Is it more secure than IPv4?
+
+## IPv4
+
+- How large are the addresses?
+- When will we run out of addresses globally?
+- How do we function without enough addresses?
+
+## Subnetting
+
+- What is a subnet?
+- Why do we use subnets?
+- What type of addresses are used in subnets?
+- How do we determine the subnet mask?
+
+
+## Network Address Translation (NAT)
+
+- What is it?
+- Why do we use it?
+
+## Routing
+
+- What does a router do?
+
+::: {.notes}
+1. receive routing information from neighbors
+1. build a routing table
+1. build a forwarding table
+1. forward packets
+:::
+
+## Routing on the Internet: BGP
+
+- What is an Autonomous System (AS)?
+- What does eBGP do?
+- What does iBGP do?
+
+::: {.notes}
+- AS: collection of IP networks and routers under the control of one entity that presents a common routing policy to the Internet
+- eBGP: exchange routing information between ASes
+- iBGP: advertise exit points to other routers within the same AS
+:::
+
+## Multiple Access Protocols
+
+- TDMA: Time Division Multiple Access
+- FDMA: Frequency Division Multiple Access
+- CDMA: Code Division Multiple Access
+
+## Encryption
+
+- What is symmetric encryption?
+- What is asymmetric encryption?
+- Which one is faster?
+- What is hashing? What would I hash?
+- What does hashing have to do with encryption?
+- How do I know which key to use for encryption and decryption?
+
+::: {.notes}
+- Symmetric encryption: same key for encryption and decryption; faster; used for bulk data encryption
+- Asymmetric encryption: public key for encryption, private key for decryption; slower; used for key exchange and digital signatures
+- Hashing: one-way function that maps data of arbitrary size to a fixed-size output; used for data integrity and password storage; not encryption, but often used in conjunction with encryption for authentication and integrity verification
+- Hashing uses: data integrity verification, password storage, digital signatures, and authentication codes
+- Key management: public key infrastructure (PKI) for asymmetric encryption; secure key exchange protocols (e.g., Diffie-Hellman) for symmetric encryption
+:::
+
+## HTTPS
+
+- What is HTTPS? How is it related to HTTP and TLS?
+- Symmetric or asymmetric encryption?
+- How to exchange keys securely to establish a secure connection?
+
+::: {.notes}
+- HTTPS: HTTP over TLS; provides confidentiality, integrity, and authentication for web communications
+- Secure connection establishment: TLS handshake, which involves asymmetric encryption for key exchange and authentication, followed by symmetric encryption for data transfer
+- Data security: encryption for confidentiality, message authentication codes (MACs) for integrity, and digital certificates for authentication
+:::
+
+## Common Network Security Threats
+
+- Denial-of-Service
+- Replay Attacks
+- Man-in-the-Middle
+- Phishing
+- Cross-Site Scripting (XSS)
+- [SQL Injection](https://xkcd.com/327/)
+
+::: {.notes}
+- How to protect against them?
+- DoS: firewalls, rate limiting, DDoS mitigation services
+- Replay: encryption + use nonces, timestamps, or sequence numbers to prevent replay attacks
+- Man-in-the-Middle: encryption + authentication to prevent interception and tampering
+- Phishing: user education, email filtering, multi-factor authentication
+- XSS: input validation, Content Security Policy (CSP)
+- SQL Injection: input validation, parameterized queries, least privilege database access
+:::
+
+## Subnetting Practice
+
+Assigned network address space: `10.20.40.0/22`
+
+Assign an appropriate address to each subnet.
+
+```{dot width=100%}
+//| fig-width: 16
+//| fig-height: 5
+graph Network {
+    rankdir=LR;
+    bgcolor="transparent"
+
+    R1 [label="Router 1", shape=circle];
+    R2 [label="Router 2", shape=circle];
+
+    H1 [label="250 Hosts", shape=box3d];
+    H2 [label="125 Hosts", shape=box3d];
+    H3 [label="62 Hosts", shape=box3d];
+    H4 [label="31 Hosts", shape=box3d];
+
+    R1 -- R2 [label="2 Hosts"];
+    H1 -- R1;
+    H2 -- R1;
+    R2 -- H3;
+    R2 -- H4;
+}
+```
+
+## More Practice Problems
+
+- [Network Address Translation (NAT)](https://gaia.cs.umass.edu/kurose_ross/interactive/nat.php)
+- [Subnet Addressing](https://gaia.cs.umass.edu/kurose_ross/interactive/subnet_addressing.php)
+- [Dijkstra's Link-State Algorithm](https://gaia.cs.umass.edu/kurose_ross/interactive/dij.php)
+- [Link / Network Layer Addressing and Forwarding](https://gaia.cs.umass.edu/kurose_ross/interactive/link_layer_addressing.php)
+
+## Written Partial Review (WPR)
+
+- 🎯 25 questions; 130 points total; 🕰 75 minutes
+- 📄 Scratch paper provided; bring your pen 🖊 and calculator 🖩
+- 📑 Show your work for partial credit
+- ⛔ Closed book; closed notes; no internet access authorized
+- 📜 You may use a single 8.5" x 11" sheet of paper with handwritten notes on both sides
+- ⛔ No electronic devices allowed
+- ⚠ All work must be your own; no collaboration or discussion with others
+- ⚠ Academic Security: Do not discuss the content, structure, or any other information about the WPR with anyone else until the WPR is released from academic security.
