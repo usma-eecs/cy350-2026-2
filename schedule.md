@@ -25,10 +25,10 @@
 | SPRING BREAK                                        |   🏝️   |   🌴   | Project 2       | 19 Apr   |
 | 20- WiFi, Bluetooth & Cellular Networks             | 07 Apr | 08 Apr |                 |          |
 | 21- Network Security Basics                         | 09 Apr | 10 Apr |                 |          |
-| 22- VPNs and Wireless Network Security              | 13 Apr | 14 Apr | Project 3       | 10 May   |
+| 22- VPNs and Wireless Network Security              | 13 Apr | 14 Apr |                 |          |
 | 23- Transport Layer Security                        | 15 Apr | 16 Apr |                 |          |
-| 24- In-Class Lab                                    | 20 Apr | 21 Apr | Problem Set 10  | 03 May   |
-| WPR2 Review                                         | 27 Apr | 28 Apr |                 |          |
+| 24- In-Class Lab                                    | 20 Apr | 21 Apr | Project 3       | 10 May   |
+| WPR2 Review                                         | 27 Apr | 28 Apr | Problem Set 10  | 08 May   |
 | WPR2                                                | 29 Apr | 30 Apr |                 |          |
-| 25- Network Security Appliances                     | 04 May | 05 May |                 |          |
-| 26- In-Class Lab                                    | 06 May | 07 May |                 |          |
+| 25- VPNs and Network Security Appliances            | 04 May | 05 May |                 |          |
+| 26- Course Review + Quiz (NAT)                      | 06 May | 07 May |                 |          |
