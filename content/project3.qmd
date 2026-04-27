@@ -9,7 +9,7 @@ format:
               icon: github
               href: https://github.com/usma-eecs/cy350-project3-starter
 title: Project 3 - Comprehensive Networking Project
-description: Extending your web application with POST requests, Selective Repeat, dynamic routing updates, switches, and encryption.
+description: HTTP POST, Selective Repeat, dynamic routing, switches, and encryption
 date: 2026-04-22
 image: /images/22-network-security.png
 ---

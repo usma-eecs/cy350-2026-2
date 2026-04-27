@@ -1,0 +1,83 @@
+---
+format: revealjs
+title: Project 3 Overview
+description: HTTP POST, Selective Repeat, dynamic routing, switches, and encryption
+date: 2026-04-22
+image: /images/22-network-security.png
+title-slide-attributes:
+    data-background-image: /images/22-network-security.png
+    data-background-opacity: "0.3"
+---
+
+## General Concept
+
+- Layer 5: Add HTTP POST functionality to your server
+- Layer 4: Replace Go-Back-N with Selective Repeat
+- Layer 3: Dynamic Routing
+- Layer 2: Switch: Learning and Forwarding
+- Security: add encryption to HTTP server + client
+
+### No Autograder!
+
+- Develop your report.
+- Graded on completeness, correctness, and clarity.
+- Nice to have the project fully working, but not required.
+
+## Use of Generative AI
+
+- Coding Portion: Standard Restrictions Apply
+    - Link must work in private / incognito mode
+
+- Report Portion: Not Authorized. Write it yourself.
+
+::: {.callout-warning}
+Use of Generative AI is not authorized for the report portion of the project.
+:::
+
+## Application Layer: HTTP POST
+
+- The server should handle POST requests by receiving the data sent by the client and processing it.
+- POST request should result in an update to the resources available to the server.
+- The server should then send an appropriate response back to the client (e.g., confirming the data was received).
+- Next GET request should return the updated content.
+
+## Transport Layer: Flow Control
+
+- Modify SABRE sender to implement Selective Repeat instead of Go-Back-N
+
+- Run your receiver locally for testing: `python receiver.pyc`
+
+## Network Layer: Dynamic Routing
+
+- No coding required.
+- Analyze how router class will need to be modified to support topology changes or link-cost changes at runtime.
+- Explain how you would test these changes!
+
+## Link Layer: Switch
+
+- Update `switch.py`
+    - Implement `forward_frame()` to forward frames appropriately
+    - Write your tests in `main()` to demonstrate that your switch is learning and forwarding frames correctly
+
+## Security: Encryption
+
+- Implement encryption messaging capabilities for your HTTP server and client
+- HTTP Client sends encrypted messages
+- HTTP Server receives encrypted messages and decrypts them before processing
+- Symmetric encryption is sufficient.
+
+::: {.callout-important}
+Do not use the Fernet algorithm.
+:::
+
+## Useful Hints
+
+- Can implement each section separately
+    - This means if you screw up one part, you don't suffer on other parts!
+
+- Not required to tackle each part in order
+    - Layer 5 -> Layer 4 -> Layer 2 -> Security -> Layer 3
+
+- Every section requires you to describe testing! Plan out how you will test it in advance. It will make your job of coding easier!!!
+
+- Report is what I am primarily grading. Use code as evidence. Provide screenshots of your code running in the terminal or wireshark captures.
